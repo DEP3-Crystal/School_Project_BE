@@ -10,28 +10,28 @@ import java.util.List;
 @Service
 public class SchoolService {
     @Autowired
-    private SchoolRepository repository;
+    private SchoolRepository schoolRepository;
 
     public List<School> getSchools() {
-        return repository.findAll();
+        return schoolRepository.findAll();
     }
     public School saveSchool(School school) {
-        return repository.save(school);
+        return schoolRepository.save(school);
     }
 
     public School getSchoolById(int id) {
-        return repository.findById(id).orElse(null);
+        return schoolRepository.findById(id).orElse(null);
     }
 
     public String deleteSchool(int id) {
-        repository.deleteById(id);
+        schoolRepository.deleteById(id);
         return "school deleted " + id;
     }
     public School updateSchool(School school) {
-        School existingSchool = repository.findById(school.getBuilding_id()).orElse(null);
+        School existingSchool = schoolRepository.findById(school.getBuildingId()).orElse(null);
         existingSchool.setLocation(school.getLocation());
         existingSchool.setName(school.getName());
 
-        return repository.save(existingSchool);
+        return schoolRepository.save(existingSchool);
     }
 }
