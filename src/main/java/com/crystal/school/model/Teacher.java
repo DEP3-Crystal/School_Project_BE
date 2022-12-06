@@ -12,18 +12,14 @@ public class Teacher extends Worker {
     @Column(name = "credentials")
     private String credentials;
     @Column(name = "department_id")
-    private Integer department_id;
+    private Integer departmentId;
     @OneToMany
-    @JoinColumn(name = "teacher_id")
-    private Teacher_rating teacherRating;
-    @OneToMany
-    @JoinColumn(name = "classroom_id")
-    private Classroom classroom;
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+    private List<TeacherRating> teacherRatings;
     @OneToMany
     private List<Classroom> classrooms;
+    @ManyToOne
+    private Department department;
+
 
 
 }

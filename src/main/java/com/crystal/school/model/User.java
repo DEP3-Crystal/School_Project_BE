@@ -1,22 +1,31 @@
 package com.crystal.school.model;
 
-import javax.persistence.*;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import javax.persistence.*;
+
+import static javax.persistence.InheritanceType.SINGLE_TABLE;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "user")
-@Inheritance(strategy = InheritanceType.JOINED)
-//@DiscriminatorColumn(name="status",
-//        discriminatorType = DiscriminatorType.INTEGER)
+@Inheritance(strategy=SINGLE_TABLE)
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,
+        name = "status")
+
 public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private Integer user_id;
+    private Integer userId;
     @Column(name = "first_name")
-    private String first_name;
+    private String firstName;
     @Column(name = "last_name")
-    private String last_name;
+    private String lastName;
     @Column(name = "email")
     private String email;
     @Column(name = "gender")
@@ -27,11 +36,7 @@ public abstract class User {
     private String password;
     @Column(name = "status")
     private Status status;
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<Worker> workers;
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<Student> students;
+
+
 
 }

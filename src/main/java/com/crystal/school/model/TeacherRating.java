@@ -5,19 +5,17 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "teacher_rating")
-public class Teacher_rating implements Serializable {
+public class TeacherRating implements Serializable {
     @Id
     @Column(name = "student_id")
-    private Integer student_id;
+    private Integer studentId;
     @Id
     @Column(name = "teacher_id")
-    private Integer teacher_id;
+    private Integer teacherId;
     @Column(name = "rating")
     private Integer rating;
     @ManyToOne
-    @JoinColumn(name = "student_id")
     private Student student;
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 }

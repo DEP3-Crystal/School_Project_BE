@@ -6,18 +6,19 @@ import java.io.Serializable;
 @Entity
 @Table(name = "student_grades")
 
-public class Student_grades implements Serializable {
+public class StudentGrades implements Serializable {
     @Id
     @Column(name = "student_id")
-    private Integer student_id;
+    private Integer studentId;
     @Id
     @Column(name = "session_id")
-    private Integer session_id;
+    private Integer sessionId;
     @Column(name = "grade")
     private Integer grade;
-    @OneToMany
-    @JoinColumn(name = "student_id")
+    @ManyToOne
     private Student student;
+    @ManyToOne
+    private Session session;
 
 
 

@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,10 +15,12 @@ import javax.persistence.Table;
 public class School{
     @Id
     @Column(name = "building_id")
-    private Integer building_id;
+    private Integer buildingId;
     @Column(name = "location")
     private String location;
     @Column(name = "name")
     private String name;
+    @OneToMany
+    private List<Room> rooms;
 
 }

@@ -2,21 +2,19 @@ package com.crystal.school.model;
 
 import javax.persistence.*;
 
+import static javax.persistence.InheritanceType.SINGLE_TABLE;
+
 @Entity
 @Table(name = "worker")
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorValue("W")
+@Inheritance(strategy=SINGLE_TABLE)
 public class Worker extends User {
 
     @Column(name = "phone_number")
-    private String phone_number;
+    private String phoneNumber;
     @Column(name = "title")
     private String title;
     @Column(name = "is_teacher")
-    private boolean is_teacher;
+    private boolean isTeacher;
     @Column(name = "is_organizer")
-    private boolean is_organizer;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private boolean isOrganizer;
 }

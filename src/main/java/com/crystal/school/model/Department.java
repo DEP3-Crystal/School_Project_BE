@@ -8,13 +8,18 @@ import java.util.List;
 public class Department {
     @Id
     @Column(name = "department_id")
-    private Integer department_id;
+    private Integer departmentId;
     @Column(name = "name")
     private String name;
     @Column(name = "organizer_id")
-    private Integer organizer_id;
+    private Integer organizerId;
+    @OneToOne
+    private Organizer organizer;
     @OneToMany
-    @JoinColumn(name = "department_id")
     private List<Teacher> teachers;
+    @OneToMany
+    private List<Student> students;
+    @OneToMany
+    private List<Session> sessions;
 
 }
