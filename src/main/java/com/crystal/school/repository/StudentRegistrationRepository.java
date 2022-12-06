@@ -1,4 +1,7 @@
 package com.crystal.school.repository;
 
-public interface Student_registrationRepository {
+import com.crystal.school.model.StudentRegistration;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StudentRegistrationRepository extends JpaRepository<StudentRegistration,Integer> {
 }

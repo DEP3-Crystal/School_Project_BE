@@ -1,4 +1,7 @@
 package com.crystal.school.repository;
 
-public interface Session_ratingRepository {
+import com.crystal.school.model.SessionRating;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SessionRatingRepository extends JpaRepository<SessionRating,Integer> {
 }

@@ -1,4 +1,7 @@
 package com.crystal.school.repository;
 
-public interface Student_gradesRepository {
+import com.crystal.school.model.StudentGrades;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StudentGradesRepository extends JpaRepository<StudentGrades,Integer> {
 }
