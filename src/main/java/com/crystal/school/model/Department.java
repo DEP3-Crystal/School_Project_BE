@@ -1,8 +1,10 @@
 package com.crystal.school.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.List;
-
+@Data
 @Entity
 @Table(name = "department")
 public class Department {

@@ -1,9 +1,11 @@
 package com.crystal.school.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-
+@Data
 @Entity
 @Table(name = "student_registration")
 public class StudentRegistration implements Serializable{
