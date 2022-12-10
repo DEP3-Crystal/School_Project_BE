@@ -34,6 +34,8 @@ public abstract class User {
     private String biography;
     @Column(name = "password")
     private String password;
+    @Column(name = "salt")
+    private String salt;
     @Column(name = "status")
     private Status status;
 
