@@ -37,7 +37,12 @@ public class TeacherRatingController {
         return "Updated successfully";
     }
     @DeleteMapping("/teacher-rating/{id}")
-    public String deleteTeacherRating(@PathVariable TeacherRating teacherRating){
+    public String deleteTeacherRating(@PathVariable Integer id){
+        teacherRatingService.deleteTeacherRatingById(id);
+        return "Deleted successfully";
+    }
+    @DeleteMapping("/teacher-rating")
+    public String deleteTeacherRating(@RequestBody TeacherRating teacherRating){
         teacherRatingService.deleteTeacherRating(teacherRating);
         return "Deleted successfully";
     }

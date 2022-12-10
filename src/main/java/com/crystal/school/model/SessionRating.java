@@ -1,8 +1,10 @@
 package com.crystal.school.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
-
+@Data
 @Entity
 @Table(name = "session_rating")
 public class SessionRating implements Serializable {
