@@ -1,7 +1,6 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.model.User;
-import com.crystal.school.model.UserLoginDto;
 import com.crystal.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +27,10 @@ public class UserController {
     public User getUserByEmail(@PathVariable String email){
         return userService.getUserByEmail(email);
     }
-    @GetMapping("/user")
-    public User getUserByEmailAndPassword(@RequestBody UserLoginDto user){
-        return userService.getUserByEmailAndPassword(user.getEmail(),user.getPassword());
-    }
+//    @GetMapping("/user")
+//    public User getUserByEmailAndPassword(@RequestBody UserLoginDto user){
+//        return userService.getUserByEmailAndPassword(user.getEmail(),user.getPassword());
+//    }
     @PostMapping("/user")
     public User addUser(@RequestBody User user){
         return userService.saveUser(user);

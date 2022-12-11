@@ -1,27 +1,30 @@
 package com.crystal.school.model;
 
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.List;
-@Data
+
+@Getter
+@Setter
 @Entity
 @Table(name = "department")
-public class Department {
+public class Department  {
     @Id
     @Column(name = "department_id")
     private Integer departmentId;
     @Column(name = "name")
     private String name;
-    @Column(name = "organizer_id")
-    private Integer organizerId;
     @OneToOne
-    private Organizer organizer;
-    @OneToMany
-    private List<Teacher> teachers;
-    @OneToMany
-    private List<Student> students;
-    @OneToMany
+    @JoinColumn(name = "user_id")
+    private Employee employee;
+
+    @OneToMany(mappedBy = "department")
     private List<Session> sessions;
+    @OneToMany(mappedBy = "department")
+    private List<Teacher> teachers;
+    @OneToMany(mappedBy = "department")
+    private List<User> users;
 
 }

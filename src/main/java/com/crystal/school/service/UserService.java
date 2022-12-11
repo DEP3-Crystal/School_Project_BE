@@ -46,8 +46,8 @@ public class UserService {
         existingUser.setBiography(user.getBiography());
         existingUser.setEmail(user.getEmail());
         existingUser.setGender(user.getGender());
-        existingUser.setStatus(user.getStatus());
         existingUser.setPassword(user.getPassword());
+        existingUser.setSalt(user.getSalt());
         return userRepository.save(existingUser);
     }
 }

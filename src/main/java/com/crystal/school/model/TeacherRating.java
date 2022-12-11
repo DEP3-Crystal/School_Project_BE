@@ -1,27 +1,27 @@
 package com.crystal.school.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.io.Serializable;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+import com.crystal.school.model.id.TeacherRatingId;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "teacher_rating")
-public class TeacherRating implements Serializable {
-    @Id
-    @Column(name = "student_id")
-    private Integer studentId;
-    @Id
-    @Column(name = "teacher_id")
-    private Integer teacherId;
+public class TeacherRating {
+    @EmbeddedId
+    private TeacherRatingId teacherRatingId;
     @Column(name = "rating")
-    private Integer rating;
+    private Byte rating;
+
     @ManyToOne
-    private Student student;
-    @ManyToOne
+    @JoinColumn(name = "user_id",insertable=false, updatable=false)
     private Teacher teacher;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id",insertable=false, updatable=false)
+    private User student;
+
 }

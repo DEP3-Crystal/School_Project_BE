@@ -1,8 +1,7 @@
 package com.crystal.school.service;
 
-import com.crystal.school.model.Session;
 import com.crystal.school.model.SessionRating;
-import com.crystal.school.model.TeacherRating;
+import com.crystal.school.model.id.SessionRatingId;
 import com.crystal.school.repository.SessionRatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,11 +28,11 @@ public class SessionRatingService {
     }
 
 
-    public SessionRating getSessionRatingById(Integer id){
+    public SessionRating getSessionRatingById(SessionRatingId id){
         return sessionRatingRepository.findById(id).orElse(null);
     }
 
-    public String deleteSessionRatingById(Integer id){
+    public String deleteSessionRatingById(SessionRatingId id){
         sessionRatingRepository.deleteById(id);
         return "Session Rating deleted: "+id;
     }
@@ -45,7 +44,7 @@ public class SessionRatingService {
         sessionRatingRepository.deleteAll();
     }
     public SessionRating editSessionRating(SessionRating sessionRating){
-        SessionRating existingSessionRating = sessionRatingRepository.findById(sessionRating.getSessionId()).orElse(null);
+        SessionRating existingSessionRating = sessionRatingRepository.findById(sessionRating.getSessionRatingId()).orElse(null);
         existingSessionRating.setRating(sessionRating.getRating());
         existingSessionRating.setStudent(sessionRating.getStudent());
         existingSessionRating.setSession(sessionRating.getSession());

@@ -1,7 +1,7 @@
 package com.crystal.school.model;
 
 
-import com.crystal.school.model.id.SessionRatingId;
+import com.crystal.school.model.id.StudentGradeId;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,12 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "session_rating")
-public class SessionRating {
+@Table(name = "student_grade")
+public class StudentGrade {
     @EmbeddedId
-    private SessionRatingId sessionRatingId;
-    @Column(name = "rating")
-    private Byte rating;
+    private StudentGradeId studentGradeId;
+    @Column(name = "grade")
+    private Byte grade;
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
@@ -23,4 +23,5 @@ public class SessionRating {
     @ManyToOne
     @JoinColumn(name = "session_id", insertable = false, updatable = false)
     private Session session;
+
 }

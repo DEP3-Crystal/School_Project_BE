@@ -1,18 +1,18 @@
 package com.crystal.school.model;
 
-import lombok.Data;
 
-import javax.persistence.*;
-import java.util.List;
-@Data
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "room")
 public class Room {
     @Id
     @Column(name = "room_id")
     private Integer roomId;
-    @Column(name = "school_id")
-    private Integer schoolId;
     @Column(name = "floor")
     private Integer floor;
     @Column(name = "door_number")
@@ -20,7 +20,6 @@ public class Room {
     @Column(name = "type")
     private String type;
     @ManyToOne
+    @JoinColumn(name = "school_id")
     private School school;
-    @OneToMany
-    private List<Classroom> classrooms;
 }

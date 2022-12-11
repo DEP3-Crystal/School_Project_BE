@@ -1,26 +1,25 @@
 package com.crystal.school.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "school")
-public class School{
+public class School {
     @Id
-    @Column(name = "building_id")
-    private Integer buildingId;
+    @Column(name = "school_id")
+    private Integer schoolId;
     @Column(name = "location")
     private String location;
     @Column(name = "name")
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "school")
     private List<Room> rooms;
 
 }

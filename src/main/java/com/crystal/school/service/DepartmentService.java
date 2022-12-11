@@ -1,7 +1,6 @@
 package com.crystal.school.service;
 
 import com.crystal.school.model.Department;
-import com.crystal.school.model.StudentRegistration;
 import com.crystal.school.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,11 +38,10 @@ public class DepartmentService {
         Department existingDepartment = departmentRepository.findById(department.getDepartmentId()).orElse(null);
         existingDepartment.setDepartmentId(department.getDepartmentId());
         existingDepartment.setName(department.getName());
-        existingDepartment.setOrganizer(department.getOrganizer());
+        existingDepartment.setEmployee(department.getEmployee());
         existingDepartment.setSessions(department.getSessions());
         existingDepartment.setTeachers(department.getTeachers());
-        existingDepartment.setOrganizerId(department.getOrganizerId());
-        existingDepartment.setStudents(department.getStudents());
+        existingDepartment.setUsers(department.getUsers());
 
         return departmentRepository.save(existingDepartment);
     }

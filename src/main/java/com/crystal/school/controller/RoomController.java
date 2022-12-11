@@ -32,7 +32,7 @@ public class RoomController {
     public Room updateRoom(@RequestBody Room room){
         return roomService.editRoom(room);
     }
-    @DeleteMapping("/room")
+    @DeleteMapping("/room{id}")
     public void deleteRoomById(@PathVariable Integer id ){
         roomService.deleteRoomById(id);
     }

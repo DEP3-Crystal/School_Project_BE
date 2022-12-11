@@ -1,25 +1,30 @@
 package com.crystal.school.model;
 
-import lombok.Data;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import com.crystal.school.model.id.StudentRegistrationId;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.sql.Timestamp;
-@Data
+
+@Getter
+@Setter
 @Entity
 @Table(name = "student_registration")
-public class StudentRegistration implements Serializable{
-    @Id
-    @Column(name = "student_id")
-    private Integer studentId;
-    @Id
-    @Column(name = "classroom_id")
-    private Integer classroomId;
+public class StudentRegistration {
+    @EmbeddedId
+    private StudentRegistrationId studentRegistrationId;
     @Column(name = "datetime")
     private Timestamp datetime;
-    @ManyToOne
-    private Classroom classroom;
-    @ManyToOne
-    private Student student;
+    @Column(name = "reg_date")
+    private Timestamp regDate;
 
+    @ManyToOne
+    @JoinColumn(name = "classroom_id", insertable = false, updatable = false)
+    private Classroom classroom;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private User student;
 }

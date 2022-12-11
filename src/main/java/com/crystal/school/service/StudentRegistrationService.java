@@ -1,6 +1,7 @@
 package com.crystal.school.service;
 
 import com.crystal.school.model.StudentRegistration;
+import com.crystal.school.model.id.StudentRegistrationId;
 import com.crystal.school.repository.StudentRegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class StudentRegistrationService {
     public List<StudentRegistration> getStudentRegistrations(){
         return studentRegistrationRepository.findAll();
     }
-    public StudentRegistration getStudentRegistrationById(Integer id){
+    public StudentRegistration getStudentRegistrationById(StudentRegistrationId id){
         return  studentRegistrationRepository.findById(id).orElse(null);
     }
     public void deleteStudentRegistration(StudentRegistration studentRegistration){
@@ -31,16 +32,16 @@ public class StudentRegistrationService {
     public void deleteAllStudentRegistrations(){
          studentRegistrationRepository.deleteAll();
     }
-    public void deleteStudentRegistrationById(Integer id) {
+    public void deleteStudentRegistrationById(StudentRegistrationId id) {
         studentRegistrationRepository.deleteById(id);
     }
 
     public StudentRegistration editStudentRegistration(StudentRegistration studentRegistration){
-        StudentRegistration existingStudentRegistration = studentRegistrationRepository.findById(studentRegistration.getStudentId()).orElse(null);
-        existingStudentRegistration.setStudentId(studentRegistration.getStudentId());
+        StudentRegistration existingStudentRegistration = studentRegistrationRepository.findById(studentRegistration.getStudentRegistrationId()).orElse(null);
+        existingStudentRegistration.setStudentRegistrationId(studentRegistration.getStudentRegistrationId());
         existingStudentRegistration.setClassroom(studentRegistration.getClassroom());
         existingStudentRegistration.setDatetime(studentRegistration.getDatetime());
-        existingStudentRegistration.setClassroomId(studentRegistration.getClassroomId());
+        existingStudentRegistration.setClassroom(studentRegistration.getClassroom());
         return studentRegistrationRepository.save(existingStudentRegistration);
     }
 

@@ -11,36 +11,42 @@ import java.util.List;
 public class RoomService {
     @Autowired
     private RoomRepository roomRepository;
-    public Room getRoomById(Integer id){
+
+    public Room getRoomById(Integer id) {
         return roomRepository.findById(id).orElse(null);
     }
-    public List<Room> getRooms(){
+
+    public List<Room> getRooms() {
         return roomRepository.findAll();
     }
-    public void deleteRoomById(Integer id){
+
+    public void deleteRoomById(Integer id) {
         roomRepository.deleteById(id);
     }
-    public void deleteRooms(){
+
+    public void deleteRooms() {
         roomRepository.deleteAll();
     }
-    public void deleteRoom(Room room){
+
+    public void deleteRoom(Room room) {
         roomRepository.delete(room);
     }
 
-    public Room addRoom(Room room){
-       return roomRepository.save(room);
+    public Room addRoom(Room room) {
+        return roomRepository.save(room);
     }
-    public List<Room> addRooms(List<Room> rooms){
+
+    public List<Room> addRooms(List<Room> rooms) {
         return roomRepository.saveAll(rooms);
     }
-    public Room editRoom(Room room){
+
+    public Room editRoom(Room room) {
         Room existingRoom = roomRepository.findById(room.getRoomId()).orElse(null);
+        // TODO fix null pointer exception warning
         existingRoom.setRoomId(room.getRoomId());
-        existingRoom.setClassrooms(room.getClassrooms());
         existingRoom.setDoorNumber(room.getDoorNumber());
         existingRoom.setFloor(room.getFloor());
         existingRoom.setSchool(room.getSchool());
-        existingRoom.setSchoolId(room.getSchoolId());
         existingRoom.setType(room.getType());
         return roomRepository.save(existingRoom);
     }

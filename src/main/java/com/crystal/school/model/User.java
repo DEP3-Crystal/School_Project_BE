@@ -1,25 +1,22 @@
 package com.crystal.school.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.crystal.school.model.enums.Gender;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
+import java.util.List;
 
-import static javax.persistence.InheritanceType.SINGLE_TABLE;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "is_employee",
+        discriminatorType = DiscriminatorType.INTEGER)
 @Entity
-@Table(name = "user")
-@Inheritance(strategy=SINGLE_TABLE)
-@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,
-        name = "status")
-
-public abstract class User {
+@Table(name = "person")
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "user_id")
     private Integer userId;
     @Column(name = "first_name")
@@ -29,16 +26,31 @@ public abstract class User {
     @Column(name = "email")
     private String email;
     @Column(name = "gender")
+    private String _gender;
+    @Transient
     private Gender gender;
+    public Gender getGender(){
+        if(gender == null)
+            gender = Gender.valueOf(_gender);
+        return  gender;
+    }
     @Column(name = "biography")
     private String biography;
     @Column(name = "password")
     private String password;
     @Column(name = "salt")
     private String salt;
-    @Column(name = "status")
-    private Status status;
 
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
 
-
+    @OneToMany(mappedBy = "student")
+    private List<StudentRegistration> registrations;
+    @OneToMany(mappedBy = "student")
+    private List<StudentGrade> studentGrades;
+    @OneToMany(mappedBy = "student")
+    private List<SessionRating> sessionRatings;
+    @OneToMany(mappedBy = "student")
+    private List<TeacherRating> teacherRatings;
 }

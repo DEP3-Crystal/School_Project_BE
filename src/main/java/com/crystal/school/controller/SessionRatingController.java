@@ -1,7 +1,7 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.model.SessionRating;
-import com.crystal.school.model.TeacherRating;
+import com.crystal.school.model.id.SessionRatingId;
 import com.crystal.school.service.SessionRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public class SessionRatingController {
 
 
     @GetMapping("/session-rating/{id}")
-    public SessionRating getSessionRatingById(@PathVariable Integer id){
+    public SessionRating getSessionRatingById(@PathVariable SessionRatingId id){
         return sessionRatingService.getSessionRatingById(id);
     }
     @GetMapping("/session-ratings")
@@ -27,11 +27,12 @@ public class SessionRatingController {
         sessionRatingService.saveSessionRating(sessionRating);
         return "Added successfully";
     }
-    @PostMapping("/session-rating")
-    public String addSessionRatings(@RequestBody List<SessionRating> sessionRatings){
-        sessionRatingService.saveSessionRatings(sessionRatings);
-        return "Added successfully";
-    }
+    //TODO find out why it is duplicated what is missing
+//    @PostMapping("/session-rating")
+//    public String addSessionRatings(@RequestBody List<SessionRating> sessionRatings){
+//        sessionRatingService.saveSessionRatings(sessionRatings);
+//        return "Added successfully";
+//    }
     @PutMapping("/session-rating")
     public String editSessionRating(@RequestBody SessionRating sessionRating){
         sessionRatingService.editSessionRating(sessionRating);
@@ -43,7 +44,7 @@ public class SessionRatingController {
         return "Deleted successfully";
     }
     @DeleteMapping("/session-rating/{id}")
-    public String deleteSessionRating(@PathVariable Integer id){
+    public String deleteSessionRating(@PathVariable SessionRatingId id){
         sessionRatingService.deleteSessionRatingById(id);
         return "Deleted successfully";
     }

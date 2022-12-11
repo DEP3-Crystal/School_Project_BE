@@ -1,9 +1,8 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.model.Teacher;
 import com.crystal.school.model.TeacherRating;
+import com.crystal.school.model.id.TeacherRatingId;
 import com.crystal.school.service.TeacherRatingService;
-import com.crystal.school.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +13,7 @@ public class TeacherRatingController {
     @Autowired
     private TeacherRatingService teacherRatingService;
     @GetMapping("/teacher-rating/{id}")
-    public TeacherRating getTeacherRatingById(@PathVariable Integer id){
+    public TeacherRating getTeacherRatingById(@PathVariable TeacherRatingId id){
         return teacherRatingService.getTeacherRatingById(id);
     }
     @GetMapping("/teacher-ratings")
@@ -37,7 +36,7 @@ public class TeacherRatingController {
         return "Updated successfully";
     }
     @DeleteMapping("/teacher-rating/{id}")
-    public String deleteTeacherRating(@PathVariable Integer id){
+    public String deleteTeacherRating(@PathVariable TeacherRatingId id){
         teacherRatingService.deleteTeacherRatingById(id);
         return "Deleted successfully";
     }
