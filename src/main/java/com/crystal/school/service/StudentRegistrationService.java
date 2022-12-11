@@ -40,7 +40,7 @@ public class StudentRegistrationService {
         StudentRegistration existingStudentRegistration = studentRegistrationRepository.findById(studentRegistration.getStudentRegistrationId()).orElse(null);
         existingStudentRegistration.setStudentRegistrationId(studentRegistration.getStudentRegistrationId());
         existingStudentRegistration.setClassroom(studentRegistration.getClassroom());
-        existingStudentRegistration.setDatetime(studentRegistration.getDatetime());
+        existingStudentRegistration.setRegDate(studentRegistration.getRegDate());
         existingStudentRegistration.setClassroom(studentRegistration.getClassroom());
         return studentRegistrationRepository.save(existingStudentRegistration);
     }
