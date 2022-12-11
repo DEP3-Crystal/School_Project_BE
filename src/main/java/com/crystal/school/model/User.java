@@ -2,18 +2,21 @@ package com.crystal.school.model;
 
 import com.crystal.school.model.enums.Gender;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
+@ToString
+@Builder
+@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "is_employee",
         discriminatorType = DiscriminatorType.INTEGER)
 @Entity
 @Table(name = "person")
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -46,11 +49,34 @@ public class User {
     private Department department;
 
     @OneToMany(mappedBy = "student")
+    @ToString.Exclude
     private List<StudentRegistration> registrations;
     @OneToMany(mappedBy = "student")
+    @ToString.Exclude
     private List<StudentGrade> studentGrades;
     @OneToMany(mappedBy = "student")
+    @ToString.Exclude
     private List<SessionRating> sessionRatings;
     @OneToMany(mappedBy = "student")
+    @ToString.Exclude
     private List<TeacherRating> teacherRatings;
+
+
+    public User(User user) {
+        userId = user.userId;
+        firstName = user.firstName;
+        lastName = user.lastName;
+        email = user.email;
+        _gender = user._gender;
+        gender = user.gender;
+        biography = user.biography;
+        password = user.password;
+        salt = user.salt;
+        department = user.department;
+        registrations = user.registrations;
+        studentGrades = user.studentGrades;
+        sessionRatings = user.sessionRatings;
+        teacherRatings =user.teacherRatings;
+
+    }
 }

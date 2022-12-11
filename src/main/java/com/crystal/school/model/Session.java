@@ -2,7 +2,9 @@ package com.crystal.school.model;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "session")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Session {
     @Id
     @Column(name = "session_id")
@@ -31,7 +35,7 @@ public class Session {
     private Department department;
 
     @OneToMany(mappedBy = "session")
-    private List<SessionRegistration> registration;
+    private List<SessionRegistration> sessionRegistrations;
     @OneToMany(mappedBy = "session")
     private List<StudentGrade> studentGrades;
      @OneToMany(mappedBy = "session")

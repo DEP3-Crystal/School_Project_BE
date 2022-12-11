@@ -3,20 +3,23 @@ package com.crystal.school.model;
 
 import com.crystal.school.model.id.StudentRegistrationId;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "student_registration")
 public class StudentRegistration {
     @EmbeddedId
     private StudentRegistrationId studentRegistrationId;
-    @Column(name = "datetime")
-    private Timestamp datetime;
+
     @Column(name = "reg_date")
     private Timestamp regDate;
 

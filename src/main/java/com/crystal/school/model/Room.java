@@ -2,11 +2,15 @@ package com.crystal.school.model;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "room")
 public class Room {
@@ -22,4 +26,7 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "school_id")
     private School school;
+    @OneToOne
+    @JoinColumn(name = "classroom_id")
+    private Classroom classroom;
 }
