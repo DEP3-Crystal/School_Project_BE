@@ -1,6 +1,9 @@
 package com.crystal.school.model;
 
 
+import com.crystal.school.model.pivote.SessionRating;
+import com.crystal.school.model.pivote.SessionRegistration;
+import com.crystal.school.model.pivote.StudentGrade;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +32,7 @@ public class Session {
     private String difficultyLevel;
     @Column(name = "keywords")
     private String keywords;
-
+    // TODO May occur stack OverFlow
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
@@ -38,7 +41,7 @@ public class Session {
     private List<SessionRegistration> sessionRegistrations;
     @OneToMany(mappedBy = "session")
     private List<StudentGrade> studentGrades;
-     @OneToMany(mappedBy = "session")
+    @OneToMany(mappedBy = "session")
     private List<SessionRating> sessionRatings;
 
 }

@@ -1,13 +1,19 @@
-package com.crystal.school.model;
+package com.crystal.school.model.pivote;
 
 
+import com.crystal.school.model.Session;
+import com.crystal.school.model.User;
 import com.crystal.school.model.id.SessionRatingId;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "session_rating")
 public class SessionRating {

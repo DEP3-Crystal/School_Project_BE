@@ -1,5 +1,6 @@
 package com.crystal.school.model;
 
+import com.crystal.school.model.pivote.TeacherRating;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;

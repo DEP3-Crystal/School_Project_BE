@@ -1,11 +1,15 @@
 package com.crystal.school.model;
 
 
+import com.crystal.school.model.pivote.SessionRegistration;
+import com.crystal.school.model.pivote.StudentRegistration;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,10 +27,14 @@ public class Room {
     private Integer doorNumber;
     @Column(name = "type")
     private String type;
+    @Column(name = "capacity")
+    private Integer capacity;
     @ManyToOne
     @JoinColumn(name = "school_id")
     private School school;
-    @OneToOne
-    @JoinColumn(name = "classroom_id")
-    private Classroom classroom;
+
+    @OneToMany(mappedBy = "room")
+    private List<SessionRegistration> sessionRegistrations;
+    @OneToMany(mappedBy = "room")
+    private List<StudentRegistration> studentRegistrations;
 }

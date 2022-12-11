@@ -1,6 +1,8 @@
-package com.crystal.school.model;
+package com.crystal.school.model.pivote;
 
 
+import com.crystal.school.model.Session;
+import com.crystal.school.model.User;
 import com.crystal.school.model.id.StudentGradeId;
 import jakarta.persistence.*;
 import lombok.Getter;

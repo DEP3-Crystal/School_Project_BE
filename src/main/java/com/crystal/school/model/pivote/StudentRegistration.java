@@ -1,6 +1,8 @@
-package com.crystal.school.model;
+package com.crystal.school.model.pivote;
 
 
+import com.crystal.school.model.Room;
+import com.crystal.school.model.User;
 import com.crystal.school.model.id.StudentRegistrationId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,8 +26,8 @@ public class StudentRegistration {
     private Timestamp regDate;
 
     @ManyToOne
-    @JoinColumn(name = "classroom_id", insertable = false, updatable = false)
-    private Classroom classroom;
+    @JoinColumn(name = "room_id", insertable = false, updatable = false)
+    private Room room;
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)

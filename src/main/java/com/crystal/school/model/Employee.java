@@ -2,6 +2,10 @@ package com.crystal.school.model;
 
 
 import com.crystal.school.model.enums.Role;
+import com.crystal.school.model.pivote.SessionRating;
+import com.crystal.school.model.pivote.StudentGrade;
+import com.crystal.school.model.pivote.StudentRegistration;
+import com.crystal.school.model.pivote.TeacherRating;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

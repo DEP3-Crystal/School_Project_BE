@@ -1,6 +1,8 @@
-package com.crystal.school.model;
+package com.crystal.school.model.pivote;
 
 
+import com.crystal.school.model.Room;
+import com.crystal.school.model.Session;
 import com.crystal.school.model.id.SessionRegistrationId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,6 +30,6 @@ public class SessionRegistration  {
     @JoinColumn(name = "session_id", insertable = false, updatable = false)
     private Session session;
     @ManyToOne
-    @JoinColumn(name = "classroom_id", insertable = false, updatable = false)
-    private Classroom classroom;
+    @JoinColumn(name = "room_id", insertable = false, updatable = false)
+    private Room room;
 }

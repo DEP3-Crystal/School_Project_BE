@@ -1,6 +1,6 @@
 package com.crystal.school.service;
 
-import com.crystal.school.model.StudentRegistration;
+import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.model.id.StudentRegistrationId;
 import com.crystal.school.repository.StudentRegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +39,9 @@ public class StudentRegistrationService {
     public StudentRegistration editStudentRegistration(StudentRegistration studentRegistration){
         StudentRegistration existingStudentRegistration = studentRegistrationRepository.findById(studentRegistration.getStudentRegistrationId()).orElse(null);
         existingStudentRegistration.setStudentRegistrationId(studentRegistration.getStudentRegistrationId());
-        existingStudentRegistration.setClassroom(studentRegistration.getClassroom());
+        existingStudentRegistration.setRoom(studentRegistration.getRoom());
         existingStudentRegistration.setRegDate(studentRegistration.getRegDate());
-        existingStudentRegistration.setClassroom(studentRegistration.getClassroom());
+        existingStudentRegistration.setRoom(studentRegistration.getRoom());
         return studentRegistrationRepository.save(existingStudentRegistration);
     }
 

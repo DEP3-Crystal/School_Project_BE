@@ -1,6 +1,6 @@
 package com.crystal.school.service;
 
-import com.crystal.school.model.TeacherRating;
+import com.crystal.school.model.pivote.TeacherRating;
 import com.crystal.school.model.id.TeacherRatingId;
 import com.crystal.school.repository.TeacherRatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;

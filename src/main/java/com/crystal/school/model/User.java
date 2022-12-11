@@ -1,6 +1,10 @@
 package com.crystal.school.model;
 
 import com.crystal.school.model.enums.Gender;
+import com.crystal.school.model.pivote.SessionRating;
+import com.crystal.school.model.pivote.StudentGrade;
+import com.crystal.school.model.pivote.StudentRegistration;
+import com.crystal.school.model.pivote.TeacherRating;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +19,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "is_employee",
         discriminatorType = DiscriminatorType.INTEGER)
 @Entity
-@Table(name = "person")
+@Table(name = "\"user\"")
 @NoArgsConstructor
 public class User {
     @Id

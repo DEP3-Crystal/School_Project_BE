@@ -1,6 +1,6 @@
 package com.crystal.school.service;
 
-import com.crystal.school.model.SessionRating;
+import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.model.id.SessionRatingId;
 import com.crystal.school.repository.SessionRatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
