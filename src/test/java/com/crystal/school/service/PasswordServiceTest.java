@@ -51,7 +51,7 @@ class PasswordServiceTest {
     }
 
     @Test
-    void createUser() throws InvalidLength {
+    void createUser_Login() throws InvalidLength {
         User user = new User();
         user.setFirstName("Indrit");
         user.setLastName("Vaka");
