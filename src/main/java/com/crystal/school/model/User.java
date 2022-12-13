@@ -51,7 +51,8 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
-
+    @Column(name = "is_employee" , insertable = false, updatable = false)
+    private Integer isEmployee;
     @OneToMany(mappedBy = "student")
     @ToString.Exclude
     private List<StudentRegistration> registrations;

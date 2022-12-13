@@ -8,6 +8,7 @@ import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.model.pivote.SessionRegistration;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.service.FakerService;
+import com.crystal.school.service.PasswordService;
 import com.github.javafaker.Faker;
 import lombok.Getter;
 
@@ -24,6 +25,7 @@ public class FakerDataAccess {
     Random random = new Random();
     private Faker faker = Faker.instance();
     private FakerService fakerService = FakerService.getInstance();
+    private final PasswordService passwordService = new PasswordService();
     private List<School> schools;
     private List<User> users;
     private List<Teacher> teachers;
@@ -198,10 +200,18 @@ public class FakerDataAccess {
     }
 
     public User generateUser(int id) {
-        String[] gender = {"M", "F"};
+        String[] genderList = {"M", "F"};
+        String gender = fakerService.random(genderList);
+
+        String biography = faker.lorem().sentence(5);
+
+        String plainPassword = faker.lorem().word();
+        String salt = passwordService.getSaltValue(25);
+        String securePassword = passwordService.generateSecurePassword(plainPassword, salt);
+
         return new User(id, faker.name().firstName(), faker.name().lastName(),
-                fakerService.email(), fakerService.random(gender), null, faker.lorem().sentence(5), faker.lorem().word(),
-                faker.lorem().characters(20, 100), null,
+                fakerService.email(), gender, null, biography, securePassword,
+                salt, null, faker.random().nextInt(2),
                 null, null, null, null
         );
     }

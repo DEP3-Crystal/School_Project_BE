@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> getUserList() {
-        return fakerDataAccess.getUsers();
+        return fakerDataAccess.generateUsers(500);
 //        return userService.getUsers();
     }
 

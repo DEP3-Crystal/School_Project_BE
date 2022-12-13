@@ -29,6 +29,7 @@ public class SchoolService {
     }
     public School updateSchool(School school) {
         School existingSchool = schoolRepository.findById(school.getSchoolId()).orElse(null);
+        existingSchool.setRooms(school.getRooms());
         existingSchool.setLocation(school.getLocation());
         existingSchool.setName(school.getName());
 

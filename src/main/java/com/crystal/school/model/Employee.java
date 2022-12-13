@@ -37,10 +37,10 @@ public class Employee extends User {
     }
 
     public Employee(Integer userId, String firstName, String lastName, String email, String _gender, String biography,
-                    String password, String salt, Department department,
+                    String password, String salt, Department department,Integer isEmployee,
                     List<StudentRegistration> registrations, List<StudentGrade> studentGrades, List<SessionRating> sessionRatings, List<TeacherRating> teacherRatings,
                     String phoneNumber, String title, String _role) {
-        super(userId, firstName, lastName, email, _gender, null, biography, password, salt, department, registrations, studentGrades, sessionRatings, teacherRatings);
+        super(userId, firstName, lastName, email, _gender, null, biography, password, salt, department,isEmployee, registrations, studentGrades, sessionRatings, teacherRatings);
         this.phoneNumber = phoneNumber;
         this.title = title;
         this._role = _role;

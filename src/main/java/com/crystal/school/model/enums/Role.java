@@ -13,14 +13,14 @@ public enum Role {
 
 
     public static Role getEnum(String name) {
-        switch (name) {
-            case "a", "ADMIN" -> {
+        switch (name.toLowerCase()) {
+            case "a", "admin" -> {
                 return ADMIN;
             }
-            case "o", "ORGANIZER" -> {
+            case "o", "organizer" -> {
                 return ORGANIZER;
             }
-            case "t","TEACHER" -> {
+            case "t","teacher" -> {
                 return TEACHER;
             }
             default -> throw new EnumConstantNotPresentException(Role.class, "couldn't find correct enum name: " + name);

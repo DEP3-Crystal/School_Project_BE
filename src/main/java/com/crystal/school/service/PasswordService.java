@@ -1,6 +1,7 @@
 package com.crystal.school.service;
 
 import com.crystal.school.excption.InvalidLength;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 import java.util.stream.IntStream;
-
+@Service
 public class PasswordService {
 
     private final Random random = new SecureRandom();
