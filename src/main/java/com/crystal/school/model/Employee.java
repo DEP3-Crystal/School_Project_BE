@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "employee")
+@Table(name = "employees")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue(value = "1")
 @NoArgsConstructor

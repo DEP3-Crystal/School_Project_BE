@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "teacher_rating")
+@Table(name = "teacher_ratings")
 public class TeacherRating {
     @EmbeddedId
     private TeacherRatingId teacherRatingId;

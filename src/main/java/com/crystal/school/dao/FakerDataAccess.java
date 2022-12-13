@@ -111,15 +111,15 @@ public class FakerDataAccess {
 
         int sessionId = randomId();
         SessionRegistrationId sessionRegistrationId = new SessionRegistrationId(sessionId, room.getRoomId());
-        return new SessionRegistration(sessionRegistrationId, timestampUTCNow(),
-                timestampUTCNow(), generateSession(sessionId), room);
+        return new SessionRegistration(sessionRegistrationId, timestampUTCNow(), generateSession(sessionId), room);
     }
 
     public Department generateDepartment(int sessions, int teachers, int users, Employee employee) {
         List<Session> sessionList = generateSessions(sessions, teachers, users);
         List<Teacher> teacherList = generateTeachers(teachers);
         List<User> userList = generateUsers(users);
-        return new Department(randomId(), faker.lorem().word(), employee, sessionList,
+        String name = faker.lorem().word();
+        return new Department(randomId(), name, employee, sessionList,
                 teacherList, userList);
     }
 
@@ -149,7 +149,7 @@ public class FakerDataAccess {
         String[] level = {"advanced", "intermediate", "beginner"};
         String difficultyLevel = fakerService.random(level);
         return new Session(id, faker.lorem().word(), faker.lorem().sentence(5),
-                faker.random().nextBoolean(), difficultyLevel, faker.lorem().word(), null,
+                faker.random().nextBoolean(), difficultyLevel, faker.lorem().word(),timestampUTCNow(),timestampUTCNow(), null,
                 getRegisteredSession(id), null, null
         );
     }

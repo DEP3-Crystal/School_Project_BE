@@ -19,26 +19,31 @@ class FakerDataAccessTest {
 
     @Test
     void generateUsers() {
-        var user = fakerDataAccess.generateUsers(5_000);
-        Assertions.assertNotNull(user);
+        int number = 5_000;
+        var user = fakerDataAccess.generateUsers(number);
+        Assertions.assertEquals(number, user.size());
     }
 
     @Test
     void generateEmployees() {
-        var employee = fakerDataAccess.generateEmployees(5_000);
-        Assertions.assertNotNull(employee);
+        int number = 5_000;
+        var employee = fakerDataAccess.generateEmployees(number);
+        Assertions.assertEquals(number, employee.size());
+
     }
 
     @Test
     void generateTeachers() {
-        var teachers = fakerDataAccess.generateTeachers(50_000);
-        Assertions.assertNotNull(teachers);
+        int number = 50_000;
+        var teachers = fakerDataAccess.generateTeachers(number);
+        Assertions.assertEquals(number, teachers.size());
     }
 
     @Test
     void generateSessions() {
-        var session = fakerDataAccess.generateSessions(100,10,200);
-        Assertions.assertNotNull(session);
+        int number = 100;
+        var session = fakerDataAccess.generateSessions(number, 10, 200);
+        Assertions.assertEquals(number, session.size());
     }
 
     @Test
@@ -50,14 +55,18 @@ class FakerDataAccessTest {
 
     @Test
     void generateRooms() {
-        List<Room> rooms = fakerDataAccess.generateRooms(null, 10, 2, 100, 5_000);
-        Assertions.assertNotNull(rooms);
+        int num = 10;
+        List<Room> rooms = fakerDataAccess.generateRooms(null, num, 2, 100, 5_000);
+        Assertions.assertEquals(num, rooms.size());
+
     }
 
     @Test
     void generateSchool() {
-        List<School> schools = fakerDataAccess.generateSchools(2, 100, 20, 10, 100);
-        Assertions.assertNotNull(schools);
+        int numberOfSchools = 2;
+        List<School> schools = fakerDataAccess.generateSchools(numberOfSchools, 100, 20, 10, 100);
+        Assertions.assertEquals(numberOfSchools, schools.size());
+
     }
 
 

@@ -3,6 +3,7 @@ package com.crystal.school.model;
 
 import com.crystal.school.model.pivote.SessionRegistration;
 import com.crystal.school.model.pivote.StudentRegistration;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "room")
+@Table(name = "rooms")
 public class Room {
     @Id
     @Column(name = "room_id")
@@ -29,6 +30,7 @@ public class Room {
     private String type;
     @Column(name = "capacity")
     private Integer capacity;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "school_id")
     private School school;

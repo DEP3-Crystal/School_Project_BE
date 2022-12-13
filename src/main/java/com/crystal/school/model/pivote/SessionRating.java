@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "session_rating")
+@Table(name = "session_ratings")
 public class SessionRating {
     @EmbeddedId
     private SessionRatingId sessionRatingId;

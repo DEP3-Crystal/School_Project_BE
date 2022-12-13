@@ -17,7 +17,7 @@ public class SchoolController {
 
     @GetMapping("/schools")
     public List<School> getSchoolsList() {
-        return fakerDataAccess.generateSchools(2, 10, 10, 30, 500);
+        return fakerDataAccess.generateSchools(1, 1, 1, 1, 1);
 //        return  service.getSchools();
     }
 

@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "student_grade")
+@Table(name = "student_grades")
 public class StudentGrade {
     @EmbeddedId
     private StudentGradeId studentGradeId;

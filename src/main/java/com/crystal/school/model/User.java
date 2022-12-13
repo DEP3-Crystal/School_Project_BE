@@ -19,7 +19,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "is_employee",
         discriminatorType = DiscriminatorType.INTEGER)
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "users")
 @NoArgsConstructor
 public class User {
     @Id

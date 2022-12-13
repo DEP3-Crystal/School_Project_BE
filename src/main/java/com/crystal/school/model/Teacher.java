@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "teacher")
+@Table(name = "teachers")
 public class Teacher extends Employee {
     private String credentials;
     @OneToMany(mappedBy = "teacher")
