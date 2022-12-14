@@ -1,15 +1,16 @@
 package com.crystal.school.model.enums;
 
 public enum Role {
-    ADMIN("a"),
-    TEACHER("t"),
-    ORGANIZER("o");
+    NONE,
+    ADMIN,
+    TEACHER,
+    ORGANIZER;
 
-    private final String value;
+//    private final String value;
 
-    Role(String value) {
-        this.value = value;
-    }
+//    Role(String value) {
+//        this.value = value;
+//    }
 
 
     public static Role getEnum(String name) {

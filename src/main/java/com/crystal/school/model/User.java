@@ -18,10 +18,12 @@ import java.util.Objects;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "is_employee",
-        discriminatorType = DiscriminatorType.INTEGER)
+        discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue(value = "false")
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@EqualsAndHashCode
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

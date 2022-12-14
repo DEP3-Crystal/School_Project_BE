@@ -17,14 +17,17 @@ class UserServiceTest {
     @Test
     void saveUser() {
         User user = dataAccess.generateUser();
-        userService.saveUser(user);
+        var saved = userService.saveUser(user);
+        user.setUserId(saved.getUserId());
+        Assertions.assertEquals(user, saved);
+
     }
 
     @Test
     void saveEmployee() {
         Employee employee = dataAccess.generateEmployee();
         var saved = userService.saveUser(employee);
-        Assertions.assertEquals(employee,saved);
+        Assertions.assertEquals(employee, saved);
 
     }
 }
