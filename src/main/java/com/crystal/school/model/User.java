@@ -5,6 +5,7 @@ import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.model.pivote.TeacherRating;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +33,7 @@ public class User {
     private String lastName;
     @Column(name = "email")
     private String email;
+    @JsonIgnore
     @Column(name = "gender")
     private String _gender;
     @Transient
@@ -40,6 +42,10 @@ public class User {
         if(gender == null)
             gender = Gender.valueOf(_gender);
         return  gender;
+    }
+    public void setGender(Gender gender) {
+        this.gender = gender;
+        _gender = gender.toString();
     }
     @Column(name = "biography")
     private String biography;
