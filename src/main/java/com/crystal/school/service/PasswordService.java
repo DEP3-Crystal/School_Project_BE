@@ -19,8 +19,12 @@ public class PasswordService {
     private static final String CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkzlmnopqrstuvwxyz";
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 256;
-
-
+    private static PasswordService instance;
+    public static synchronized PasswordService getInstance(){
+        if(instance == null)
+            instance = new PasswordService();
+        return  instance;
+    }
     /**
      * @param length length of salt (min = 10 , max 100)
      * @return salt

@@ -3,9 +3,10 @@ package com.crystal.school.service;
 import com.github.javafaker.Faker;
 import com.github.javafaker.service.FakeValuesService;
 import com.github.javafaker.service.RandomService;
+import org.springframework.stereotype.Service;
 
 import java.util.Locale;
-
+@Service
 public class FakerService {
     private static FakerService instance;
     FakeValuesService fakeValuesService = new FakeValuesService(
