@@ -1,6 +1,7 @@
 package com.crystal.school.dao;
 
 import com.crystal.school.model.*;
+import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.id.SessionRatingId;
 import com.crystal.school.model.id.SessionRegistrationId;
 import com.crystal.school.model.id.StudentRegistrationId;
@@ -200,18 +201,15 @@ public class FakerDataAccess {
     }
 
     public User generateUser(int id) {
-        String[] genderList = {"M", "F"};
-        String gender = fakerService.random(genderList);
+        Gender[] genderList = {Gender.M,Gender.F};
+        Gender gender = fakerService.random(genderList);
 
         String biography = faker.lorem().sentence(5);
 
         String plainPassword = faker.lorem().word();
-        String salt = passwordService.getSaltValue(25);
-        String securePassword = passwordService.generateSecurePassword(plainPassword, salt);
-
         return new User(id, faker.name().firstName(), faker.name().lastName(),
-                fakerService.email(), gender, null, biography, securePassword,
-                salt, null, faker.random().nextInt(2),
+                fakerService.email(), gender, biography, plainPassword,
+                null, null,
                 null, null, null, null
         );
     }

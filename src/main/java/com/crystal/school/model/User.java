@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -33,14 +34,9 @@ public class User {
     @Column(name = "email")
     private String email;
     @Column(name = "gender")
-    private String _gender;
-    @Transient
+    @Enumerated(EnumType.STRING)
     private Gender gender;
-    public Gender getGender(){
-        if(gender == null)
-            gender = Gender.valueOf(_gender);
-        return  gender;
-    }
+
     @Column(name = "biography")
     private String biography;
     @Column(name = "password")
@@ -51,8 +47,8 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
-    @Column(name = "is_employee" , insertable = false, updatable = false)
-    private Integer isEmployee;
+//    @Column(name = "is_employee")
+//    private Integer isEmployee;
     @OneToMany(mappedBy = "student")
     @ToString.Exclude
     private List<StudentRegistration> registrations;
@@ -72,7 +68,6 @@ public class User {
         firstName = user.firstName;
         lastName = user.lastName;
         email = user.email;
-        _gender = user._gender;
         gender = user.gender;
         biography = user.biography;
         password = user.password;
@@ -84,4 +79,5 @@ public class User {
         teacherRatings =user.teacherRatings;
 
     }
+
 }

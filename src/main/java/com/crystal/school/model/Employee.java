@@ -1,18 +1,21 @@
 package com.crystal.school.model;
 
 
+import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.enums.Role;
 import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.model.pivote.TeacherRating;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-
+import java.util.Objects;
+@EqualsAndHashCode
 @Getter
 @Setter
 @Entity
@@ -36,11 +39,11 @@ public class Employee extends User {
         return role;
     }
 
-    public Employee(Integer userId, String firstName, String lastName, String email, String _gender, String biography,
-                    String password, String salt, Department department,Integer isEmployee,
+    public Employee(Integer userId, String firstName, String lastName, String email, Gender gender, String biography,
+                    String password, String salt, Department department,
                     List<StudentRegistration> registrations, List<StudentGrade> studentGrades, List<SessionRating> sessionRatings, List<TeacherRating> teacherRatings,
                     String phoneNumber, String title, String _role) {
-        super(userId, firstName, lastName, email, _gender, null, biography, password, salt, department,isEmployee, registrations, studentGrades, sessionRatings, teacherRatings);
+        super(userId, firstName, lastName, email, gender, biography, password, salt, department, registrations, studentGrades, sessionRatings, teacherRatings);
         this.phoneNumber = phoneNumber;
         this.title = title;
         this._role = _role;
@@ -65,7 +68,5 @@ public class Employee extends User {
         title = employee.title;
         _role = employee._role;
     }
-
-
 
 }
