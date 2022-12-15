@@ -5,11 +5,11 @@ import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.model.pivote.TeacherRating;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -18,10 +18,12 @@ import java.util.List;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "is_employee",
-        discriminatorType = DiscriminatorType.INTEGER)
+        discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue(value = "false")
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@EqualsAndHashCode
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -33,20 +35,10 @@ public class User {
     private String lastName;
     @Column(name = "email")
     private String email;
-    @JsonIgnore
     @Column(name = "gender")
-    private String _gender;
-    @Transient
+    @Enumerated(EnumType.STRING)
     private Gender gender;
-    public Gender getGender(){
-        if(gender == null)
-            gender = Gender.valueOf(_gender);
-        return  gender;
-    }
-    public void setGender(Gender gender) {
-        this.gender = gender;
-        _gender = gender.toString();
-    }
+
     @Column(name = "biography")
     private String biography;
     @Column(name = "password")
@@ -57,8 +49,8 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
-    @Column(name = "is_employee" , insertable = false, updatable = false)
-    private Integer isEmployee;
+//    @Column(name = "is_employee")
+//    private Integer isEmployee;
     @OneToMany(mappedBy = "student")
     @ToString.Exclude
     private List<StudentRegistration> registrations;
@@ -78,7 +70,6 @@ public class User {
         firstName = user.firstName;
         lastName = user.lastName;
         email = user.email;
-        _gender = user._gender;
         gender = user.gender;
         biography = user.biography;
         password = user.password;
@@ -90,4 +81,5 @@ public class User {
         teacherRatings =user.teacherRatings;
 
     }
+
 }

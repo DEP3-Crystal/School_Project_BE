@@ -2,11 +2,9 @@ package com.crystal.school.controller;
 
 import com.crystal.school.dao.FakerDataAccess;
 import com.crystal.school.model.User;
-import com.crystal.school.model.UserLogin;
-import com.crystal.school.service.LoginService;
+import com.crystal.school.service.PasswordService;
 import com.crystal.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +16,6 @@ public class UserController {
     private final FakerDataAccess fakerDataAccess = FakerDataAccess.getInstance();
     @Autowired
     private UserService userService;
-    @Autowired
-    private LoginService loginService;
 
     @GetMapping("/users")
     public List<User> getUserList() {
@@ -37,9 +33,9 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
-
     @PostMapping("/user")
     public User addUser(@RequestBody User user) {
+
         return userService.saveUser(user);
     }
 
@@ -53,16 +49,11 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
-    @PostMapping("users/login")
-    public ResponseEntity<User> loginUser(@RequestBody UserLogin userData) {
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody User userData) {
 
-        User user = userService.getUserByEmailAndPassword(userData.getEmail(),userData.getPassword());
-        if (user == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(user, HttpStatus.OK);
-//        if (loginService.validateUser(user, userData.getPassword()))
-//            return ResponseEntity.ok(user);
-
+        if (userService.loginUser(userData))
+            return ResponseEntity.ok(userData);
+        return (ResponseEntity<?>) ResponseEntity.internalServerError();
     }
 }

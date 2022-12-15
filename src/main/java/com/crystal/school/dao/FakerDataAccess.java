@@ -1,6 +1,8 @@
 package com.crystal.school.dao;
 
 import com.crystal.school.model.*;
+import com.crystal.school.model.enums.Gender;
+import com.crystal.school.model.enums.Role;
 import com.crystal.school.model.id.SessionRatingId;
 import com.crystal.school.model.id.SessionRegistrationId;
 import com.crystal.school.model.id.StudentRegistrationId;
@@ -16,6 +18,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -158,7 +161,7 @@ public class FakerDataAccess {
 
     private List<SessionRegistration> getRegisteredSession(int id) {
         if (sessionRegistrations == null)
-            return null;
+            return Collections.emptyList();
         return sessionRegistrations.stream()
                 .filter(sessionRegistration -> sessionRegistration.getSessionRegistrationId().getSessionId() == id)
                 .toList();
@@ -178,13 +181,15 @@ public class FakerDataAccess {
     }
 
     public Employee generateEmployee() {
-        return new Employee(generateUser(), faker.phoneNumber().phoneNumber(), faker.lorem().word(),
-                fakerService.random(new String[]{"A", "T", "O", null}));
+        Role role = getRandomRole();
+        return new Employee(generateUser(), faker.phoneNumber().phoneNumber(), faker.lorem().word(),role
+                );
     }
+
 
     public Employee generateEmployee(User user) {
         return new Employee(user, faker.phoneNumber().phoneNumber(), faker.lorem().word(),
-                fakerService.random(new String[]{"A", "T", "O", null}));
+                getRandomRole());
     }
 
     public List<User> generateUsers(int number) {
@@ -200,18 +205,15 @@ public class FakerDataAccess {
     }
 
     public User generateUser(int id) {
-        String[] genderList = {"M", "F"};
-        String gender = fakerService.random(genderList);
+        Gender[] genderList = {Gender.M,Gender.F};
+        Gender gender = fakerService.random(genderList);
 
         String biography = faker.lorem().sentence(5);
 
         String plainPassword = faker.lorem().word();
-        String salt = passwordService.getSaltValue(25);
-        String securePassword = passwordService.generateSecurePassword(plainPassword, salt);
-
         return new User(id, faker.name().firstName(), faker.name().lastName(),
-                fakerService.email(), gender, null, biography, securePassword,
-                salt, null, faker.random().nextInt(2),
+                fakerService.email(), gender, biography, plainPassword,
+                null, null,
                 null, null, null, null
         );
     }
@@ -244,6 +246,10 @@ public class FakerDataAccess {
 
         byte rating = (byte) faker.random().nextInt(5);
         return new SessionRating(ids, rating, student, session);
+    }
+    private Role getRandomRole() {
+        Role[] roles = {Role.ADMIN, Role.TEACHER, Role.ORGANIZER, Role.NONE};
+        return fakerService.random(roles);
     }
 
 }

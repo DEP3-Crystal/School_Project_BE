@@ -4,6 +4,7 @@ import com.crystal.school.model.pivote.TeacherRating;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter
+@EqualsAndHashCode
 @Setter
 @Entity
 @NoArgsConstructor

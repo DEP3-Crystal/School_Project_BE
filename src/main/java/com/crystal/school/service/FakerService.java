@@ -36,8 +36,8 @@ public class FakerService {
         return fakeValuesService.fetchString("gender.types");
     }
 
-    public String random(String[] strings) {
-        Integer chosenItem = faker.random().nextInt(0, strings.length - 1);
-        return strings[chosenItem];
+    public <T> T  random(T[] type) {
+        Integer chosenItem = faker.random().nextInt(0, type.length - 1);
+        return type[chosenItem];
     }
 }
