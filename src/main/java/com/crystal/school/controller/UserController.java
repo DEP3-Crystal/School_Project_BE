@@ -2,9 +2,10 @@ package com.crystal.school.controller;
 
 import com.crystal.school.dao.FakerDataAccess;
 import com.crystal.school.model.User;
-import com.crystal.school.service.PasswordService;
+import com.crystal.school.model.UserLogin;
 import com.crystal.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +34,9 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
+
     @PostMapping("/user")
     public User addUser(@RequestBody User user) {
-
         return userService.saveUser(user);
     }
 
@@ -49,11 +50,14 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User userData) {
+    @PostMapping("users/login")
+    public ResponseEntity<User> loginUser(@RequestBody UserLogin userData) {
 
-        if (userService.loginUser(userData))
-            return ResponseEntity.ok(userData);
-        return (ResponseEntity<?>) ResponseEntity.internalServerError();
+        User user = userService.getUserByEmailAndPassword(userData.getEmail(),userData.getPassword());
+        if (user == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
     }
 }
