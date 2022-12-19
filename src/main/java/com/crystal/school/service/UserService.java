@@ -12,7 +12,8 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    private PasswordService passwordService = PasswordService.getInstance();
+
+    private final PasswordService passwordService = PasswordService.getInstance();
 
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -42,10 +43,11 @@ public class UserService {
         user.setPassword(securePassword);
         return userRepository.save(user);
     }
-    public boolean loginUser(User dtoUser){
+
+    public boolean loginUser(User dtoUser) {
         User user = getUserByEmail(dtoUser.getEmail());
         String plainPassword = dtoUser.getPassword();
-        return passwordService.doesPasswordMatches(plainPassword,user.getPassword(),user.getSalt());
+        return passwordService.doesPasswordMatches(plainPassword, user.getPassword(), user.getSalt());
     }
 
 

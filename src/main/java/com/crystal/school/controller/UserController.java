@@ -1,8 +1,11 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.dao.FakerDataAccess;
+import com.crystal.school.dto.UserDto;
+import com.crystal.school.mapper.UserMapper;
 import com.crystal.school.model.User;
 import com.crystal.school.model.UserLogin;
+import com.crystal.school.service.LoginService;
 import com.crystal.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +16,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("")
 public class UserController {
     private final FakerDataAccess fakerDataAccess = FakerDataAccess.getInstance();
     @Autowired
     private UserService userService;
+    @Autowired
+    private LoginService loginService;
 
     @GetMapping("/users")
     public List<User> getUserList() {
@@ -35,7 +41,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/user")
+    @PostMapping("/users/add")
     public User addUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
@@ -51,13 +57,17 @@ public class UserController {
     }
 
     @PostMapping("users/login")
-    public ResponseEntity<User> loginUser(@RequestBody UserLogin userData) {
+    public ResponseEntity<UserDto> loginUser(@RequestBody UserLogin userData) {
 
-        User user = userService.getUserByEmailAndPassword(userData.getEmail(),userData.getPassword());
-        if (user == null){
+        User user = userService.getUserByEmail(userData.getEmail());
+
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
-
+        if (loginService.validateUser(user, userData.getPassword())) {
+            return ResponseEntity.ok(UserMapper.Instance.userDto(user));
+        }
+        return new ResponseEntity<>(UserMapper.Instance.userDto(user), HttpStatus.NOT_FOUND);
     }
+
 }

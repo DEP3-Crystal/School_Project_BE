@@ -19,11 +19,11 @@ public class TeacherRating {
     private Byte rating;
 
     @ManyToOne
-    @JoinColumn(name = "user_id",insertable=false, updatable=false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private Teacher teacher;
 
     @ManyToOne
-    @JoinColumn(name = "user_id",insertable=false, updatable=false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User student;
 
 }

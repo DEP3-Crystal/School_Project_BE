@@ -13,33 +13,40 @@ public class EmployeeService {
     private EmployeeRepository employeeRepository;
 
 
-    public Employee saveWorker(Employee worker){
+    public Employee saveWorker(Employee worker) {
         return employeeRepository.save(worker);
     }
-    public List<Employee> saveWorkers(List<Employee> workers){
+
+    public List<Employee> saveWorkers(List<Employee> workers) {
         return employeeRepository.saveAll(workers);
     }
 
-    public List<Employee> getEmployees(){
+    public List<Employee> getEmployees() {
         return employeeRepository.findAll();
     }
-    public Employee getEmployeeById(Integer id){
+
+    public Employee getEmployeeById(Integer id) {
         return employeeRepository.findById(id).orElse(null);
     }
-    public Employee getWorkerByFirstName(String firstName){
+
+    public Employee getWorkerByFirstName(String firstName) {
         return employeeRepository.findByFirstName(firstName);
     }
-    public String deleteWorkerById(Integer id){
+
+    public String deleteWorkerById(Integer id) {
         employeeRepository.deleteById(id);
-        return "Employee deleted: "+id;
+        return "Employee deleted: " + id;
     }
-    public void deleteWorker(Employee worker){
+
+    public void deleteWorker(Employee worker) {
         employeeRepository.delete(worker);
     }
-    public void deleteAllWorkers(){
+
+    public void deleteAllWorkers() {
         employeeRepository.deleteAll();
     }
-    public Employee updateWorker(Employee worker){
+
+    public Employee updateWorker(Employee worker) {
         Employee existingWorker = employeeRepository.findById(worker.getUserId()).orElse(null);
         existingWorker.setFirstName(worker.getFirstName());
         existingWorker.setLastName(worker.getLastName());

@@ -13,7 +13,7 @@ import java.util.List;
 public class SchoolController {
     @Autowired
     private SchoolService service;
-    private FakerDataAccess fakerDataAccess = FakerDataAccess.getInstance();
+    private final FakerDataAccess fakerDataAccess = FakerDataAccess.getInstance();
 
     @GetMapping("/schools")
     public List<School> getSchoolsList() {

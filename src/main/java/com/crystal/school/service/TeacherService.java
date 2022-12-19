@@ -16,6 +16,7 @@ public class TeacherService {
     public List<Teacher> getTeachers() {
         return userRepository.findAll();
     }
+
     public Teacher getTeacherById(Integer id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -29,11 +30,11 @@ public class TeacherService {
     }
 
 
-
     public String deleteTeacher(Integer id) {
         userRepository.deleteById(id);
         return "user deleted " + id;
     }
+
     public Teacher updateTeacher(Teacher user) {
         Teacher existingTeacher = userRepository.findById(user.getUserId()).orElse(null);
         existingTeacher.setFirstName(user.getFirstName());

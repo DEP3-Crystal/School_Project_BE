@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface DataAccess {
     List<School> getSchools();
+
     void saveSchools(List<School> schools);
 }

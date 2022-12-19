@@ -13,35 +13,42 @@ public class RoomController {
     private RoomService roomService;
 
     @GetMapping("/rooms")
-    public List<Room> getAllRooms(){
+    public List<Room> getAllRooms() {
         return roomService.getRooms();
     }
+
     @GetMapping("/room/{id}")
-    public Room getRoomById(@PathVariable Integer id){
+    public Room getRoomById(@PathVariable Integer id) {
         return roomService.getRoomById(id);
     }
+
     @PostMapping("/room")
-    public Room addRoom(Room room){
+    public Room addRoom(Room room) {
         return roomService.addRoom(room);
     }
+
     @PostMapping("/rooms")
-    public  List<Room> addRooms(List<Room> rooms){
+    public List<Room> addRooms(List<Room> rooms) {
         return roomService.addRooms(rooms);
     }
+
     @PutMapping("/room")
-    public Room updateRoom(@RequestBody Room room){
+    public Room updateRoom(@RequestBody Room room) {
         return roomService.editRoom(room);
     }
+
     @DeleteMapping("/room{id}")
-    public void deleteRoomById(@PathVariable Integer id ){
+    public void deleteRoomById(@PathVariable Integer id) {
         roomService.deleteRoomById(id);
     }
+
     @DeleteMapping("/rooms")
-    public void deleteAllRooms(){
+    public void deleteAllRooms() {
         roomService.deleteRooms();
     }
+
     @DeleteMapping("/room")
-    public void deleteRoom(@RequestBody Room room){
+    public void deleteRoom(@RequestBody Room room) {
         roomService.deleteRoom(room);
     }
 

@@ -6,6 +6,7 @@ import com.github.javafaker.service.RandomService;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
+
 @Service
 public class FakerService {
     private static FakerService instance;
@@ -36,7 +37,7 @@ public class FakerService {
         return fakeValuesService.fetchString("gender.types");
     }
 
-    public <T> T  random(T[] type) {
+    public <T> T random(T[] type) {
         Integer chosenItem = faker.random().nextInt(0, type.length - 1);
         return type[chosenItem];
     }

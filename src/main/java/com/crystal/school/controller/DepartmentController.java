@@ -14,12 +14,14 @@ import java.util.List;
 public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
+
     @GetMapping("/departments")
-    public List<Department> getDepartments(){
+    public List<Department> getDepartments() {
         return departmentService.getDepartments();
     }
+
     @GetMapping("/department/{id}")
-    public Department getDepartmentById(@PathVariable Integer id){
+    public Department getDepartmentById(@PathVariable Integer id) {
         return departmentService.getDepartmentById(id);
     }
 }

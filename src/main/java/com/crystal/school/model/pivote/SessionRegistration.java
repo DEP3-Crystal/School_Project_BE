@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Entity
 @Table(name = "session_registrations")
-public class SessionRegistration  {
+public class SessionRegistration {
     @EmbeddedId
     private SessionRegistrationId sessionRegistrationId;
     @Column(name = "reg_date")

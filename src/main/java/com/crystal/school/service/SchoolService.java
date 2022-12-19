@@ -15,6 +15,7 @@ public class SchoolService {
     public List<School> getSchools() {
         return schoolRepository.findAll();
     }
+
     public School saveSchool(School school) {
         return schoolRepository.save(school);
     }
@@ -27,6 +28,7 @@ public class SchoolService {
         schoolRepository.deleteById(id);
         return "school deleted " + id;
     }
+
     public School updateSchool(School school) {
         School existingSchool = schoolRepository.findById(school.getSchoolId()).orElse(null);
         existingSchool.setRooms(school.getRooms());

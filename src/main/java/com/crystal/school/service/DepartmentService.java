@@ -12,29 +12,35 @@ public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    public Department getDepartmentById(Integer id){
-         return departmentRepository.findById(id).orElse(null);
+    public Department getDepartmentById(Integer id) {
+        return departmentRepository.findById(id).orElse(null);
     }
-    public List<Department> getDepartments(){
+
+    public List<Department> getDepartments() {
         return departmentRepository.findAll();
     }
-    public Department addDepartment(Department department){
-      return departmentRepository.save(department);
+
+    public Department addDepartment(Department department) {
+        return departmentRepository.save(department);
     }
-    public List<Department> addDepartments(List<Department> departments){
-         return departmentRepository.saveAll(departments);
+
+    public List<Department> addDepartments(List<Department> departments) {
+        return departmentRepository.saveAll(departments);
     }
-    public void deleteDepartment(Department department){
+
+    public void deleteDepartment(Department department) {
         departmentRepository.delete(department);
     }
-    public void deleteDepartmentById(Integer id){
+
+    public void deleteDepartmentById(Integer id) {
         departmentRepository.deleteById(id);
     }
-    public void deleteAllDepartments(){
+
+    public void deleteAllDepartments() {
         departmentRepository.deleteAll();
     }
 
-    public Department editDepartment(Department department){
+    public Department editDepartment(Department department) {
         Department existingDepartment = departmentRepository.findById(department.getDepartmentId()).orElse(null);
         existingDepartment.setDepartmentId(department.getDepartmentId());
         existingDepartment.setName(department.getName());

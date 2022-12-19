@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -49,7 +48,7 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
-//    @Column(name = "is_employee")
+    //    @Column(name = "is_employee")
 //    private Integer isEmployee;
     @OneToMany(mappedBy = "student")
     @ToString.Exclude
@@ -78,7 +77,7 @@ public class User {
         registrations = user.registrations;
         studentGrades = user.studentGrades;
         sessionRatings = user.sessionRatings;
-        teacherRatings =user.teacherRatings;
+        teacherRatings = user.teacherRatings;
 
     }
 

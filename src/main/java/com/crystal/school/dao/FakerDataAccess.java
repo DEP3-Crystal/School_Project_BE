@@ -26,8 +26,8 @@ import java.util.Random;
 public class FakerDataAccess {
     private static FakerDataAccess instance;
     Random random = new Random();
-    private Faker faker = Faker.instance();
-    private FakerService fakerService = FakerService.getInstance();
+    private final Faker faker = Faker.instance();
+    private final FakerService fakerService = FakerService.getInstance();
     private final PasswordService passwordService = new PasswordService();
     private List<School> schools;
     private List<User> users;
@@ -154,7 +154,7 @@ public class FakerDataAccess {
         String[] level = {"advanced", "intermediate", "beginner"};
         String difficultyLevel = fakerService.random(level);
         return new Session(id, faker.lorem().word(), faker.lorem().sentence(5),
-                faker.random().nextBoolean(), difficultyLevel, faker.lorem().word(),timestampUTCNow(),timestampUTCNow(), null,
+                faker.random().nextBoolean(), difficultyLevel, faker.lorem().word(), timestampUTCNow(), timestampUTCNow(), null,
                 getRegisteredSession(id), null, null
         );
     }
@@ -182,8 +182,8 @@ public class FakerDataAccess {
 
     public Employee generateEmployee() {
         Role role = getRandomRole();
-        return new Employee(generateUser(), faker.phoneNumber().phoneNumber(), faker.lorem().word(),role
-                );
+        return new Employee(generateUser(), faker.phoneNumber().phoneNumber(), faker.lorem().word(), role
+        );
     }
 
 
@@ -205,7 +205,7 @@ public class FakerDataAccess {
     }
 
     public User generateUser(int id) {
-        Gender[] genderList = {Gender.M,Gender.F};
+        Gender[] genderList = {Gender.M, Gender.F};
         Gender gender = fakerService.random(genderList);
 
         String biography = faker.lorem().sentence(5);
@@ -241,12 +241,13 @@ public class FakerDataAccess {
                 .filter(session1 -> session1.getSessionId().equals(ids.getSessionId()))
                 .findFirst().orElseThrow();
 
-        User student = users.stream().filter(st->st.getUserId() == ids.getStudentId())
+        User student = users.stream().filter(st -> st.getUserId() == ids.getStudentId())
                 .findFirst().orElseThrow();
 
         byte rating = (byte) faker.random().nextInt(5);
         return new SessionRating(ids, rating, student, session);
     }
+
     private Role getRandomRole() {
         Role[] roles = {Role.ADMIN, Role.TEACHER, Role.ORGANIZER, Role.NONE};
         return fakerService.random(roles);

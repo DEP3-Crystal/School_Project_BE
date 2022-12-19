@@ -21,10 +21,11 @@ public enum Role {
             case "o", "organizer" -> {
                 return ORGANIZER;
             }
-            case "t","teacher" -> {
+            case "t", "teacher" -> {
                 return TEACHER;
             }
-            default -> throw new EnumConstantNotPresentException(Role.class, "couldn't find correct enum name: " + name);
+            default ->
+                    throw new EnumConstantNotPresentException(Role.class, "couldn't find correct enum name: " + name);
         }
     }
 }

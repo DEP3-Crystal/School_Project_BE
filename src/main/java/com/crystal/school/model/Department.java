@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "departments")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Department  {
+public class Department {
     @Id
     @Column(name = "department_id")
     private Integer departmentId;

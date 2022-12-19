@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 import java.util.stream.IntStream;
+
 @Service
 public class PasswordService {
 
@@ -20,11 +21,13 @@ public class PasswordService {
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 256;
     private static PasswordService instance;
-    public static synchronized PasswordService getInstance(){
-        if(instance == null)
+
+    public static synchronized PasswordService getInstance() {
+        if (instance == null)
             instance = new PasswordService();
-        return  instance;
+        return instance;
     }
+
     /**
      * @param length length of salt (min = 10 , max 100)
      * @return salt
@@ -59,7 +62,7 @@ public class PasswordService {
      * Method to encrypt the password using the original password and salt value.
      *
      * @param password plainText password
-     * @param salt salt used to hash the password
+     * @param salt     salt used to hash the password
      * @return HashedPassword
      */
     public String generateSecurePassword(String password, String salt) {
