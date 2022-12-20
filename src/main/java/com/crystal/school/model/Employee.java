@@ -24,7 +24,6 @@ import java.util.List;
 @DiscriminatorValue(value = "true")
 @NoArgsConstructor
 public class Employee extends User {
-
     @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "title")

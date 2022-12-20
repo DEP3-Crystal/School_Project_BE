@@ -65,9 +65,9 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         if (loginService.validateUser(user, userData.getPassword())) {
-            return ResponseEntity.ok(UserMapper.Instance.userDto(user));
+            return ResponseEntity.ok(UserMapper.Instance.toUserDto(user));
         }
-        return new ResponseEntity<>(UserMapper.Instance.userDto(user), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(UserMapper.Instance.toUserDto(user), HttpStatus.NOT_FOUND);
     }
 
 }

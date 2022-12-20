@@ -1,0 +1,25 @@
+package com.crystal.school.dto;
+
+import com.crystal.school.model.Session;
+import com.crystal.school.model.User;
+import com.crystal.school.model.id.SessionRatingId;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class SessionRatingDto {
+    private SessionRatingId sessionRatingId;
+    private Byte rating;
+    private User student;
+    private Session session;
+
+}

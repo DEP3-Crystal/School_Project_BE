@@ -1,4 +1,14 @@
 package com.crystal.school.dto;
 
-public class TeacherDto {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class TeacherDto extends EmployeeDto{
+
 }

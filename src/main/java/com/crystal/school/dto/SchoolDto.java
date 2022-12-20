@@ -1,6 +1,5 @@
 package com.crystal.school.dto;
 
-import com.crystal.school.model.enums.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class EmployeeDto extends UserDto{
-
-    private String title;
-    private Role role;
+public class SchoolDto {
+    private Integer schoolId;
+//   private String location;
+    private String name;
+//   private List<Room> rooms;
 }
