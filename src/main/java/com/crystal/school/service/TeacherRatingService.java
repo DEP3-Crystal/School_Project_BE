@@ -1,5 +1,7 @@
 package com.crystal.school.service;
 
+import com.crystal.school.dto.TeacherRatingDto;
+import com.crystal.school.mapper.TeacherRatingMapper;
 import com.crystal.school.model.id.TeacherRatingId;
 import com.crystal.school.model.pivote.TeacherRating;
 import com.crystal.school.repository.TeacherRatingRepository;
@@ -13,21 +15,21 @@ public class TeacherRatingService {
     @Autowired
     private TeacherRatingRepository teacherRatingRepository;
 
-    public TeacherRating saveTeacherRating(TeacherRating teacherRating) {
-        return teacherRatingRepository.save(teacherRating);
+    public TeacherRatingDto saveTeacherRating(TeacherRating teacherRating) {
+        return TeacherRatingMapper.Instance.toTeacherRatingDto(teacherRatingRepository.save(teacherRating));
     }
 
-    public List<TeacherRating> saveTeacherRatings(List<TeacherRating> teacherRatings) {
-        return teacherRatingRepository.saveAll(teacherRatings);
+    public List<TeacherRatingDto> saveTeacherRatings(List<TeacherRating> teacherRatings) {
+        return teacherRatingRepository.saveAll(teacherRatings).stream().map(TeacherRatingMapper.Instance::toTeacherRatingDto).toList();
     }
 
-    public List<TeacherRating> getTeacherRatings() {
-        return teacherRatingRepository.findAll();
+    public List<TeacherRatingDto> getTeacherRatings() {
+        return teacherRatingRepository.findAll().stream().map(TeacherRatingMapper.Instance::toTeacherRatingDto).toList();
     }
 
 
-    public TeacherRating getTeacherRatingById(TeacherRatingId id) {
-        return teacherRatingRepository.findById(id).orElse(null);
+    public TeacherRatingDto getTeacherRatingById(TeacherRatingId id) {
+        return TeacherRatingMapper.Instance.toTeacherRatingDto(teacherRatingRepository.findById(id).orElse(null));
     }
 
     public String deleteTeacherRatingById(TeacherRatingId id) {
@@ -43,9 +45,9 @@ public class TeacherRatingService {
         teacherRatingRepository.deleteAll();
     }
 
-    public TeacherRating editTeacherRating(TeacherRating teacherRating) {
+    public TeacherRatingDto editTeacherRating(TeacherRating teacherRating) {
         TeacherRating existingTeacherRating = teacherRatingRepository.findById(teacherRating.getTeacherRatingId()).orElse(null);
         existingTeacherRating.setRating(teacherRating.getRating());
-        return teacherRatingRepository.save(existingTeacherRating);
+        return TeacherRatingMapper.Instance.toTeacherRatingDto(teacherRatingRepository.save(existingTeacherRating));
     }
 }

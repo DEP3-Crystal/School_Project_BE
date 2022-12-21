@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StudentGradeDto {
-//    private StudentGradeId studentGradeId;
+    //    private StudentGradeId studentGradeId;
     private Byte grade;
     private User student;
     private Session session;

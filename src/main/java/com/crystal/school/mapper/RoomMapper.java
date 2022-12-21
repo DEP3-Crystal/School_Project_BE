@@ -5,10 +5,11 @@ import com.crystal.school.model.Room;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface RoomMapper {
-    RoomMapper Instance  = Mappers.getMapper(RoomMapper.class);
+    RoomMapper Instance = Mappers.getMapper(RoomMapper.class);
 
     Room toRoom(RoomDto roomDto);
+
     RoomDto toRoomDto(Room room);
 }

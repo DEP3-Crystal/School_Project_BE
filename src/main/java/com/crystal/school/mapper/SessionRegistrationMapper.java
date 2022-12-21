@@ -5,9 +5,9 @@ import com.crystal.school.model.pivote.SessionRegistration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface SessionRegistrationMapper {
-    SessionRegistrationMapper Instance  = Mappers.getMapper(SessionRegistrationMapper.class);
+    SessionRegistrationMapper Instance = Mappers.getMapper(SessionRegistrationMapper.class);
 
     SessionRegistration toSessionRegistration(SessionRegistrationDto sessionRegistrationDto);
 

@@ -1,5 +1,7 @@
 package com.crystal.school.service;
 
+import com.crystal.school.dto.DepartmentDto;
+import com.crystal.school.mapper.DepartmentMapper;
 import com.crystal.school.model.Department;
 import com.crystal.school.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,24 +14,23 @@ public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    public Department getDepartmentById(Integer id) {
-        return departmentRepository.findById(id).orElse(null);
+    public DepartmentDto getDepartmentById(Integer id) {
+        return DepartmentMapper.Instance.toDepartmentDto(departmentRepository.findById(id).orElse(null));
     }
 
-    public List<Department> getDepartments() {
-        return departmentRepository.findAll();
+    public List<DepartmentDto> getDepartments() {
+        List<Department> departments = departmentRepository.findAll();
+        return departments.stream().map(DepartmentMapper.Instance::toDepartmentDto).toList();
     }
 
-    public Department addDepartment(Department department) {
-        return departmentRepository.save(department);
+    public DepartmentDto addDepartment(Department department) {
+
+        return DepartmentMapper.Instance.toDepartmentDto(departmentRepository.save(department));
     }
 
-    public List<Department> addDepartments(List<Department> departments) {
-        return departmentRepository.saveAll(departments);
-    }
-
-    public void deleteDepartment(Department department) {
-        departmentRepository.delete(department);
+    public List<DepartmentDto> addDepartments(List<Department> departments) {
+        departmentRepository.saveAll(departments);
+        return departments.stream().map(DepartmentMapper.Instance::toDepartmentDto).toList();
     }
 
     public void deleteDepartmentById(Integer id) {
@@ -40,7 +41,7 @@ public class DepartmentService {
         departmentRepository.deleteAll();
     }
 
-    public Department editDepartment(Department department) {
+    public DepartmentDto editDepartment(Department department) {
         Department existingDepartment = departmentRepository.findById(department.getDepartmentId()).orElse(null);
         existingDepartment.setDepartmentId(department.getDepartmentId());
         existingDepartment.setName(department.getName());
@@ -49,6 +50,6 @@ public class DepartmentService {
         existingDepartment.setTeachers(department.getTeachers());
         existingDepartment.setUsers(department.getUsers());
 
-        return departmentRepository.save(existingDepartment);
+        return DepartmentMapper.Instance.toDepartmentDto(departmentRepository.save(existingDepartment));
     }
 }

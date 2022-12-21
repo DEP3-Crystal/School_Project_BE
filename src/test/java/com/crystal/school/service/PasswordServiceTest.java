@@ -1,6 +1,6 @@
 package com.crystal.school.service;
 
-import com.crystal.school.excption.InvalidLength;
+import com.crystal.school.exception.InvalidLengthException;
 import com.crystal.school.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,24 +14,24 @@ class PasswordServiceTest {
     String salt;
 
     @BeforeEach
-    void beforeAll() throws InvalidLength {
+    void beforeAll() throws InvalidLengthException {
         salt = passwordService.getSaltValue(10);
     }
 
 
     @Test
     void getSaltValue_ThrowsInvalidLength() {
-        Assertions.assertThrows(InvalidLength.class, () -> passwordService.getSaltValue(-10));
+        Assertions.assertThrows(InvalidLengthException.class, () -> passwordService.getSaltValue(-10));
     }
 
     @Test
-    void getSaltValue_CheckLength() throws InvalidLength {
+    void getSaltValue_CheckLength() throws InvalidLengthException {
         String saltValue = passwordService.getSaltValue(length);
         Assertions.assertEquals(length, saltValue.length());
     }
 
     @Test
-    void generateSecurePassword_DoesNotContainOrg() throws InvalidLength {
+    void generateSecurePassword_DoesNotContainOrg() throws InvalidLengthException {
         String salt = passwordService.getSaltValue(10);
         String securePassword = passwordService.generateSecurePassword(password, salt);
         Assertions.assertFalse(securePassword.contains(password));
@@ -51,7 +51,7 @@ class PasswordServiceTest {
     }
 
     @Test
-    void createUser_Login() throws InvalidLength {
+    void createUser_Login() throws InvalidLengthException {
         User user = new User();
         user.setFirstName("Indrit");
         user.setLastName("Vaka");

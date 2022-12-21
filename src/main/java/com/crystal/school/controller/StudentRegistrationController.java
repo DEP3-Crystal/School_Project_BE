@@ -1,5 +1,6 @@
 package com.crystal.school.controller;
 
+import com.crystal.school.dto.StudentRegistrationDto;
 import com.crystal.school.model.id.StudentRegistrationId;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.service.StudentRegistrationService;
@@ -14,12 +15,12 @@ public class StudentRegistrationController {
     private StudentRegistrationService studentRegistrationService;
 
     @GetMapping("/student-registrations")
-    public List<StudentRegistration> getAllStudentRegistrations() {
+    public List<StudentRegistrationDto> getAllStudentRegistrations() {
         return studentRegistrationService.getStudentRegistrations();
     }
 
     @GetMapping("/student-registrations/{id}")
-    public StudentRegistration getStudentRegistrationById(@PathVariable StudentRegistrationId id) {
+    public StudentRegistrationDto getStudentRegistrationById(@PathVariable StudentRegistrationId id) {
         return studentRegistrationService.getStudentRegistrationById(id);
     }
 
@@ -49,7 +50,7 @@ public class StudentRegistrationController {
     }
 
     @DeleteMapping("/student-registrations")
-    public void deleteAllS() {
+    public void deleteAll() {
         studentRegistrationService.deleteAllStudentRegistrations();
     }
 

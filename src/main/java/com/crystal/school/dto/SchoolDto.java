@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class SchoolDto {
     private Integer schoolId;
-//   private String location;
+    //   private String location;
     private String name;
 //   private List<Room> rooms;
 }

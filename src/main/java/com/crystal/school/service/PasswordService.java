@@ -1,6 +1,6 @@
 package com.crystal.school.service;
 
-import com.crystal.school.excption.InvalidLength;
+import com.crystal.school.exception.InvalidLengthException;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKeyFactory;
@@ -32,16 +32,16 @@ public class PasswordService {
      * @param length length of salt (min = 10 , max 100)
      * @return salt
      */
-    public String getSaltValue(int length) throws InvalidLength {
+    public String getSaltValue(int length) throws InvalidLengthException {
         validate(length);
         StringBuilder finalVal = new StringBuilder(length);
         IntStream.range(0, length).forEach(i -> finalVal.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))));
         return new String(finalVal);
     }
 
-    private void validate(int length) throws InvalidLength {
+    private void validate(int length) throws InvalidLengthException {
         if (length > 100 || length < 1) {
-            throw new InvalidLength("Salt length should be 1 - 100");
+            throw new InvalidLengthException("Salt length should be 1 - 100");
         }
     }
 

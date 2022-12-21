@@ -1,5 +1,6 @@
 package com.crystal.school.controller;
 
+import com.crystal.school.dto.TeacherRatingDto;
 import com.crystal.school.model.id.TeacherRatingId;
 import com.crystal.school.model.pivote.TeacherRating;
 import com.crystal.school.service.TeacherRatingService;
@@ -14,12 +15,12 @@ public class TeacherRatingController {
     private TeacherRatingService teacherRatingService;
 
     @GetMapping("/teacher-rating/{id}")
-    public TeacherRating getTeacherRatingById(@PathVariable TeacherRatingId id) {
+    public TeacherRatingDto getTeacherRatingById(@PathVariable TeacherRatingId id) {
         return teacherRatingService.getTeacherRatingById(id);
     }
 
     @GetMapping("/teacher-ratings")
-    public List<TeacherRating> getAllTeacherRatings() {
+    public List<TeacherRatingDto> getAllTeacherRatings() {
         return teacherRatingService.getTeacherRatings();
     }
 

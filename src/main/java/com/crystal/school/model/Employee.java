@@ -8,10 +8,7 @@ import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.model.pivote.TeacherRating;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -23,6 +20,8 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue(value = "true")
 @NoArgsConstructor
+@AllArgsConstructor
+//@Builder
 public class Employee extends User {
     @Column(name = "phone_number")
     private String phoneNumber;

@@ -1,5 +1,7 @@
 package com.crystal.school.service;
 
+import com.crystal.school.dto.SessionRatingDto;
+import com.crystal.school.mapper.SessionRatingMapper;
 import com.crystal.school.model.id.SessionRatingId;
 import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.repository.SessionRatingRepository;
@@ -13,22 +15,22 @@ public class SessionRatingService {
     @Autowired
     private SessionRatingRepository sessionRatingRepository;
 
-    public SessionRating saveSessionRating(SessionRating sessionRating) {
-        return sessionRatingRepository.save(sessionRating);
+    public SessionRatingDto saveSessionRating(SessionRating sessionRating) {
+        return SessionRatingMapper.Instance.toSessionRatingDto(sessionRatingRepository.save(sessionRating));
     }
 
 
-    public List<SessionRating> saveSessionRatings(List<SessionRating> sessionRatings) {
-        return sessionRatingRepository.saveAll(sessionRatings);
+    public List<SessionRatingDto> saveSessionRatings(List<SessionRating> sessionRatings) {
+        return sessionRatingRepository.saveAll(sessionRatings).stream().map(SessionRatingMapper.Instance::toSessionRatingDto).toList();
     }
 
-    public List<SessionRating> getSessionRatings() {
-        return sessionRatingRepository.findAll();
+    public List<SessionRatingDto> getSessionRatings() {
+        return sessionRatingRepository.findAll().stream().map(SessionRatingMapper.Instance::toSessionRatingDto).toList();
     }
 
 
-    public SessionRating getSessionRatingById(SessionRatingId id) {
-        return sessionRatingRepository.findById(id).orElse(null);
+    public SessionRatingDto getSessionRatingById(SessionRatingId id) {
+        return SessionRatingMapper.Instance.toSessionRatingDto(sessionRatingRepository.findById(id).orElse(null));
     }
 
     public String deleteSessionRatingById(SessionRatingId id) {
@@ -44,11 +46,11 @@ public class SessionRatingService {
         sessionRatingRepository.deleteAll();
     }
 
-    public SessionRating editSessionRating(SessionRating sessionRating) {
+    public SessionRatingDto editSessionRating(SessionRating sessionRating) {
         SessionRating existingSessionRating = sessionRatingRepository.findById(sessionRating.getSessionRatingId()).orElse(null);
         existingSessionRating.setRating(sessionRating.getRating());
         existingSessionRating.setStudent(sessionRating.getStudent());
         existingSessionRating.setSession(sessionRating.getSession());
-        return sessionRatingRepository.save(existingSessionRating);
+        return SessionRatingMapper.Instance.toSessionRatingDto(sessionRatingRepository.save(existingSessionRating));
     }
 }

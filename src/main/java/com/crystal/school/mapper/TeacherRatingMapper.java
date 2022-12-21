@@ -5,7 +5,7 @@ import com.crystal.school.model.pivote.TeacherRating;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface TeacherRatingMapper {
     TeacherRatingMapper Instance = Mappers.getMapper(TeacherRatingMapper.class);
 

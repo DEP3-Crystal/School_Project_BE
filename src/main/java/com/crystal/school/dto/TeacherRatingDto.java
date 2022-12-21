@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class TeacherRatingDto {
 
-//    private TeacherRatingId teacherRatingId;
+    //    private TeacherRatingId teacherRatingId;
     private Byte rating;
     private Teacher teacher;
     private User student;

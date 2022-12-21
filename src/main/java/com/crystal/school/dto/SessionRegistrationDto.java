@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class SessionRegistrationDto {
 
-//    private SessionRegistrationId sessionRegistrationId;
+    //    private SessionRegistrationId sessionRegistrationId;
 //    private Timestamp regDate;
     private Session session;
     private Room room;

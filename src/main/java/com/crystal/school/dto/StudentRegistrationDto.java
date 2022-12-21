@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class StudentRegistrationDto {
-//    private StudentRegistrationId studentRegistrationId;
+    //    private StudentRegistrationId studentRegistrationId;
     private Timestamp regDate;
-//    private Room room;
+    //    private Room room;
     private User student;
 }

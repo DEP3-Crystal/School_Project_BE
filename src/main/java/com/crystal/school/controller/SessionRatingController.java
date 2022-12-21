@@ -1,5 +1,6 @@
 package com.crystal.school.controller;
 
+import com.crystal.school.dto.SessionRatingDto;
 import com.crystal.school.model.id.SessionRatingId;
 import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.service.SessionRatingService;
@@ -15,12 +16,12 @@ public class SessionRatingController {
 
 
     @GetMapping("/session-rating/{id}")
-    public SessionRating getSessionRatingById(@PathVariable SessionRatingId id) {
+    public SessionRatingDto getSessionRatingById(@PathVariable SessionRatingId id) {
         return sessionRatingService.getSessionRatingById(id);
     }
 
     @GetMapping("/session-ratings")
-    public List<SessionRating> getAllSessionRatings() {
+    public List<SessionRatingDto> getAllSessionRatings() {
         return sessionRatingService.getSessionRatings();
     }
 
@@ -30,12 +31,14 @@ public class SessionRatingController {
         return "Added successfully";
     }
 
+    @PostMapping("/session-ratings")
+    public String addSessionRatings(@RequestBody List<SessionRating> sessionRatings) {
+        sessionRatingService.saveSessionRatings(sessionRatings);
+        return "Added successfully";
+    }
+
     //TODO find out why it is duplicated what is missing
-//    @PostMapping("/session-rating")
-//    public String addSessionRatings(@RequestBody List<SessionRating> sessionRatings){
-//        sessionRatingService.saveSessionRatings(sessionRatings);
-//        return "Added successfully";
-//    }
+
     @PutMapping("/session-rating")
     public String editSessionRating(@RequestBody SessionRating sessionRating) {
         sessionRatingService.editSessionRating(sessionRating);

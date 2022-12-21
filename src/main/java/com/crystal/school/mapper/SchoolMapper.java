@@ -5,9 +5,9 @@ import com.crystal.school.model.School;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface SchoolMapper {
-    SchoolMapper Instance  = Mappers.getMapper(SchoolMapper.class);
+    SchoolMapper Instance = Mappers.getMapper(SchoolMapper.class);
 
     School toSchool(SchoolDto schoolDto);
 

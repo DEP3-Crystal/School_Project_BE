@@ -1,5 +1,7 @@
 package com.crystal.school.service;
 
+import com.crystal.school.dto.StudentRegistrationDto;
+import com.crystal.school.mapper.StudentRegistrationMapper;
 import com.crystal.school.model.id.StudentRegistrationId;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.repository.StudentRegistrationRepository;
@@ -13,20 +15,20 @@ public class StudentRegistrationService {
     @Autowired
     private StudentRegistrationRepository studentRegistrationRepository;
 
-    public StudentRegistration saveStudentRegistration(StudentRegistration studentRegistration) {
-        return studentRegistrationRepository.save(studentRegistration);
+    public StudentRegistrationDto saveStudentRegistration(StudentRegistration studentRegistration) {
+        return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.save(studentRegistration));
     }
 
-    public List<StudentRegistration> saveStudentRegistrations(List<StudentRegistration> studentRegistrations) {
-        return studentRegistrationRepository.saveAll(studentRegistrations);
+    public List<StudentRegistrationDto> saveStudentRegistrations(List<StudentRegistration> studentRegistrations) {
+        return studentRegistrationRepository.saveAll(studentRegistrations).stream().map(StudentRegistrationMapper.Instance::toStudentRegistrationDto).toList();
     }
 
-    public List<StudentRegistration> getStudentRegistrations() {
-        return studentRegistrationRepository.findAll();
+    public List<StudentRegistrationDto> getStudentRegistrations() {
+        return studentRegistrationRepository.findAll().stream().map(StudentRegistrationMapper.Instance::toStudentRegistrationDto).toList();
     }
 
-    public StudentRegistration getStudentRegistrationById(StudentRegistrationId id) {
-        return studentRegistrationRepository.findById(id).orElse(null);
+    public StudentRegistrationDto getStudentRegistrationById(StudentRegistrationId id) {
+        return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.findById(id).orElse(null));
     }
 
     public void deleteStudentRegistration(StudentRegistration studentRegistration) {
@@ -41,13 +43,13 @@ public class StudentRegistrationService {
         studentRegistrationRepository.deleteById(id);
     }
 
-    public StudentRegistration editStudentRegistration(StudentRegistration studentRegistration) {
+    public StudentRegistrationDto editStudentRegistration(StudentRegistration studentRegistration) {
         StudentRegistration existingStudentRegistration = studentRegistrationRepository.findById(studentRegistration.getStudentRegistrationId()).orElse(null);
         existingStudentRegistration.setStudentRegistrationId(studentRegistration.getStudentRegistrationId());
         existingStudentRegistration.setRoom(studentRegistration.getRoom());
         existingStudentRegistration.setRegDate(studentRegistration.getRegDate());
         existingStudentRegistration.setRoom(studentRegistration.getRoom());
-        return studentRegistrationRepository.save(existingStudentRegistration);
+        return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.save(existingStudentRegistration));
     }
 
 

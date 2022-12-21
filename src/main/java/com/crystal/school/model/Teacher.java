@@ -4,10 +4,7 @@ import com.crystal.school.model.pivote.TeacherRating;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -17,6 +14,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Table(name = "teachers")
+@AllArgsConstructor
+@Builder
 public class Teacher extends Employee {
     private String credentials;
     @OneToMany(mappedBy = "teacher")

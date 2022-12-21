@@ -1,6 +1,7 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.dao.FakerDataAccess;
+import com.crystal.school.dto.SchoolDto;
 import com.crystal.school.model.School;
 import com.crystal.school.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +17,18 @@ public class SchoolController {
     private final FakerDataAccess fakerDataAccess = FakerDataAccess.getInstance();
 
     @GetMapping("/schools")
-    public List<School> getSchoolsList() {
-        return fakerDataAccess.generateSchools(1, 1, 1, 1, 1);
-//        return  service.getSchools();
+    public List<SchoolDto> getSchoolsList() {
+        // return fakerDataAccess.generateSchools(1, 1, 1, 1, 1);
+        return service.getSchools();
     }
 
     @PostMapping("/school")
-    public School addSchool(@RequestBody School school) {
+    public SchoolDto addSchool(@RequestBody School school) {
         return service.saveSchool(school);
     }
 
     @GetMapping("/schools/{id}")
-    public School findSchoolById(@PathVariable int id) {
+    public SchoolDto findSchoolById(@PathVariable int id) {
         return service.getSchoolById(id);
     }
 
@@ -37,7 +38,7 @@ public class SchoolController {
     }
 
     @PutMapping("/school")
-    public School updateSchool(@RequestBody School school) {
+    public SchoolDto updateSchool(@RequestBody School school) {
         return service.updateSchool(school);
     }
 }

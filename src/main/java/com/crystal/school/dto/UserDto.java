@@ -1,16 +1,10 @@
 package com.crystal.school.dto;
 
 import com.crystal.school.model.enums.Gender;
-import com.crystal.school.model.pivote.SessionRating;
-import com.crystal.school.model.pivote.StudentGrade;
-import com.crystal.school.model.pivote.StudentRegistration;
-import com.crystal.school.model.pivote.TeacherRating;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

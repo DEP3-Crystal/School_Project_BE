@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Builder
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "is_employee",
@@ -23,6 +22,7 @@ import java.util.List;
 @Table(name = "users")
 @NoArgsConstructor
 @EqualsAndHashCode
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

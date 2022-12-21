@@ -1,6 +1,8 @@
 package com.crystal.school.service;
 
 
+import com.crystal.school.dto.TeacherDto;
+import com.crystal.school.mapper.TeacherMapper;
 import com.crystal.school.model.Teacher;
 import com.crystal.school.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,32 +13,36 @@ import java.util.List;
 @Service
 public class TeacherService {
     @Autowired
-    private TeacherRepository userRepository;
+    private TeacherRepository teacherRepository;
 
-    public List<Teacher> getTeachers() {
-        return userRepository.findAll();
+    public List<TeacherDto> getTeachers() {
+        List<Teacher> teachers = teacherRepository.findAll();
+        return teachers.stream().map(TeacherMapper.Instance::teacherDto).toList();
+
     }
 
-    public Teacher getTeacherById(Integer id) {
-        return userRepository.findById(id).orElse(null);
+    public TeacherDto getTeacherById(Integer id) {
+        return TeacherMapper.Instance.teacherDto(teacherRepository.findById(id).orElse(null));
     }
 
-//    public Teacher getTeacherByEmail(String email){
-//        return userRepository.findByEmail(email);
-//    }
 
-    public Teacher saveTeacher(Teacher user) {
-        return userRepository.save(user);
+    public TeacherDto saveTeacher(Teacher user) {
+        return TeacherMapper.Instance.teacherDto(teacherRepository.save(user));
     }
 
 
     public String deleteTeacher(Integer id) {
-        userRepository.deleteById(id);
+        teacherRepository.deleteById(id);
         return "user deleted " + id;
     }
 
-    public Teacher updateTeacher(Teacher user) {
-        Teacher existingTeacher = userRepository.findById(user.getUserId()).orElse(null);
+    public String deleteAllTeachers() {
+        teacherRepository.deleteAll();
+        return "Teachers deleted";
+    }
+
+    public TeacherDto updateTeacher(Teacher user) {
+        Teacher existingTeacher = teacherRepository.findById(user.getUserId()).orElse(null);
         existingTeacher.setFirstName(user.getFirstName());
         existingTeacher.setLastName(user.getLastName());
         existingTeacher.setBiography(user.getBiography());
@@ -44,6 +50,6 @@ public class TeacherService {
         existingTeacher.setGender(user.getGender());
         existingTeacher.setPassword(user.getPassword());
         existingTeacher.setSalt(user.getSalt());
-        return userRepository.save(existingTeacher);
+        return TeacherMapper.Instance.teacherDto(teacherRepository.save(existingTeacher));
     }
 }

@@ -1,5 +1,6 @@
 package com.crystal.school.controller;
 
+import com.crystal.school.dto.EmployeeDto;
 import com.crystal.school.model.Employee;
 import com.crystal.school.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,12 @@ public class EmployeeController {
 
 
     @GetMapping("/employee/{id}")
-    public Employee getWorkerById(@PathVariable Integer id) {
+    public EmployeeDto getWorkerById(@PathVariable Integer id) {
         return employeeService.getEmployeeById(id);
     }
 
     @GetMapping("/workers")
-    public List<Employee> getAllWorkers() {
+    public List<EmployeeDto> getAllWorkers() {
         return employeeService.getEmployees();
     }
 

@@ -1,5 +1,7 @@
 package com.crystal.school.service;
 
+import com.crystal.school.dto.EmployeeDto;
+import com.crystal.school.mapper.EmployeeMapper;
 import com.crystal.school.model.Employee;
 import com.crystal.school.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +15,29 @@ public class EmployeeService {
     private EmployeeRepository employeeRepository;
 
 
-    public Employee saveWorker(Employee worker) {
-        return employeeRepository.save(worker);
+    public EmployeeDto saveWorker(Employee worker) {
+        employeeRepository.save(worker);
+        return EmployeeMapper.Instance.toEmployeeDto(worker);
+
     }
 
-    public List<Employee> saveWorkers(List<Employee> workers) {
-        return employeeRepository.saveAll(workers);
+    public List<EmployeeDto> saveWorkers(List<Employee> workers) {
+        employeeRepository.saveAll(workers);
+        return workers.stream().map(EmployeeMapper.Instance::toEmployeeDto).toList();
     }
 
-    public List<Employee> getEmployees() {
-        return employeeRepository.findAll();
+    public List<EmployeeDto> getEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream().map(EmployeeMapper.Instance::toEmployeeDto).toList();
     }
 
-    public Employee getEmployeeById(Integer id) {
-        return employeeRepository.findById(id).orElse(null);
+    public EmployeeDto getEmployeeById(Integer id) {
+        return EmployeeMapper.Instance.toEmployeeDto(employeeRepository.findById(id).orElse(null));
     }
 
-    public Employee getWorkerByFirstName(String firstName) {
-        return employeeRepository.findByFirstName(firstName);
+    public EmployeeDto getWorkerByFirstName(String firstName) {
+
+        return EmployeeMapper.Instance.toEmployeeDto(employeeRepository.findByFirstName(firstName));
     }
 
     public String deleteWorkerById(Integer id) {
@@ -46,7 +53,7 @@ public class EmployeeService {
         employeeRepository.deleteAll();
     }
 
-    public Employee updateWorker(Employee worker) {
+    public EmployeeDto updateWorker(Employee worker) {
         Employee existingWorker = employeeRepository.findById(worker.getUserId()).orElse(null);
         existingWorker.setFirstName(worker.getFirstName());
         existingWorker.setLastName(worker.getLastName());
@@ -55,7 +62,8 @@ public class EmployeeService {
         existingWorker.setGender(worker.getGender());
         existingWorker.setPassword(worker.getPassword());
         existingWorker.setRole(worker.getRole());
-        return employeeRepository.save(existingWorker);
+        employeeRepository.save(existingWorker);
+        return EmployeeMapper.Instance.toEmployeeDto(existingWorker);
     }
 
 }
