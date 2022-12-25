@@ -1,7 +1,5 @@
 package com.crystal.school.dto;
 
-import com.crystal.school.model.Session;
-import com.crystal.school.model.User;
 import com.crystal.school.model.id.SessionRatingId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +13,7 @@ import lombok.Setter;
 public class SessionRatingDto {
     private SessionRatingId sessionRatingId;
     private Byte rating;
-    private User student;
-    private Session session;
+    private UserDto student;
+//    private Session session;
 
 }

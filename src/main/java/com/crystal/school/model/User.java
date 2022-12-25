@@ -6,14 +6,15 @@ import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.model.pivote.TeacherRating;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
+@Data
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "is_employee",
         discriminatorType = DiscriminatorType.STRING)
@@ -21,9 +22,10 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
-@EqualsAndHashCode
-
+@AllArgsConstructor
+//@Builder
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "user_id")
@@ -44,25 +46,21 @@ public class User {
     private String password;
     @Column(name = "salt")
     private String salt;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
-    //    @Column(name = "is_employee")
-//    private Integer isEmployee;
     @OneToMany(mappedBy = "student")
     @ToString.Exclude
-    private List<StudentRegistration> registrations;
-    @OneToMany(mappedBy = "student")
+    private List<StudentRegistration> studentRegistrations = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     @ToString.Exclude
-    private List<StudentGrade> studentGrades;
-    @OneToMany(mappedBy = "student")
+    private List<StudentGrade> studentGrades = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     @ToString.Exclude
-    private List<SessionRating> sessionRatings;
-    @OneToMany(mappedBy = "student")
+    private List<SessionRating> sessionRatings = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     @ToString.Exclude
-    private List<TeacherRating> teacherRatings;
-
+    private List<TeacherRating> teacherRatings = new ArrayList<>();
 
     public User(User user) {
         userId = user.userId;
@@ -74,11 +72,10 @@ public class User {
         password = user.password;
         salt = user.salt;
         department = user.department;
-        registrations = user.registrations;
+        studentRegistrations = user.studentRegistrations;
         studentGrades = user.studentGrades;
         sessionRatings = user.sessionRatings;
         teacherRatings = user.teacherRatings;
 
     }
-
 }

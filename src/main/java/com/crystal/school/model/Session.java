@@ -7,15 +7,14 @@ import com.crystal.school.model.pivote.StudentGrade;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "sessions")
 @AllArgsConstructor
@@ -23,6 +22,7 @@ import java.util.List;
 public class Session {
     @Id
     @Column(name = "session_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer sessionId;
     @Column(name = "title")
     private String title;
@@ -38,16 +38,15 @@ public class Session {
     private Timestamp startTime;
     @Column(name = "end_time")
     private Timestamp endTime;
-    // TODO May occur stack OverFlow
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
     @JsonIgnore
-    @OneToMany(mappedBy = "session")
-    private List<SessionRegistration> sessionRegistrations;
-    @OneToMany(mappedBy = "session")
-    private List<StudentGrade> studentGrades;
-    @OneToMany(mappedBy = "session")
-    private List<SessionRating> sessionRatings;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
+    private List<SessionRegistration> sessionRegistrations = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
+    private List<StudentGrade> studentGrades = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
+    private List<SessionRating> sessionRatings = new ArrayList<>();
 
 }

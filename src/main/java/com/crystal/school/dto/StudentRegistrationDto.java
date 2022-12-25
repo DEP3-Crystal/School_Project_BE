@@ -1,6 +1,6 @@
 package com.crystal.school.dto;
 
-import com.crystal.school.model.User;
+import com.crystal.school.model.id.StudentRegistrationId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +13,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class StudentRegistrationDto {
-    //    private StudentRegistrationId studentRegistrationId;
+    private StudentRegistrationId studentRegistrationId;
     private Timestamp regDate;
-    //    private Room room;
-    private User student;
+    private UserDto student;
 }

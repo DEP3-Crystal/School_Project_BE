@@ -17,13 +17,12 @@ public class StudentGradesController {
 
     @GetMapping("/student-grades")
     public List<StudentGradeDto> getStudentGradesList() {
-        //return fakerDataAccess.generateUsers(500);
         return service.getStudentGrades();
     }
 
-    @GetMapping("/student-grade/{id}")
-    public StudentGradeDto getStudentGradeById(@PathVariable StudentGradeId id) {
-        return service.getStudentGradeById(id);
+    @GetMapping("/student-grade/{studentId},{gradeId}")
+    public StudentGradeDto getStudentGradeById(@PathVariable Integer studentId, @PathVariable Integer gradeId) {
+        return service.getStudentGradeById(new StudentGradeId(studentId, gradeId));
     }
 
     @PostMapping("/student-grade/add")
@@ -41,6 +40,7 @@ public class StudentGradesController {
         return service.editStudentGrade(studentGrade);
     }
 
+    // TODO use body request instead of PathVariable, or separate the ids (studentId and gradeId)
     @DeleteMapping("/student-grade/{id}")
     public String deleteStudentGrade(@PathVariable StudentGradeId id) {
         service.deleteStudentGradeById(id);

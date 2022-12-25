@@ -65,14 +65,14 @@ public class PasswordService {
      * @param salt     salt used to hash the password
      * @return HashedPassword
      */
-    public String generateSecurePassword(String password, String salt) {
+    public String encryptPassword(String password, String salt) {
         byte[] securePassword = hash(password.toCharArray(), salt.getBytes());
         return Base64.getEncoder().encodeToString(securePassword);
     }
 
     public boolean doesPasswordMatches(String providedPassword, String securedPassword, String salt) {
 
-        String newSecurePassword = generateSecurePassword(providedPassword, salt);
+        String newSecurePassword = encryptPassword(providedPassword, salt);
         return newSecurePassword.equals(securedPassword);
     }
 

@@ -1,9 +1,8 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dao.FakerDataAccess;
 import com.crystal.school.dto.UserDto;
-import com.crystal.school.model.User;
-import com.crystal.school.model.UserLogin;
+import com.crystal.school.dto.UserLogin;
+import com.crystal.school.dto.UserRegistration;
 import com.crystal.school.service.LoginService;
 import com.crystal.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("")
 public class UserController {
-    private final FakerDataAccess fakerDataAccess = FakerDataAccess.getInstance();
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -24,7 +23,6 @@ public class UserController {
 
     @GetMapping("/users")
     public List<UserDto> getUserList() {
-        //return fakerDataAccess.generateUsers(500);
         return userService.getUsers();
     }
 
@@ -33,19 +31,14 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-//    @GetMapping("/user/{email}")
-//    public UserDto getUserByEmail(@PathVariable("email") String email) {
-//        return userService.getUserByEmail(email);
-//    }
-
 
     @PostMapping("/users/add")
-    public UserDto addUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public UserDto addUser(@RequestBody UserRegistration user) {
+        return userService.createUser(user);
     }
 
     @PutMapping("/user")
-    public UserDto updateUser(@RequestBody User user) {
+    public UserDto updateUser(@RequestBody UserRegistration user) {
         return userService.updateUser(user);
     }
 

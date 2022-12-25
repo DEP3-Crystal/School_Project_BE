@@ -2,10 +2,11 @@ package com.crystal.school.service;
 
 
 import com.crystal.school.dto.UserDto;
-import com.crystal.school.exception.UserNotFoundException;
+import com.crystal.school.dto.UserLogin;
+import com.crystal.school.dto.UserRegistration;
+import com.crystal.school.exception.ItemNotFoundException;
 import com.crystal.school.mapper.UserMapper;
 import com.crystal.school.model.User;
-import com.crystal.school.model.UserLogin;
 import com.crystal.school.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,7 @@ public class UserService {
     }
 
     public UserDto getUserById(Integer id) {
-        // TODO check null value
-        return UserMapper.Instance.toUserDto(userRepository.findById(id).orElse(null));
+        return UserMapper.Instance.toUserDto(userRepository.findById(id).orElseThrow(ItemNotFoundException::new));
     }
 
     private User getUserByEmail(String email) {
@@ -41,27 +41,34 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public UserDto saveUser(User user) {
-        String plainPassword = user.getPassword();
-        String saltValue = passwordService.getSaltValue(30);
-        String securePassword = passwordService.generateSecurePassword(plainPassword, saltValue);
-        user.setSalt(saltValue);
-        user.setPassword(securePassword);
+    public UserDto createUser(UserRegistration userRegistration) {
+        User user = getUser(userRegistration);
+        userRepository.save(user);
         return UserMapper.Instance.toUserDto(userRepository.save(user));
     }
 
-    public UserDto loginUser(UserLogin dtoUser) throws UserNotFoundException {
+    private User getUser(UserRegistration userRegistration) {
+        String plainPassword = userRegistration.getPassword();
+        String saltValue = passwordService.getSaltValue(30);
+        String securePassword = passwordService.encryptPassword(plainPassword, saltValue);
+
+        userRegistration.setPassword(securePassword);
+        User user = UserMapper.Instance.toUser(userRegistration);
+        user.setSalt(saltValue);
+        return user;
+    }
+
+    public UserDto loginUser(UserLogin dtoUser) throws ItemNotFoundException {
         var notFoundMessage = "password or email does not match";
         try {
-
             User user = getUserByEmail(dtoUser.getEmail());
             String plainPassword = dtoUser.getPassword();
             if (passwordService.doesPasswordMatches(plainPassword, user.getPassword(), user.getSalt())) {
                 return UserMapper.Instance.toUserDto(user);
             }
-            throw new UserNotFoundException(notFoundMessage);
+            throw new ItemNotFoundException(notFoundMessage);
         } catch (EntityNotFoundException ignored) {
-            throw new UserNotFoundException(notFoundMessage);
+            throw new ItemNotFoundException(notFoundMessage);
         }
     }
 
@@ -71,15 +78,19 @@ public class UserService {
         return "user deleted " + id;
     }
 
-    public UserDto updateUser(User user) {
-        User existingUser = userRepository.findById(user.getUserId()).orElse(null);
-        existingUser.setFirstName(user.getFirstName());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setBiography(user.getBiography());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setGender(user.getGender());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setSalt(user.getSalt());
-        return UserMapper.Instance.toUserDto(existingUser);
+    public UserDto updateUser(UserRegistration userRegistration) {
+        validateUser(userRegistration);
+        User user = UserMapper.Instance.toUser(userRegistration);
+        User save = userRepository.save(user);
+        return UserMapper.Instance.toUserDto(save);
+    }
+
+    private void validateUser(UserRegistration userRegistration) {
+        var user = userRepository.findById(userRegistration.getUserId());
+        if (user.isEmpty()) throw new ItemNotFoundException("User not found!");
+    }
+
+    public Boolean isEmployee(int userId) {
+        return userRepository.isEmployee(userId);
     }
 }

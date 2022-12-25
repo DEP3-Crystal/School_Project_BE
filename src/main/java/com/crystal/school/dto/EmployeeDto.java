@@ -1,27 +1,16 @@
 package com.crystal.school.dto;
 
-import com.crystal.school.model.enums.Gender;
+
 import com.crystal.school.model.enums.Role;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
-@Getter
-@Setter
-@Builder
-public class EmployeeDto {
-    private Integer userId;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Gender gender;
-    private String biography;
-//    private List<StudentRegistration> registrations;
-//    private List<StudentGrade> studentGrades;
-//    private List<SessionRating> sessionRatings;
-//    private List<TeacherRating> teacherRatings;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class EmployeeDto extends UserDto {
+    private String phoneNumber;
     private String title;
     private Role role;
 }

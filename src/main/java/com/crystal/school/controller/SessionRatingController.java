@@ -37,7 +37,6 @@ public class SessionRatingController {
         return "Added successfully";
     }
 
-    //TODO find out why it is duplicated what is missing
 
     @PutMapping("/session-rating")
     public String editSessionRating(@RequestBody SessionRating sessionRating) {

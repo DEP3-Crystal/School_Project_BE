@@ -1,10 +1,11 @@
 package com.crystal.school.dto;
 
-import com.crystal.school.model.School;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +18,6 @@ public class RoomDto {
     private Integer doorNumber;
     private String type;
     private Integer capacity;
-    private School school;
-//    private List<SessionRegistration> sessionRegistrations;
-//    private List<StudentRegistration> studentRegistrations;
+    private List<SessionRegistrationDto> sessionRegistrations;
+    private List<StudentRegistrationDto> studentRegistrations;
 }

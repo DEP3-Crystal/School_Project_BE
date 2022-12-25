@@ -1,15 +1,18 @@
 package com.crystal.school.service;
 
 import com.crystal.school.dto.SessionDto;
+import com.crystal.school.exception.ItemNotFoundException;
 import com.crystal.school.mapper.SessionMapper;
 import com.crystal.school.model.Session;
 import com.crystal.school.repository.SessionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class SessionService {
+    @Autowired
     private SessionRepository sessionRepository;
 
     public SessionDto saveSession(Session session) {
@@ -27,7 +30,7 @@ public class SessionService {
 
 
     public SessionDto getSessionById(Integer id) {
-        return SessionMapper.Instance.toSessionDto(sessionRepository.findById(id).orElse(null));
+        return SessionMapper.Instance.toSessionDto(sessionRepository.findById(id).orElseThrow(ItemNotFoundException::new));
     }
 
     public String deleteSessionById(Integer id) {
@@ -41,15 +44,7 @@ public class SessionService {
     }
 
     public SessionDto editSession(Session session) {
-        Session existingSession = sessionRepository.findById(session.getSessionId()).orElse(null);
-        existingSession.setSessionRegistrations(session.getSessionRegistrations());
-        existingSession.setSessionRatings(session.getSessionRatings());
-        existingSession.setDepartment(session.getDepartment());
-        existingSession.setTitle(session.getTitle());
-        existingSession.setDescription(session.getDescription());
-        existingSession.setStartTime(session.getStartTime());
-        existingSession.setEndTime(session.getEndTime());
-        existingSession.setDifficultyLevel(session.getDifficultyLevel());
+        Session existingSession = sessionRepository.findById(session.getSessionId()).orElseThrow(ItemNotFoundException::new);
         return SessionMapper.Instance.toSessionDto(sessionRepository.save(existingSession));
     }
 }

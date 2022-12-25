@@ -1,7 +1,7 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.dto.TeacherDto;
-import com.crystal.school.model.Teacher;
+import com.crystal.school.dto.TeacherRegistration;
 import com.crystal.school.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,19 +25,13 @@ public class TeacherController {
     }
 
     @PostMapping("/teacher")
-    public String addTeacher(@RequestBody Teacher teacher) {
-        teacherService.saveTeacher(teacher);
-        return "Teacher added successfully";
+    public String addTeacher(@RequestBody TeacherRegistration teacher) {
+        teacherService.createTeacher(teacher);
+        return "TeacherRegistration added successfully";
     }
 
-//    @PostMapping("/teachers")
-//    public String addTeachers(@RequestBody List<Teacher> teachers) {
-//        teacherService.save(teachers);
-//        return "Added successfully";
-//    }
-
     @PutMapping("/teacher")
-    public String updateTeacher(@RequestBody Teacher teacher) {
+    public String updateTeacher(@RequestBody TeacherRegistration teacher) {
         teacherService.updateTeacher(teacher);
         return "Updated successfully";
     }

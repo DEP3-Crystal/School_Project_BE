@@ -1,31 +1,28 @@
 package com.crystal.school.model;
 
 import com.crystal.school.model.pivote.TeacherRating;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@EqualsAndHashCode
-@Setter
+@Data
 @Entity
 @NoArgsConstructor
 @Table(name = "teachers")
 @AllArgsConstructor
-@Builder
+@DiscriminatorValue(value = "true")
+//@Builder
 public class Teacher extends Employee {
+    // TODO figure out why there is a department_id field for teachers?
     private String credentials;
-    @OneToMany(mappedBy = "teacher")
-    private List<TeacherRating> teacherRatings;
+    @Transient
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
+    private List<TeacherRating> teacherRatings = new ArrayList<>();
 
-    public Teacher(User user, Employee employee, String credentials, List<TeacherRating> teacherRatings) {
-        super(user, employee);
-        this.credentials = credentials;
-        this.teacherRatings = teacherRatings;
-    }
 
     public Teacher(Employee employee, String credentials, List<TeacherRating> teacherRatings) {
         super(employee);

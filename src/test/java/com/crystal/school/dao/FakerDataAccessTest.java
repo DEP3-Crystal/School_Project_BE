@@ -1,11 +1,14 @@
 package com.crystal.school.dao;
 
 import com.crystal.school.model.*;
-import com.crystal.school.model.pivote.SessionRating;
+import com.crystal.school.model.pivote.TeacherRating;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class FakerDataAccessTest {
     FakerDataAccess fakerDataAccess = FakerDataAccess.getInstance();
@@ -14,21 +17,21 @@ class FakerDataAccessTest {
     void generateUser() {
         User user = fakerDataAccess.generateUser();
         System.out.println(user);
-        Assertions.assertNotNull(user);
+        assertNotNull(user);
     }
 
     @Test
     void generateUsers() {
         int number = 5_000;
         var user = fakerDataAccess.generateUsers(number);
-        Assertions.assertEquals(number, user.size());
+        assertEquals(number, user.size());
     }
 
     @Test
     void generateEmployees() {
         int number = 5_000;
         var employee = fakerDataAccess.generateEmployees(number);
-        Assertions.assertEquals(number, employee.size());
+        assertEquals(number, employee.size());
 
     }
 
@@ -36,46 +39,42 @@ class FakerDataAccessTest {
     void generateTeachers() {
         int number = 50_000;
         var teachers = fakerDataAccess.generateTeachers(number);
-        Assertions.assertEquals(number, teachers.size());
+        assertEquals(number, teachers.size());
     }
 
     @Test
     void generateSessions() {
         int number = 100;
-        var session = fakerDataAccess.generateSessions(number, 10, 200);
-        Assertions.assertEquals(number, session.size());
+        var session = fakerDataAccess.generateSessions(number);
+
+        assertEquals(number, session.size());
     }
 
     @Test
     void generateDepartment() {
         Employee employee = fakerDataAccess.generateEmployee();
-        Department department = fakerDataAccess.generateDepartment(2, 100, 5_000, employee);
-        Assertions.assertNotNull(department);
+        Department department = fakerDataAccess.generateDepartment();
+        assertNotNull(department);
     }
 
     @Test
     void generateRooms() {
-        int num = 10;
-        List<Room> rooms = fakerDataAccess.generateRooms(null, num, 2, 100, 5_000);
-        Assertions.assertEquals(num, rooms.size());
+        int num = 500;
+        List<Room> rooms = fakerDataAccess.generateRooms(num);
+        assertEquals(num, rooms.size());
 
     }
+
 
     @Test
-    void generateSchool() {
-        int numberOfSchools = 2;
-        List<School> schools = fakerDataAccess.generateSchools(numberOfSchools, 100, 20, 10, 100);
-        Assertions.assertEquals(numberOfSchools, schools.size());
-
+    void generateTeacherRatings() {
+        List<Teacher> teachers = fakerDataAccess.generateTeachers(20);
+        List<User> users = fakerDataAccess.generateUsers(500);
+        fakerDataAccess.setTeachers(teachers);
+        fakerDataAccess.setStudents(users);
+        List<TeacherRating> sessionRatings = fakerDataAccess.generateTeacherRatings(500);
+        Assertions.assertTrue(true);
     }
 
-
-    //Pivots Models
-
-    @Test
-    void generateSessionRating() {
-        List<SessionRating> sessionRatings = fakerDataAccess.generateSessionRatings(100);
-        Assertions.assertNotNull(sessionRatings);
-    }
 
 }

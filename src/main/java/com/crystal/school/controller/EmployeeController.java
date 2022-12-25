@@ -1,7 +1,7 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.dto.EmployeeDto;
-import com.crystal.school.model.Employee;
+import com.crystal.school.dto.EmployeeRegistration;
 import com.crystal.school.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,44 +20,44 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id);
     }
 
-    @GetMapping("/workers")
+    @GetMapping("/employees")
     public List<EmployeeDto> getAllWorkers() {
         return employeeService.getEmployees();
     }
 
     @PostMapping("/employee")
-    public String addWorker(@RequestBody Employee employee) {
-        employeeService.saveWorker(employee);
+    public String addWorker(@RequestBody EmployeeRegistration employee) {
+        employeeService.createEmployee(employee);
         return "Added successfully";
     }
 
     @PostMapping("/workers")
-    public String addWorkers(@RequestBody List<Employee> workers) {
-        employeeService.saveWorkers(workers);
+    public String addWorkers(@RequestBody List<EmployeeRegistration> workers) {
+        employeeService.createEmployees(workers);
         return "Added successfully";
     }
 
     @PutMapping("/employee")
-    public String updateWorker(@RequestBody Employee employee) {
-        employeeService.updateWorker(employee);
+    public String updateWorker(@RequestBody EmployeeRegistration employee) {
+        employeeService.updateEmployee(employee);
         return "Updated successfully";
     }
 
     @DeleteMapping("/employee/{id}")
     public String deleteWorkerById(@PathVariable Integer id) {
-        employeeService.deleteWorkerById(id);
+        employeeService.deleteEmployeeById(id);
         return "Deleted successfully";
     }
 
     @DeleteMapping("/employee")
-    public String deleteWorker(@RequestBody Employee employee) {
-        employeeService.deleteWorker(employee);
+    public String deleteWorker(@RequestBody EmployeeRegistration employee) {
+        employeeService.deleteEmployee(employee);
         return "Deleted successfully";
     }
 
     @DeleteMapping("/workers")
     public String deleteWorkers() {
-        employeeService.deleteAllWorkers();
+        employeeService.deleteAllEmployees();
         return "Deleted successfully all workers";
     }
 

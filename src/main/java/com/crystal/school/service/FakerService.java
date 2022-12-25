@@ -5,7 +5,10 @@ import com.github.javafaker.service.FakeValuesService;
 import com.github.javafaker.service.RandomService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 @Service
 public class FakerService {
@@ -24,9 +27,6 @@ public class FakerService {
         return instance;
     }
 
-    public String email() {
-        return fakeValuesService.bothify("????##@gmail.com");
-    }
 
     /**
      * This method returns a gender type
@@ -37,8 +37,43 @@ public class FakerService {
         return fakeValuesService.fetchString("gender.types");
     }
 
-    public <T> T random(T[] type) {
-        Integer chosenItem = faker.random().nextInt(0, type.length - 1);
-        return type[chosenItem];
+    public <T> T random(List<T> item) {
+        Integer chosenItem = faker.random().nextInt(0, item.size() - 1);
+        return item.get(chosenItem);
     }
+
+    public <T> T random(List<T> items, Predicate<T> filterPredicate) {
+        List<T> filteredItems = items.stream().filter(filterPredicate).toList();
+        if (filteredItems.size() <= 2) filteredItems = items;
+        return random(filteredItems);
+    }
+
+    /**
+     * @param <T>             type of the list
+     * @param items           the list will be used to generate
+     * @param filterPredicate a function which will be used to filter the list
+     * @param percentage      how many items in percentage you want to get from the list
+     * @return a shuffle list from a list in the parameter
+     */
+    public <T> List<T> randomList(List<T> items, double percentage, Predicate<T> filterPredicate) {
+
+        int count = (int) Math.round(items.size() * (percentage / 100.0));
+        List<T> filtredItems = items.stream().filter(filterPredicate).toList();
+        if (filtredItems.size() < count) filtredItems = items;
+        List<T> finalItems = filtredItems;
+        return IntStream.range(0, count).mapToObj(i -> random(finalItems)).toList();
+    }
+
+    /**
+     * @param items      the list will be used to generate
+     * @param percentage how many items in percentage you want to get from the list
+     * @param <T>        type of the list
+     * @return takes only some items from the list in the parameter, it will keep the order
+     */
+    public <T> List<T> take(List<T> items, double percentage, Predicate<T> filterPredicate) {
+        int count = (int) (items.size() * (percentage / 100.0));
+        return items.stream().filter(filterPredicate).limit(count).toList();
+    }
+
+
 }

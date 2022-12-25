@@ -1,6 +1,7 @@
 package com.crystal.school.service;
 
 import com.crystal.school.dto.DepartmentDto;
+import com.crystal.school.exception.ItemNotFoundException;
 import com.crystal.school.mapper.DepartmentMapper;
 import com.crystal.school.model.Department;
 import com.crystal.school.repository.DepartmentRepository;
@@ -42,13 +43,13 @@ public class DepartmentService {
     }
 
     public DepartmentDto editDepartment(Department department) {
-        Department existingDepartment = departmentRepository.findById(department.getDepartmentId()).orElse(null);
+        Department existingDepartment = departmentRepository.findById(department.getDepartmentId()).orElseThrow(ItemNotFoundException::new);
         existingDepartment.setDepartmentId(department.getDepartmentId());
         existingDepartment.setName(department.getName());
         existingDepartment.setEmployee(department.getEmployee());
         existingDepartment.setSessions(department.getSessions());
         existingDepartment.setTeachers(department.getTeachers());
-        existingDepartment.setUsers(department.getUsers());
+        existingDepartment.setStudents(department.getStudents());
 
         return DepartmentMapper.Instance.toDepartmentDto(departmentRepository.save(existingDepartment));
     }

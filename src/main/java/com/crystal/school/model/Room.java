@@ -6,14 +6,14 @@ import com.crystal.school.model.pivote.StudentRegistration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -21,6 +21,7 @@ import java.util.List;
 public class Room {
     @Id
     @Column(name = "room_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer roomId;
     @Column(name = "floor")
     private Integer floor;
@@ -31,12 +32,13 @@ public class Room {
     @Column(name = "capacity")
     private Integer capacity;
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
+    @ToString.Exclude
     private School school;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
+    private List<SessionRegistration> sessionRegistrations = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
+    private List<StudentRegistration> studentRegistrations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "room")
-    private List<SessionRegistration> sessionRegistrations;
-    @OneToMany(mappedBy = "room")
-    private List<StudentRegistration> studentRegistrations;
 }

@@ -2,33 +2,34 @@ package com.crystal.school.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "departments")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Department {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "department_id")
     private Integer departmentId;
     @Column(name = "name")
     private String name;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @Transient
     private Employee employee;
 
-    @OneToMany(mappedBy = "department")
-    private List<Session> sessions;
-    @OneToMany(mappedBy = "department")
-    private List<Teacher> teachers;
-    @OneToMany(mappedBy = "department")
-    private List<User> users;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
+    private List<Session> sessions = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
+    private List<Teacher> teachers = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
+    private List<User> students = new ArrayList<>();
 
 }

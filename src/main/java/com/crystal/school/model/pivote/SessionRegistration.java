@@ -7,29 +7,27 @@ import com.crystal.school.model.id.SessionRegistrationId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.sql.Timestamp;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "session_registrations")
 public class SessionRegistration {
     @EmbeddedId
-    private SessionRegistrationId sessionRegistrationId;
+    private SessionRegistrationId sessionRegistrationId = new SessionRegistrationId();
     @Column(name = "reg_date")
     private Timestamp regDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", insertable = false, updatable = false)
     private Session session;
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", insertable = false, updatable = false)
     private Room room;
 }

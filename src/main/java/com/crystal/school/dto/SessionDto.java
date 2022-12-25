@@ -1,7 +1,5 @@
 package com.crystal.school.dto;
 
-import com.crystal.school.model.Department;
-import com.crystal.school.model.pivote.SessionRegistration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +18,11 @@ public class SessionDto {
     private String description;
     private Timestamp startTime;
     private Timestamp endTime;
-    private Department department;
-    private List<SessionRegistration> sessionRegistrations;
-//    private boolean isOptional;
-//    private String difficultyLevel;
-//    private String keywords;
-//    private List<StudentGrade> studentGrades;
-//    private List<SessionRating> sessionRatings;
+    private DepartmentDto department;
+    private boolean isOptional;
+    private String difficultyLevel;
+    private String keywords;
+    private List<StudentGradeDto> studentGrades;
+    private List<SessionRatingDto> sessionRatings;
 
 }

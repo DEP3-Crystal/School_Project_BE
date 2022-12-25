@@ -1,30 +1,17 @@
 package com.crystal.school.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import com.crystal.school.model.enums.Gender;
-import com.crystal.school.model.enums.Role;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
 
-
-@Getter
-@Setter
-@Builder
-public class TeacherDto {
-    private Integer userId;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Gender gender;
-    private String biography;
-//    private List<StudentRegistration> registrations;
-//    private List<StudentGrade> studentGrades;
-//    private List<SessionRating> sessionRatings;
-//    private List<TeacherRating> teacherRatings;
-
-    private String title;
-    private Role role;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class TeacherDto extends EmployeeDto {
     private String credentials;
+    private List<TeacherRatingDto> teacherRatings = new ArrayList<>();
 
 }

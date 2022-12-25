@@ -15,15 +15,13 @@ public class ExceptionsHandlerClass {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleInvalidInputs(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error -> {
-            errors.put(error.getField(), error.getDefaultMessage());
-        });
+        ex.getBindingResult().getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         return errors;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(UserNotFoundException.class)
-    public Map<String, String> handleUserNotFoundException(UserNotFoundException ex) {
+    @ExceptionHandler(ItemNotFoundException.class)
+    public Map<String, String> handleUserNotFoundException(ItemNotFoundException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("Error message: ", ex.getMessage());
         return errors;

@@ -3,40 +3,59 @@ package com.crystal.school.dao;
 import com.crystal.school.model.*;
 import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.enums.Role;
-import com.crystal.school.model.id.SessionRatingId;
-import com.crystal.school.model.id.SessionRegistrationId;
-import com.crystal.school.model.id.StudentRegistrationId;
-import com.crystal.school.model.pivote.SessionRating;
-import com.crystal.school.model.pivote.SessionRegistration;
-import com.crystal.school.model.pivote.StudentRegistration;
+import com.crystal.school.model.id.*;
+import com.crystal.school.model.pivote.*;
+import com.crystal.school.repository.EmployeeRepository;
 import com.crystal.school.service.FakerService;
 import com.crystal.school.service.PasswordService;
 import com.github.javafaker.Faker;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 @Getter
+@Setter
+@Component
 public class FakerDataAccess {
+
     private static FakerDataAccess instance;
-    Random random = new Random();
     private final Faker faker = Faker.instance();
     private final FakerService fakerService = FakerService.getInstance();
     private final PasswordService passwordService = new PasswordService();
+    private final Random random = new Random();
+    private final String cls = "Classroom";
+    private final List<String> roomsType = List.of(cls, cls, cls, cls, "Office", "Cafeteria", "Lab", "library", "Auditorium");
+    private Sequence userSequence = new Sequence();
+    private Sequence roomSequence = new Sequence();
+    private Sequence departmentSequence = new Sequence();
+    private Sequence sessionSequence = new Sequence();
+    private Sequence schoolSequence = new Sequence();
     private List<School> schools;
-    private List<User> users;
+    private List<Room> rooms;
+    private List<Room> classrooms;
+    private List<Department> departments;
+    private List<User> students;
+    private String password = "1234";
     private List<Teacher> teachers;
     private List<Employee> employees;
     private List<StudentRegistration> studentRegistrations;
+    private List<StudentGrade> studentGrades;
     private List<SessionRegistration> sessionRegistrations;
     private List<SessionRating> sessionRatings;
+    private List<TeacherRating> teacherRatings;
     private List<Session> sessions;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     public static FakerDataAccess getInstance() {
         if (instance == null)
@@ -44,213 +63,181 @@ public class FakerDataAccess {
         return instance;
     }
 
-    private int randomId() {
-        return random.nextInt(Integer.MAX_VALUE);
-    }
 
     private Timestamp timestampUTCNow() {
         return Timestamp.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
     }
 
-    public List<School> generateSchools(int numberOfSchools, int rooms, int sessions, int teacher, int students) {
-        schools = new ArrayList<>();
-        for (int i = 0; i < numberOfSchools; i++) {
-            schools.add(generateSchool(rooms, sessions, teacher, students));
-        }
+
+    public List<School> generateSchools(int numberOfSchools) {
+        schools = IntStream.range(0, numberOfSchools).mapToObj(i -> generateSchool()).toList();
         return schools;
     }
 
-    public School generateSchool(int rooms, int sessions, int teacher, int students) {
-        School school = new School(randomId(), faker.address().streetAddress(), faker.name().lastName(), null);
-        school.setRooms(generateRooms(school, rooms, sessions, teacher, students));
-        return school;
+    public List<Room> getClassrooms() {
+        if (classrooms == null)
+            classrooms = rooms.stream().filter(room -> room.getType().equalsIgnoreCase("classroom"))
+                    .toList();
+        return classrooms;
     }
 
-    public List<Room> generateRooms(School school, int num, int sessions, int teacher, int students) {
-        List<Room> rooms = new ArrayList<>();
-        for (int i = 0; i < num; i++) {
-            rooms.add(generateRoom(school, sessions, teacher, students));
-        }
+    public List<StudentGrade> generateStudentGrades(int noStudentGrades) {
+        studentGrades = IntStream.range(0, noStudentGrades).mapToObj(i -> generateStudentGrade()).toList();
+        return studentGrades;
+    }
+
+    private StudentGrade generateStudentGrade() {
+        byte rate = faker.random().nextInt(0, 10).byteValue();
+        return new StudentGrade(new StudentGradeId(), rate, null, null);
+    }
+
+    public School generateSchool() {
+        return new School(schoolSequence.nextId(), faker.address().streetAddress(), faker.name().lastName(), new ArrayList<>());
+    }
+
+    public List<Room> generateRooms(int num) {
+        rooms = IntStream.range(0, num).mapToObj(i -> generateRoom()).toList();
         return rooms;
     }
 
-    public Room generateRoom(School school, int sessions, int teacherNo, int students) {
-
+    /**
+     * nulls id, school, sessionRegistratrion, studentRegistratrion
+     */
+    public Room generateRoom() {
         Integer floor = faker.random().nextInt(1, 4);
         Integer doorNumber = faker.random().nextInt(1, 500);
-        String type = faker.lorem().word();
+        String type = fakerService.random(roomsType);
         Integer capacity = faker.random().nextInt(20, 30);
-        Room room = new Room(randomId(), floor, doorNumber, type, capacity, school,
-                null, null);
-        sessionRegistrations = generateSessionRegistrations(sessions, room, teacherNo, students);
-        studentRegistrations = generateStudentRegistrations(room, students);
-        room.setSessionRegistrations(sessionRegistrations);
-        room.setStudentRegistrations(studentRegistrations);
-        return room;
+        return new Room(roomSequence.nextId(), floor, doorNumber, type, capacity, null,
+                new ArrayList<>(), new ArrayList<>());
+    }
+
+    public List<Department> generateDepartments(int noDepartments) {
+        departments = IntStream.range(0, noDepartments).mapToObj(i -> generateDepartment()).toList();
+        return departments;
     }
 
 
-    public List<StudentRegistration> generateStudentRegistrations(Room room, int registrations) {
-        studentRegistrations = new ArrayList<>();
-        for (int i = 0; i < registrations; i++) {
-            studentRegistrations.add(generateStudentRegistration(room));
-        }
-        return studentRegistrations;
-    }
-
-    public StudentRegistration generateStudentRegistration(Room room) {
-        var student = generateUser();
-        var stRegId = new StudentRegistrationId(student.getUserId(), room.getRoomId());
-        return new StudentRegistration(stRegId, timestampUTCNow(), room, student);
-    }
-
-    public List<SessionRegistration> generateSessionRegistrations(int number, Room room, int teachers, int students) {
-        sessionRegistrations = new ArrayList<>();
-        for (int i = 0; i < number; i++) {
-            sessionRegistrations.add(generateSessionRegistration(room, teachers, students));
-        }
-        return sessionRegistrations;
-    }
-
-    public SessionRegistration generateSessionRegistration(Room room, int teachers, int students) {
-
-        int sessionId = randomId();
-        SessionRegistrationId sessionRegistrationId = new SessionRegistrationId(sessionId, room.getRoomId());
-        return new SessionRegistration(sessionRegistrationId, timestampUTCNow(), generateSession(sessionId), room);
-    }
-
-    public Department generateDepartment(int sessions, int teachers, int users, Employee employee) {
-        List<Session> sessionList = generateSessions(sessions, teachers, users);
-        List<Teacher> teacherList = generateTeachers(teachers);
-        List<User> userList = generateUsers(users);
+    public Department generateDepartment() {
         String name = faker.lorem().word();
-        return new Department(randomId(), name, employee, sessionList,
-                teacherList, userList);
+        return new Department(departmentSequence.nextId(), name, null, new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>());
+    }
+
+    public List<TeacherRating> generateTeacherRatings(int noTeachers) {
+        teacherRatings = IntStream.range(0, noTeachers).mapToObj(i -> generateTeacherRating()).toList();
+        return teacherRatings;
+    }
+
+    private TeacherRating generateTeacherRating() {
+        User student = fakerService.random(students);
+        Teacher teacher = fakerService.random(teachers);
+        Byte rating = fakerService.random(List.of(1, 2, 3, 4, 5)).byteValue();
+        return new TeacherRating(new TeacherRatingId(), rating, teacher, student);
+    }
+
+    public List<StudentRegistration> generateStudentRegistrations(int registrations) {
+        studentRegistrations = IntStream.range(0, registrations).mapToObj(i -> generateStudentRegistration()).toList();
+        return studentRegistrations;
+
+    }
+
+    public StudentRegistration generateStudentRegistration() {
+        return new StudentRegistration(new StudentRegistrationId(), timestampUTCNow(), null, null);
+    }
+
+    public List<SessionRegistration> generateSessionRegistrations(int number) {
+        sessionRegistrations = IntStream.range(0, number + 1).mapToObj(i -> generateSessionRegistration()).toList();
+        return sessionRegistrations;
     }
 
 
     public List<Teacher> generateTeachers(int number) {
-        teachers = new ArrayList<>();
-        for (int i = 0; i < number; i++) {
-            teachers.add(generateTeacher());
-        }
+        teachers = IntStream.range(0, number).mapToObj(i -> generateTeacher()).toList();
         return teachers;
     }
 
     public Teacher generateTeacher() {
-        return new Teacher(generateEmployee(), faker.lorem().word(), null);
+        return new Teacher(generateEmployee(), faker.lorem().word(), new ArrayList<>());
     }
 
-    public List<Session> generateSessions(int number, int teachers, int students) {
-        sessions = new ArrayList<>();
-        for (int i = 0; i < number; i++) {
-            var id = randomId();
-            sessions.add(generateSession(id));
-        }
+    public List<Session> generateSessions(int number) {
+        sessions = IntStream.range(0, number).mapToObj(i -> generateSession()).toList();
         return sessions;
-    }
 
-    public Session generateSession(int id) {
-        String[] level = {"advanced", "intermediate", "beginner"};
-        String difficultyLevel = fakerService.random(level);
-        return new Session(id, faker.lorem().word(), faker.lorem().sentence(5),
-                faker.random().nextBoolean(), difficultyLevel, faker.lorem().word(), timestampUTCNow(), timestampUTCNow(), null,
-                getRegisteredSession(id), null, null
-        );
-    }
-
-    private List<SessionRegistration> getRegisteredSession(int id) {
-        if (sessionRegistrations == null)
-            return Collections.emptyList();
-        return sessionRegistrations.stream()
-                .filter(sessionRegistration -> sessionRegistration.getSessionRegistrationId().getSessionId() == id)
-                .toList();
     }
 
     public Session generateSession() {
-        int sessionId = randomId();
-        return generateSession(sessionId);
+        String[] level = {"advanced", "intermediate", "beginner"};
+        String difficultyLevel = fakerService.random(Arrays.stream(level).toList());
+        String keywords = faker.lorem().word();
+        Boolean isOptional = faker.random().nextBoolean();
+        return new Session(sessionSequence.nextId(), faker.lorem().word(), faker.lorem().sentence(5),
+                isOptional, difficultyLevel, keywords, timestampUTCNow(), timestampUTCNow(),
+                null,
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+        );
     }
 
+    /**
+     * nulls session, room
+     */
+    public SessionRegistration generateSessionRegistration() {
+
+        return new SessionRegistration(new SessionRegistrationId(), timestampUTCNow(), null, null);
+    }
+
+
     public List<Employee> generateEmployees(int number) {
-        List<Employee> employeeList = new ArrayList<>();
-        for (int i = 0; i < number; i++) {
-            employeeList.add(generateEmployee());
-        }
-        return employeeList;
+        employees = IntStream.range(0, number).mapToObj(i -> generateEmployee()).toList();
+        return employees;
     }
 
     public Employee generateEmployee() {
         Role role = getRandomRole();
-        return new Employee(generateUser(), faker.phoneNumber().phoneNumber(), faker.lorem().word(), role
-        );
+        return new Employee(generateUser(), faker.phoneNumber().phoneNumber(), faker.lorem().word(), role);
     }
 
-
-    public Employee generateEmployee(User user) {
-        return new Employee(user, faker.phoneNumber().phoneNumber(), faker.lorem().word(),
-                getRandomRole());
-    }
 
     public List<User> generateUsers(int number) {
-        users = new ArrayList<>();
-        for (int i = 0; i < number; i++) {
-            users.add(generateUser());
-        }
-        return users;
+        students = IntStream.range(0, number + 1).mapToObj(i -> generateUser()).toList();
+        return students;
     }
 
+    /**
+     * nulls id, department, studentRegistration, studentGrade, sessionRation, teacherRation
+     */
     public User generateUser() {
-        return generateUser(randomId());
-    }
-
-    public User generateUser(int id) {
         Gender[] genderList = {Gender.M, Gender.F};
-        Gender gender = fakerService.random(genderList);
+        Gender gender = fakerService.random(Arrays.stream(genderList).toList());
 
         String biography = faker.lorem().sentence(5);
-
-        String plainPassword = faker.lorem().word();
-        return new User(id, faker.name().firstName(), faker.name().lastName(),
-                fakerService.email(), gender, biography, plainPassword,
-                null, null,
-                null, null, null, null
+        String saltValue = passwordService.getSaltValue(30);
+        password = passwordService.encryptPassword(this.password, saltValue);
+        return new User(userSequence.nextId(), faker.name().firstName(), faker.name().lastName(),
+                faker.internet().emailAddress(), gender, biography, password, saltValue,
+                null,
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
         );
     }
 
 
     public List<SessionRating> generateSessionRatings(int number) {
-        sessionRatings = new ArrayList<>();
-        for (int i = 0; i < number; i++) {
-            sessionRatings.add(generateSessionRatingUnrelated());
-        }
+        sessionRatings = IntStream.range(0, number + 1).mapToObj(i -> generateSessionRating()).toList();
         return sessionRatings;
     }
 
-    public SessionRating generateSessionRatingUnrelated() {
+    public SessionRating generateSessionRating() {
         Session session = generateSession();
         User student = generateUser();
 
-        var sessionRaringId = new SessionRatingId(session.getSessionId(), student.getUserId());
-        byte rating = (byte) faker.random().nextInt(5);
-        return new SessionRating(sessionRaringId, rating, student, session);
-    }
-
-    public SessionRating generateSessionRating(SessionRatingId ids) {
-        Session session = sessions.stream()
-                .filter(session1 -> session1.getSessionId().equals(ids.getSessionId()))
-                .findFirst().orElseThrow();
-
-        User student = users.stream().filter(st -> st.getUserId() == ids.getStudentId())
-                .findFirst().orElseThrow();
-
-        byte rating = (byte) faker.random().nextInt(5);
-        return new SessionRating(ids, rating, student, session);
+        byte rating = faker.random().nextInt(1, 6).byteValue();
+        return new SessionRating(new SessionRatingId(), rating, student, session);
     }
 
     private Role getRandomRole() {
         Role[] roles = {Role.ADMIN, Role.TEACHER, Role.ORGANIZER, Role.NONE};
-        return fakerService.random(roles);
+        return fakerService.random(Arrays.stream(roles).toList());
     }
 
 }

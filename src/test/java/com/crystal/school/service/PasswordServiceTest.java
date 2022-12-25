@@ -33,20 +33,20 @@ class PasswordServiceTest {
     @Test
     void generateSecurePassword_DoesNotContainOrg() throws InvalidLengthException {
         String salt = passwordService.getSaltValue(10);
-        String securePassword = passwordService.generateSecurePassword(password, salt);
+        String securePassword = passwordService.encryptPassword(password, salt);
         Assertions.assertFalse(securePassword.contains(password));
     }
 
     @Test
     void generateSecurePassword_MoreCharacters() {
 
-        String securePassword = passwordService.generateSecurePassword(password, salt);
+        String securePassword = passwordService.encryptPassword(password, salt);
         Assertions.assertTrue(securePassword.length() > password.length());
     }
 
     @Test
     void doesPasswordMatches() {
-        String securePassword = passwordService.generateSecurePassword(password, salt);
+        String securePassword = passwordService.encryptPassword(password, salt);
         Assertions.assertTrue(passwordService.doesPasswordMatches(password, securePassword, salt));
     }
 
@@ -62,7 +62,7 @@ class PasswordServiceTest {
         String inputtedPassword = "DemoPassword";
         // Only securedPassword will be saved to the DB
         user.setSalt(saltValue);
-        String securePassword = passwordService.generateSecurePassword(inputtedPassword, saltValue);
+        String securePassword = passwordService.encryptPassword(inputtedPassword, saltValue);
         user.setPassword(securePassword);
 
         // Creating a login case
