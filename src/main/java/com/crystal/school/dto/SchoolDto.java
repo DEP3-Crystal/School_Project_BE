@@ -17,4 +17,5 @@ public class SchoolDto {
     private String location;
     private String name;
     private List<RoomDto> rooms;
+    private List<DepartmentDto> departments;
 }

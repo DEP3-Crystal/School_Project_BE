@@ -1,6 +1,6 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto.StudentRegistrationDto;
+import com.crystal.school.dto.pivote.StudentRegistrationDto;
 import com.crystal.school.model.id.StudentRegistrationId;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.service.StudentRegistrationService;

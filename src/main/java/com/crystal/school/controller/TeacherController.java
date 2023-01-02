@@ -1,7 +1,7 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto.TeacherDto;
-import com.crystal.school.dto.TeacherRegistration;
+import com.crystal.school.dto.TeacherInfoDto;
+import com.crystal.school.dto.registration.TeacherRegistrationDto;
 import com.crystal.school.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,23 +15,23 @@ public class TeacherController {
 
 
     @GetMapping("/teacher/{id}")
-    public TeacherDto getTeacherById(@PathVariable Integer id) {
+    public TeacherInfoDto getTeacherById(@PathVariable Integer id) {
         return teacherService.getTeacherById(id);
     }
 
     @GetMapping("/teachers")
-    public List<TeacherDto> getAllTeachers() {
+    public List<TeacherInfoDto> getAllTeachers() {
         return teacherService.getTeachers();
     }
 
     @PostMapping("/teacher")
-    public String addTeacher(@RequestBody TeacherRegistration teacher) {
+    public String addTeacher(@RequestBody TeacherRegistrationDto teacher) {
         teacherService.createTeacher(teacher);
         return "TeacherRegistration added successfully";
     }
 
     @PutMapping("/teacher")
-    public String updateTeacher(@RequestBody TeacherRegistration teacher) {
+    public String updateTeacher(@RequestBody TeacherRegistrationDto teacher) {
         teacherService.updateTeacher(teacher);
         return "Updated successfully";
     }

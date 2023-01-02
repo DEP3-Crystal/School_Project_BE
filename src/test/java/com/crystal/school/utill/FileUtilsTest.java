@@ -25,13 +25,15 @@ class FileUtilsTest {
         String result = FileUtils.readResource("test.txt");
         assertEquals(fileContent, result);
     }
+
     @Test
     void readResourceNotFound() {
         assertThrows(RuntimeException.class, () -> FileUtils.readResource(("not-found.txt")));
     }
+
     @Test
     void getPropertiesFile() {
-        Properties result = FileUtils.getPropertiesFile("test.txt");
+        Properties result = FileUtils.loadProperties("test.txt");
         assertEquals("value", result.getProperty("key"));
     }
 

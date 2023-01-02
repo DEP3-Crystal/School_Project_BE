@@ -1,7 +1,7 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto.EmployeeDto;
-import com.crystal.school.dto.EmployeeRegistration;
+import com.crystal.school.dto.EmployeeInfoDto;
+import com.crystal.school.dto.registration.EmployeeRegistrationDto;
 import com.crystal.school.exception.ItemNotFoundException;
 import com.crystal.school.mapper.EmployeeMapper;
 import com.crystal.school.model.Employee;
@@ -18,29 +18,29 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public EmployeeDto createEmployee(EmployeeRegistration employeeRegistration) {
-        Employee employee = getEmployeeWithPassword(employeeRegistration);
+    public EmployeeInfoDto createEmployee(EmployeeRegistrationDto employeeRegistrationDto) {
+        Employee employee = getEmployeeWithPassword(employeeRegistrationDto);
         employeeRepository.save(employee);
         return employeeMapper.toEmployeeDto(employee);
 
     }
 
-    public List<EmployeeDto> createEmployees(List<EmployeeRegistration> employeeRegistrations) {
-        List<Employee> employees = employeeRegistrations.stream().map(this::getEmployeeWithPassword).toList();
+    public List<EmployeeInfoDto> createEmployees(List<EmployeeRegistrationDto> employeeRegistrationDtos) {
+        List<Employee> employees = employeeRegistrationDtos.stream().map(this::getEmployeeWithPassword).toList();
         employeeRepository.saveAll(employees);
         return employees.stream().map(employeeMapper::toEmployeeDto).toList();
     }
 
-    public List<EmployeeDto> getEmployees() {
+    public List<EmployeeInfoDto> getEmployees() {
         List<Employee> employees = employeeRepository.findAll();
         return employees.stream().map(employeeMapper::toEmployeeDto).toList();
     }
 
-    public EmployeeDto getEmployeeById(Integer id) {
+    public EmployeeInfoDto getEmployeeById(Integer id) {
         return employeeMapper.toEmployeeDto(employeeRepository.findById(id).orElseThrow(ItemNotFoundException::new));
     }
 
-    public EmployeeDto getWorkerByFirstName(String firstName) {
+    public EmployeeInfoDto getWorkerByFirstName(String firstName) {
         return employeeMapper.toEmployeeDto(employeeRepository.findByFirstName(firstName));
     }
 
@@ -48,21 +48,21 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    public void deleteEmployee(EmployeeRegistration employeeRegistration) {
-        employeeRepository.deleteById(employeeRegistration.getUserId());
+    public void deleteEmployee(EmployeeRegistrationDto employeeRegistrationDto) {
+        employeeRepository.deleteById(employeeRegistrationDto.getId());
     }
 
     public void deleteAllEmployees() {
         employeeRepository.deleteAll();
     }
 
-    public EmployeeDto updateEmployee(EmployeeRegistration employeeRegistration) {
-        Employee existingWorker = employeeRepository.findById(employeeRegistration.getUserId()).orElseThrow(ItemNotFoundException::new);
+    public EmployeeInfoDto updateEmployee(EmployeeRegistrationDto employeeRegistrationDto) {
+        Employee existingWorker = employeeRepository.findById(employeeRegistrationDto.getId()).orElseThrow(ItemNotFoundException::new);
         employeeRepository.save(existingWorker);
         return employeeMapper.toEmployeeDto(existingWorker);
     }
 
-    private Employee getEmployeeWithPassword(EmployeeRegistration teacherRegistration) {
+    private Employee getEmployeeWithPassword(EmployeeRegistrationDto teacherRegistration) {
         String plainPassword = teacherRegistration.getPassword();
         String saltValue = passwordService.getSaltValue(30);
         String securePassword = passwordService.encryptPassword(plainPassword, saltValue);

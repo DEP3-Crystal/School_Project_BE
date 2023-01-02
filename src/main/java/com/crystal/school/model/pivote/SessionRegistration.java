@@ -19,15 +19,19 @@ import java.sql.Timestamp;
 @Table(name = "session_registrations")
 public class SessionRegistration {
     @EmbeddedId
+    @JsonIgnore
     private SessionRegistrationId sessionRegistrationId = new SessionRegistrationId();
     @Column(name = "reg_date")
     private Timestamp regDate;
 
+    @MapsId("sessionId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "session_id", insertable = false, updatable = false)
+    @JoinColumn(name = "session_id")
     private Session session;
+    @MapsId("room_id")
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", insertable = false, updatable = false)
+    @JoinColumn(name = "room_id")
     private Room room;
 }
+

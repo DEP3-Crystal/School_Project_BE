@@ -25,6 +25,8 @@ public class School {
     private String location;
     @Column(name = "name")
     private String name;
+    @OneToMany(mappedBy = "school", fetch = FetchType.LAZY)
+    private List<Department> departments = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "school")
     private List<Room> rooms = new ArrayList<>();
 

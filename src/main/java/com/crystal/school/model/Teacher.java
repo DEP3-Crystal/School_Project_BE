@@ -2,9 +2,8 @@ package com.crystal.school.model;
 
 import com.crystal.school.model.pivote.TeacherRating;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +13,19 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "teachers")
 @AllArgsConstructor
-@DiscriminatorValue(value = "true")
-//@Builder
+@DiscriminatorValue(value = "Teacher")
+@Builder
 public class Teacher extends Employee {
-    // TODO figure out why there is a department_id field for teachers?
+
+    @Column(name = "credentials")
+    @Size(max = 255)
+    @NonNull
     private String credentials;
-    @Transient
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
     private List<TeacherRating> teacherRatings = new ArrayList<>();
 
-
-    public Teacher(Employee employee, String credentials, List<TeacherRating> teacherRatings) {
+    public Teacher(@NonNull Employee employee, @NonNull String credentials, List<TeacherRating> teacherRatings) {
         super(employee);
         this.credentials = credentials;
         this.teacherRatings = teacherRatings;

@@ -1,69 +1,90 @@
 package com.crystal.school.model;
 
 import com.crystal.school.model.enums.Gender;
+import com.crystal.school.model.enums.Role;
 import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.model.pivote.TeacherRating;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "is_employee",
+@DiscriminatorColumn(name = "role",
         discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue(value = "false")
+@DiscriminatorValue(value = "STUDENT")
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "user_id")
-    private Integer userId;
+    @Column(name = "id")
+    private Integer id;
+
     @Column(name = "first_name")
+    @Size(max = 255)
+    @NonNull
     private String firstName;
+
     @Column(name = "last_name")
+    @Size(max = 255)
+    @NonNull
     private String lastName;
-    @Column(name = "email")
+
+    @Column(name = "email", unique = true)
+    @Size(max = 255)
+    @NonNull
     private String email;
+
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
+    @NonNull
     private Gender gender;
 
     @Column(name = "biography")
     private String biography;
+
     @Column(name = "password")
+    @NonNull
     private String password;
+
     @Column(name = "salt")
+    @NonNull
     private String salt;
+    @Transient
+    private Role role;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
+
     @OneToMany(mappedBy = "student")
     @ToString.Exclude
     private List<StudentRegistration> studentRegistrations = new ArrayList<>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     @ToString.Exclude
     private List<StudentGrade> studentGrades = new ArrayList<>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     @ToString.Exclude
     private List<SessionRating> sessionRatings = new ArrayList<>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     @ToString.Exclude
     private List<TeacherRating> teacherRatings = new ArrayList<>();
 
     public User(User user) {
-        userId = user.userId;
+        id = user.id;
         firstName = user.firstName;
         lastName = user.lastName;
         email = user.email;
@@ -76,6 +97,5 @@ public class User {
         studentGrades = user.studentGrades;
         sessionRatings = user.sessionRatings;
         teacherRatings = user.teacherRatings;
-
     }
 }

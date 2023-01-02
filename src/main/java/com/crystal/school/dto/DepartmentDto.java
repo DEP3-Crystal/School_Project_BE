@@ -14,8 +14,8 @@ import java.util.List;
 public class DepartmentDto {
     private Integer departmentId;
     private String name;
-    private EmployeeDto employee;
-    //    private List<SessionDto> sessions;
-    private List<TeacherDto> teachers;
-    private List<UserDto> users;
+    private EmployeeInfoDto employee;
+    private List<TeacherInfoDto> teachers;
+    private List<UserInfoDto> users;
+    private List<SessionDto> sessions;
 }

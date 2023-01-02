@@ -1,6 +1,6 @@
 package com.crystal.school.mapper;
 
-import com.crystal.school.dto.EmployeeDto;
+import com.crystal.school.dto.EmployeeInfoDto;
 import com.crystal.school.model.Employee;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 public interface EmployeeMapper {
     EmployeeMapper Instance = Mappers.getMapper(EmployeeMapper.class);
 
-    Employee toEmployee(EmployeeDto employeeDto);
+    Employee toEmployee(EmployeeInfoDto employeeDto);
 
-    EmployeeDto toEmployeeDto(Employee employee);
+    EmployeeInfoDto toEmployeeDto(Employee employee);
 }

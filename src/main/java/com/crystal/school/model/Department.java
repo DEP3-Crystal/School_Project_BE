@@ -2,6 +2,7 @@ package com.crystal.school.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "departments")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -21,10 +23,11 @@ public class Department {
     @Column(name = "name")
     private String name;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @Transient
+    @JoinColumn(name = "id")
     private Employee employee;
-
+    @ManyToOne
+    @JoinColumn(name = "school_id")
+    private School school;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
     private List<Session> sessions = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")

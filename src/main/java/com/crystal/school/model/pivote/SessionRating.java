@@ -19,11 +19,11 @@ public class SessionRating {
     private SessionRatingId sessionRatingId;
     @Column(name = "rating")
     private Byte rating;
-
+    @MapsId("student_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", insertable = false, updatable = false)
+    @JoinColumn(name = "student_id")
     private User student;
-
+    @MapsId("session_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", insertable = false, updatable = false)
     private Session session;

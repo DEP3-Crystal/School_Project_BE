@@ -1,6 +1,6 @@
 package com.crystal.school.mapper;
 
-import com.crystal.school.dto.UserDto;
+import com.crystal.school.dto.UserInfoDto;
 import com.crystal.school.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 public interface UserMapper {
     UserMapper Instance = Mappers.getMapper(UserMapper.class);
 
-    User toUser(UserDto userDto);
+    User toUser(UserInfoDto userInfoDto);
 
-    UserDto toUserDto(User user);
+    UserInfoDto toUserDto(User user);
 }

@@ -25,12 +25,14 @@ public class StudentRegistration {
 
     @Column(name = "reg_date")
     private Timestamp regDate;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", insertable = false, updatable = false)
-    private Room room;
-
+    @MapsId("studentId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private User student;
+
+    @JsonIgnore
+    @MapsId("roomId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", insertable = false, updatable = false)
+    private Room room;
 }

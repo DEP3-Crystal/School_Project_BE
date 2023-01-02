@@ -1,7 +1,7 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto.EmployeeDto;
-import com.crystal.school.dto.EmployeeRegistration;
+import com.crystal.school.dto.EmployeeInfoDto;
+import com.crystal.school.dto.registration.EmployeeRegistrationDto;
 import com.crystal.school.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,29 +16,29 @@ public class EmployeeController {
 
 
     @GetMapping("/employee/{id}")
-    public EmployeeDto getWorkerById(@PathVariable Integer id) {
+    public EmployeeInfoDto getWorkerById(@PathVariable Integer id) {
         return employeeService.getEmployeeById(id);
     }
 
     @GetMapping("/employees")
-    public List<EmployeeDto> getAllWorkers() {
+    public List<EmployeeInfoDto> getAllWorkers() {
         return employeeService.getEmployees();
     }
 
     @PostMapping("/employee")
-    public String addWorker(@RequestBody EmployeeRegistration employee) {
+    public String addWorker(@RequestBody EmployeeRegistrationDto employee) {
         employeeService.createEmployee(employee);
         return "Added successfully";
     }
 
     @PostMapping("/workers")
-    public String addWorkers(@RequestBody List<EmployeeRegistration> workers) {
+    public String addWorkers(@RequestBody List<EmployeeRegistrationDto> workers) {
         employeeService.createEmployees(workers);
         return "Added successfully";
     }
 
     @PutMapping("/employee")
-    public String updateWorker(@RequestBody EmployeeRegistration employee) {
+    public String updateWorker(@RequestBody EmployeeRegistrationDto employee) {
         employeeService.updateEmployee(employee);
         return "Updated successfully";
     }
@@ -50,7 +50,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employee")
-    public String deleteWorker(@RequestBody EmployeeRegistration employee) {
+    public String deleteWorker(@RequestBody EmployeeRegistrationDto employee) {
         employeeService.deleteEmployee(employee);
         return "Deleted successfully";
     }

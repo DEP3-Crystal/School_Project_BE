@@ -1,8 +1,8 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto.UserDto;
+import com.crystal.school.dto.UserInfoDto;
 import com.crystal.school.dto.UserLogin;
-import com.crystal.school.dto.UserRegistration;
+import com.crystal.school.dto.registration.UserRegistrationDto;
 import com.crystal.school.service.LoginService;
 import com.crystal.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +22,29 @@ public class UserController {
     private LoginService loginService;
 
     @GetMapping("/users")
-    public List<UserDto> getUserList() {
+    public List<UserInfoDto> getUserList() {
         return userService.getUsers();
     }
 
     @GetMapping("/users/{id}")
-    public UserDto getUserById(@PathVariable Integer id) {
+    public UserInfoDto getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);
     }
 
 
     @PostMapping("/users/add")
-    public UserDto addUser(@RequestBody UserRegistration user) {
+    public UserInfoDto addUser(@RequestBody UserRegistrationDto user) {
         return userService.createUser(user);
     }
 
-    @PutMapping("/user")
-    public UserDto updateUser(@RequestBody UserRegistration user) {
+    @PutMapping("/user/updateInfo")
+    public UserInfoDto updateUser(@RequestBody UserInfoDto user) {
         return userService.updateUser(user);
+    }
+
+    @PutMapping("/user/updatePassword")
+    public UserInfoDto updatePassword(@RequestBody UserLogin user) {
+        return userService.updatePassword(user);
     }
 
     @DeleteMapping("/user/{id}")
@@ -48,8 +53,8 @@ public class UserController {
     }
 
     @PostMapping("users/login")
-    public ResponseEntity<UserDto> loginUser(@RequestBody UserLogin userData) {
-        UserDto user = userService.loginUser(userData);
+    public ResponseEntity<UserInfoDto> loginUser(@RequestBody UserLogin userData) {
+        UserInfoDto user = userService.loginUser(userData);
         return ResponseEntity.ok(user);
     }
 

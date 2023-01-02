@@ -24,7 +24,7 @@ public class FileUtils {
     }
 
 
-    public static Properties getPropertiesFile(String fileName) {
+    public static Properties loadProperties(String fileName) {
         var properties = new Properties();
         var name = extractFileName(fileName);
         var url = getResourcesPath() + name;

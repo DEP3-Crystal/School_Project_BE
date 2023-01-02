@@ -26,4 +26,12 @@ public class ExceptionsHandlerClass {
         errors.put("Error message: ", ex.getMessage());
         return errors;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UserTakenException.class)
+    public Map<String, String> handleUserTakenException(ItemNotFoundException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("Error message: ", ex.getMessage());
+        return errors;
+    }
 }

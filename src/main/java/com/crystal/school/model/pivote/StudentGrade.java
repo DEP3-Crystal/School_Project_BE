@@ -20,10 +20,12 @@ public class StudentGrade {
     @Column(name = "grade")
     private Byte grade;
 
+    @MapsId("studentId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private User student;
 
+    @MapsId("sessionId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", insertable = false, updatable = false)
     private Session session;

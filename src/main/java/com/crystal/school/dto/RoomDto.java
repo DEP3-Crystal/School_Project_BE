@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,6 +16,6 @@ public class RoomDto {
     private Integer doorNumber;
     private String type;
     private Integer capacity;
-    private List<SessionRegistrationDto> sessionRegistrations;
-    private List<StudentRegistrationDto> studentRegistrations;
+//    private List<SessionRegistrationDto> sessionRegistrations;
+//    private List<StudentRegistrationDto> studentRegistrations;
 }

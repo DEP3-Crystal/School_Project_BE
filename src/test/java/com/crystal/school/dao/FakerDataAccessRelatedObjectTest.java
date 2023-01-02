@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FakerDataAccessRelatedObjectTest {
     @Autowired
@@ -37,7 +38,7 @@ class FakerDataAccessRelatedObjectTest {
                 assertNotNull(reg.getStudent());
                 assertNotNull(reg.getStudentRegistrationId());
                 assertNotNull(reg.getRoom());
-                assertEquals(student.getUserId(), reg.getStudentRegistrationId().getStudentId());
+                assertEquals(student.getId(), reg.getStudentRegistrationId().getStudentId());
             });
             student.getStudentGrades().forEach(grade -> {
                 assertNotNull(grade.getStudentGradeId());
@@ -45,17 +46,17 @@ class FakerDataAccessRelatedObjectTest {
                 assertNotNull(grade.getSession());
                 assertEquals(student, grade.getStudent());
                 assertNotNull(grade.getGrade());
-                assertEquals(student.getUserId(), grade.getStudentGradeId().getStudentId());
+                assertEquals(student.getId(), grade.getStudentGradeId().getStudentId());
             });
             student.getSessionRatings().forEach(rate -> {
                 assertNotNull(rate.getSessionRatingId());
                 assertNotNull(rate.getSession());
                 assertNotNull(rate.getStudent());
                 assertNotNull(rate.getRating());
-                assertEquals(student.getUserId(), rate.getSessionRatingId().getStudentId());
+                assertEquals(student.getId(), rate.getSessionRatingId().getStudentId());
             });
             student.getTeacherRatings().forEach(rate -> {
-                assertEquals(student.getUserId(), rate.getTeacherRatingId().getStudentId());
+                assertEquals(student.getId(), rate.getTeacherRatingId().getStudentId());
                 assertNotNull(rate.getTeacher());
                 assertNotNull(rate.getRating());
                 assertNotNull(rate.getStudent());
@@ -80,7 +81,7 @@ class FakerDataAccessRelatedObjectTest {
             classroom.getStudentRegistrations().forEach(reg -> {
                 assertEquals(classroom.getRoomId(), reg.getStudentRegistrationId().getRoomId());
                 assertNotNull(reg.getStudent());
-                assertEquals(classroom,reg.getRoom());
+                assertEquals(classroom, reg.getRoom());
             });
         });
     }
@@ -104,7 +105,7 @@ class FakerDataAccessRelatedObjectTest {
                 assertEquals(session, grade.getSession());
             });
             // Test session
-            session.getSessionRatings().forEach(rate->{
+            session.getSessionRatings().forEach(rate -> {
                 assertEquals(session.getSessionId(), rate.getSessionRatingId().getSessionId());
                 assertNotNull(rate.getStudent());
                 assertNotNull(rate.getRating());

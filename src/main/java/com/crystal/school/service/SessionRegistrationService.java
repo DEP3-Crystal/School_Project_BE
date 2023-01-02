@@ -1,6 +1,6 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto.SessionRegistrationDto;
+import com.crystal.school.dto.pivote.SessionRegistrationDto;
 import com.crystal.school.mapper.SessionRegistrationMapper;
 import com.crystal.school.model.id.SessionRegistrationId;
 import com.crystal.school.model.pivote.SessionRegistration;

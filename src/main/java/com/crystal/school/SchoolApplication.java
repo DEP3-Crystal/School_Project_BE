@@ -2,6 +2,7 @@ package com.crystal.school;
 
 import com.crystal.school.dao.FakerDataAccess;
 import com.crystal.school.repository.SchoolRepository;
+import com.crystal.school.repository.SessionRatingRepository;
 import com.crystal.school.service.FakerDataAccessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,8 @@ public class SchoolApplication implements CommandLineRunner {
     @Autowired
     private SchoolRepository schoolRepository;
     FakerDataAccess fakerDataAccess = FakerDataAccess.getInstance();
+    @Autowired
+    private SessionRatingRepository sessionRatingRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SchoolApplication.class, args);

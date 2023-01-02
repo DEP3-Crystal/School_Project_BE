@@ -1,8 +1,8 @@
 package com.crystal.school.service;
 
 
-import com.crystal.school.dto.TeacherDto;
-import com.crystal.school.dto.TeacherRegistration;
+import com.crystal.school.dto.TeacherInfoDto;
+import com.crystal.school.dto.registration.TeacherRegistrationDto;
 import com.crystal.school.exception.ItemNotFoundException;
 import com.crystal.school.mapper.TeacherMapper;
 import com.crystal.school.model.Teacher;
@@ -20,30 +20,30 @@ public class TeacherService {
     @Autowired
     private TeacherRepository teacherRepository;
 
-    public List<TeacherDto> getTeachers() {
+    public List<TeacherInfoDto> getTeachers() {
         List<Teacher> teachers = teacherRepository.findAll();
         return teachers.stream().map(teacherMapper::teacherDto).toList();
 
     }
 
-    public TeacherDto getTeacherById(Integer id) {
+    public TeacherInfoDto getTeacherById(Integer id) {
         return teacherMapper.teacherDto(teacherRepository.findById(id).orElse(null));
     }
 
 
-    public TeacherDto createTeacher(TeacherRegistration teacherRegistration) {
-        Teacher teacher = getTeacher(teacherRegistration);
+    public TeacherInfoDto createTeacher(TeacherRegistrationDto teacherRegistrationDto) {
+        Teacher teacher = getTeacher(teacherRegistrationDto);
         teacherRepository.save(teacher);
         return TeacherMapper.Instance.teacherDto(teacher);
     }
 
-    private Teacher getTeacher(TeacherRegistration teacherRegistration) {
-        String plainPassword = teacherRegistration.getPassword();
+    private Teacher getTeacher(TeacherRegistrationDto teacherRegistrationDto) {
+        String plainPassword = teacherRegistrationDto.getPassword();
         String saltValue = passwordService.getSaltValue(30);
         String securePassword = passwordService.encryptPassword(plainPassword, saltValue);
 
-        teacherRegistration.setPassword(securePassword);
-        Teacher teacher = TeacherMapper.Instance.teacher(teacherRegistration);
+        teacherRegistrationDto.setPassword(securePassword);
+        Teacher teacher = TeacherMapper.Instance.teacher(teacherRegistrationDto);
         teacher.setSalt(saltValue);
         return teacher;
     }
@@ -58,15 +58,15 @@ public class TeacherService {
         return "Teachers deleted";
     }
 
-    public TeacherDto updateTeacher(TeacherRegistration teacherRegistration) {
-        validateUser(teacherRegistration);
-        Teacher teacher = teacherMapper.teacher(teacherRegistration);
+    public TeacherInfoDto updateTeacher(TeacherRegistrationDto teacherRegistrationDto) {
+        validateUser(teacherRegistrationDto);
+        Teacher teacher = teacherMapper.teacher(teacherRegistrationDto);
         teacherRepository.save(teacher);
         return teacherMapper.teacherDto(teacher);
     }
 
-    private void validateUser(TeacherRegistration userRegistration) {
-        Optional<Teacher> byId = teacherRepository.findById(userRegistration.getUserId());
+    private void validateUser(TeacherRegistrationDto userRegistration) {
+        Optional<Teacher> byId = teacherRepository.findById(userRegistration.getId());
         if (byId.isEmpty()) throw new ItemNotFoundException("user not found");
     }
 

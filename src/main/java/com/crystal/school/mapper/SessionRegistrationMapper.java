@@ -1,6 +1,6 @@
 package com.crystal.school.mapper;
 
-import com.crystal.school.dto.SessionRegistrationDto;
+import com.crystal.school.dto.pivote.SessionRegistrationDto;
 import com.crystal.school.model.pivote.SessionRegistration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

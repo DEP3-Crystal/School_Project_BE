@@ -60,6 +60,7 @@ public class FakerDataAccessService {
     private List<Session> sessions;
 
     public void insertDummyData() {
+        logger.info("generating dummy data...");
         fakerDataAccess.generateUsers(1000);
         fakerDataAccess.generateEmployees(100);
 
@@ -75,6 +76,7 @@ public class FakerDataAccessService {
         fakerDataAccess.generateSchools(3);
 
         initializeVariables();
+        logger.info("inserting dummy data...");
         startInsertingValues();
 
 
@@ -116,18 +118,22 @@ public class FakerDataAccessService {
      * rooms cant exist without school
      */
     public void makeSchoolRelations() {
-        schools = fakerDataAccess.getSchools();
-        rooms = fakerDataAccess.getRooms();
+
         double percentagePerSchool = 100.0 / schools.size(); // Percentage of rooms that should be assigned to each school
         schoolRepository.saveAll(schools);
 
         schools.forEach(school -> {
             List<Room> roomsOfSchool = fakerService.take(rooms, percentagePerSchool, room -> room.getSchool() == null);
+            List<Department> depOfSchool = fakerService.randomList(departments, percentagePerSchool, department -> department.getSchool() == null);
+            school.setDepartments(depOfSchool);
             school.setRooms(roomsOfSchool);
+            //backwards compatibility
+            depOfSchool.forEach(department -> department.setSchool(school));
             roomsOfSchool.forEach(room -> room.setSchool(school));
         });
         List<Room> rooms1 = schools.stream().flatMap(school -> school.getRooms().stream()).toList();
         roomRepository.saveAll(rooms1);
+        departmentRepository.saveAll(departments);
         //Update Schools
         schoolRepository.saveAll(schools);
 
@@ -215,7 +221,7 @@ public class FakerDataAccessService {
                 rate.setSession(session);
                 //ids
                 rate.getSessionRatingId().setSessionId(session.getSessionId());
-                rate.getSessionRatingId().setStudentId(student.getUserId());
+                rate.getSessionRatingId().setStudentId(student.getId());
                 // backwards compatibility
                 student.getSessionRatings().add(rate);
             });
@@ -249,7 +255,7 @@ public class FakerDataAccessService {
                 reg.setRoom(room);
                 reg.setStudent(student);
                 //ids
-                reg.getStudentRegistrationId().setStudentId(student.getUserId());
+                reg.getStudentRegistrationId().setStudentId(student.getId());
                 reg.getStudentRegistrationId().setRoomId(room.getRoomId());
                 // backwards compatibility
                 room.getStudentRegistrations().add(reg);
@@ -259,7 +265,7 @@ public class FakerDataAccessService {
                 grade.setSession(session);
                 grade.setStudent(student);
                 //ids
-                grade.getStudentGradeId().setStudentId(student.getUserId());
+                grade.getStudentGradeId().setStudentId(student.getId());
                 grade.getStudentGradeId().setSessionId(session.getSessionId());
                 // backwards compatibility
                 session.getStudentGrades().add(grade);
@@ -269,8 +275,8 @@ public class FakerDataAccessService {
                 rate.setTeacher(teacher);
                 rate.setStudent(student);
                 //ids
-                rate.getTeacherRatingId().setStudentId(student.getUserId());
-                rate.getTeacherRatingId().setTeacherId(teacher.getUserId());
+                rate.getTeacherRatingId().setStudentId(student.getId());
+                rate.getTeacherRatingId().setTeacherId(teacher.getId());
                 // backwards compatibility
                 teacher.getTeacherRatings().add(rate);
             });
@@ -285,6 +291,6 @@ public class FakerDataAccessService {
             teacherRatingRepository.saveAll(teacherRatingOfStudent);
         });
         studentRepository.saveAll(students);
-        logger.info("done saving student and all his pivoted tables");
+        logger.info("done saving student and all his pivot tables");
     }
 }

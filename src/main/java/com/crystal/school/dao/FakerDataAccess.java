@@ -6,6 +6,7 @@ import com.crystal.school.model.enums.Role;
 import com.crystal.school.model.id.*;
 import com.crystal.school.model.pivote.*;
 import com.crystal.school.repository.EmployeeRepository;
+import com.crystal.school.repository.UserRepository;
 import com.crystal.school.service.FakerService;
 import com.crystal.school.service.PasswordService;
 import com.github.javafaker.Faker;
@@ -14,6 +15,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -56,6 +58,8 @@ public class FakerDataAccess {
     private List<Session> sessions;
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public static FakerDataAccess getInstance() {
         if (instance == null)
@@ -81,18 +85,27 @@ public class FakerDataAccess {
         return classrooms;
     }
 
-    public List<StudentGrade> generateStudentGrades(int noStudentGrades) {
-        studentGrades = IntStream.range(0, noStudentGrades).mapToObj(i -> generateStudentGrade()).toList();
+    public List<StudentGrade> generateStudentGrades(int noUserGrades) {
+        studentGrades = IntStream.range(0, noUserGrades).mapToObj(i -> generateUserGrade()).toList();
         return studentGrades;
     }
 
-    private StudentGrade generateStudentGrade() {
+    private StudentGrade generateUserGrade() {
         byte rate = faker.random().nextInt(0, 10).byteValue();
         return new StudentGrade(new StudentGradeId(), rate, null, null);
     }
 
     public School generateSchool() {
-        return new School(schoolSequence.nextId(), faker.address().streetAddress(), faker.name().lastName(), new ArrayList<>());
+        Integer id = schoolSequence.nextId();
+        String address = faker.address().streetAddress();
+        String name = faker.name().lastName();
+        return School.builder()
+                .schoolId(id)
+                .name(name)
+                .location(address)
+                .build();
+
+//        return new School(id, address, name, new ArrayList<>());
     }
 
     public List<Room> generateRooms(int num) {
@@ -104,11 +117,13 @@ public class FakerDataAccess {
      * nulls id, school, sessionRegistratrion, studentRegistratrion
      */
     public Room generateRoom() {
+        Integer id = roomSequence.nextId();
         Integer floor = faker.random().nextInt(1, 4);
         Integer doorNumber = faker.random().nextInt(1, 500);
         String type = fakerService.random(roomsType);
         Integer capacity = faker.random().nextInt(20, 30);
-        return new Room(roomSequence.nextId(), floor, doorNumber, type, capacity, null,
+
+        return new Room(id, floor, doorNumber, type, capacity, null,
                 new ArrayList<>(), new ArrayList<>());
     }
 
@@ -120,7 +135,9 @@ public class FakerDataAccess {
 
     public Department generateDepartment() {
         String name = faker.lorem().word();
-        return new Department(departmentSequence.nextId(), name, null, new ArrayList<>(),
+        Integer id = departmentSequence.nextId();
+
+        return new Department(id, name, null, null, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>());
     }
 
@@ -133,16 +150,23 @@ public class FakerDataAccess {
         User student = fakerService.random(students);
         Teacher teacher = fakerService.random(teachers);
         Byte rating = fakerService.random(List.of(1, 2, 3, 4, 5)).byteValue();
-        return new TeacherRating(new TeacherRatingId(), rating, teacher, student);
+        TeacherRatingId id = new TeacherRatingId();
+        return TeacherRating.builder()
+                .teacherRatingId(id)
+                .student(student)
+                .teacher(teacher)
+                .rating(rating)
+                .build();
+//        return new TeacherRating(id, rating, teacher, student);
     }
 
     public List<StudentRegistration> generateStudentRegistrations(int registrations) {
-        studentRegistrations = IntStream.range(0, registrations).mapToObj(i -> generateStudentRegistration()).toList();
+        studentRegistrations = IntStream.range(0, registrations).mapToObj(i -> generateUserRegistration()).toList();
         return studentRegistrations;
 
     }
 
-    public StudentRegistration generateStudentRegistration() {
+    public StudentRegistration generateUserRegistration() {
         return new StudentRegistration(new StudentRegistrationId(), timestampUTCNow(), null, null);
     }
 
@@ -158,7 +182,10 @@ public class FakerDataAccess {
     }
 
     public Teacher generateTeacher() {
-        return new Teacher(generateEmployee(), faker.lorem().word(), new ArrayList<>());
+
+        Employee employee = generateEmployee();
+        employee.setRole(Role.TEACHER);
+        return new Teacher(employee, faker.lorem().word(), new ArrayList<>());
     }
 
     public List<Session> generateSessions(int number) {
@@ -172,10 +199,15 @@ public class FakerDataAccess {
         String difficultyLevel = fakerService.random(Arrays.stream(level).toList());
         String keywords = faker.lorem().word();
         Boolean isOptional = faker.random().nextBoolean();
-        return new Session(sessionSequence.nextId(), faker.lorem().word(), faker.lorem().sentence(5),
+        Integer id = sessionSequence.nextId();
+        String title = faker.lorem().word();
+        String description = faker.lorem().sentence(5);
+
+        return new Session(id, title, description,
                 isOptional, difficultyLevel, keywords, timestampUTCNow(), timestampUTCNow(),
                 null,
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                new ArrayList<>()
+                , new ArrayList<>(), new ArrayList<>()
         );
     }
 
@@ -195,7 +227,11 @@ public class FakerDataAccess {
 
     public Employee generateEmployee() {
         Role role = getRandomRole();
-        return new Employee(generateUser(), faker.phoneNumber().phoneNumber(), faker.lorem().word(), role);
+        BigDecimal[] salarys = {new BigDecimal(1_000), new BigDecimal(1_500), new BigDecimal(1_200), new BigDecimal(1_600)};
+        BigDecimal salary = fakerService.random(Arrays.stream(salarys).toList());
+        User user = generateUser();
+        user.setRole(role);
+        return new Employee(user, faker.phoneNumber().phoneNumber(), faker.lorem().word(), timestampUTCNow(), salary);
     }
 
 
@@ -214,9 +250,16 @@ public class FakerDataAccess {
         String biography = faker.lorem().sentence(5);
         String saltValue = passwordService.getSaltValue(30);
         password = passwordService.encryptPassword(this.password, saltValue);
-        return new User(userSequence.nextId(), faker.name().firstName(), faker.name().lastName(),
-                faker.internet().emailAddress(), gender, biography, password, saltValue,
-                null,
+
+        Integer id = userSequence.nextId();
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String emailAddress = faker.internet().emailAddress();
+
+
+        return new User(id, firstName, lastName,
+                emailAddress, gender, biography, password, saltValue,
+                Role.STUDENT, null,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
         );
     }
@@ -229,14 +272,14 @@ public class FakerDataAccess {
 
     public SessionRating generateSessionRating() {
         Session session = generateSession();
-        User student = generateUser();
+        var student = generateUser();
 
         byte rating = faker.random().nextInt(1, 6).byteValue();
         return new SessionRating(new SessionRatingId(), rating, student, session);
     }
 
     private Role getRandomRole() {
-        Role[] roles = {Role.ADMIN, Role.TEACHER, Role.ORGANIZER, Role.NONE};
+        Role[] roles = {Role.ADMIN, Role.TEACHER, Role.ORGANIZER, Role.STUDENT};
         return fakerService.random(Arrays.stream(roles).toList());
     }
 

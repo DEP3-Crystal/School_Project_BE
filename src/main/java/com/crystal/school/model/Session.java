@@ -1,12 +1,13 @@
 package com.crystal.school.model;
 
-
 import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.model.pivote.SessionRegistration;
 import com.crystal.school.model.pivote.StudentGrade;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,28 +20,35 @@ import java.util.List;
 @Table(name = "sessions")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Session {
     @Id
     @Column(name = "session_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer sessionId;
     @Column(name = "title")
+    @NotNull
     private String title;
     @Column(name = "description")
     private String description;
     @Column(name = "is_optional")
-    private boolean isOptional;
+    @NotNull
+    private Boolean isOptional;
     @Column(name = "difficulty_level")
     private String difficultyLevel;
     @Column(name = "keywords")
     private String keywords;
+    @NotNull
     @Column(name = "start_time")
     private Timestamp startTime;
+    @NotNull
     @Column(name = "end_time")
     private Timestamp endTime;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
+
+    @Column(name = "session_rating")
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
     private List<SessionRegistration> sessionRegistrations = new ArrayList<>();

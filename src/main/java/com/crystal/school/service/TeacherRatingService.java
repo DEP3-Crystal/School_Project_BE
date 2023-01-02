@@ -1,6 +1,6 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto.TeacherRatingDto;
+import com.crystal.school.dto.pivote.TeacherRatingDto;
 import com.crystal.school.mapper.TeacherRatingMapper;
 import com.crystal.school.model.id.TeacherRatingId;
 import com.crystal.school.model.pivote.TeacherRating;

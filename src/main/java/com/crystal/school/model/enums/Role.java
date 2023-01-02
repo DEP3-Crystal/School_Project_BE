@@ -1,7 +1,7 @@
 package com.crystal.school.model.enums;
 
 public enum Role {
-    NONE,
+    STUDENT,
     ADMIN,
     TEACHER,
     ORGANIZER;
