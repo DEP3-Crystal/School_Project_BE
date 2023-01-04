@@ -1,7 +1,7 @@
 package com.crystal.school.service;
 
 import com.crystal.school.dto.DepartmentDto;
-import com.crystal.school.exception.ItemNotFoundException;
+import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.DepartmentMapper;
 import com.crystal.school.model.Department;
 import com.crystal.school.repository.DepartmentRepository;
@@ -43,7 +43,7 @@ public class DepartmentService {
     }
 
     public DepartmentDto editDepartment(Department department) {
-        Department existingDepartment = departmentRepository.findById(department.getDepartmentId()).orElseThrow(ItemNotFoundException::new);
+        Department existingDepartment = departmentRepository.findById(department.getDepartmentId()).orElseThrow(ResourceNotFoundException::new);
         existingDepartment.setDepartmentId(department.getDepartmentId());
         existingDepartment.setName(department.getName());
         existingDepartment.setEmployee(department.getEmployee());

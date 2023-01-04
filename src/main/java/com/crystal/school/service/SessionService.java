@@ -1,7 +1,7 @@
 package com.crystal.school.service;
 
 import com.crystal.school.dto.SessionDto;
-import com.crystal.school.exception.ItemNotFoundException;
+import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.SessionMapper;
 import com.crystal.school.model.Session;
 import com.crystal.school.repository.SessionRepository;
@@ -30,7 +30,7 @@ public class SessionService {
 
 
     public SessionDto getSessionById(Integer id) {
-        return SessionMapper.Instance.toSessionDto(sessionRepository.findById(id).orElseThrow(ItemNotFoundException::new));
+        return SessionMapper.Instance.toSessionDto(sessionRepository.findById(id).orElseThrow(ResourceNotFoundException::new));
     }
 
     public String deleteSessionById(Integer id) {
@@ -44,7 +44,7 @@ public class SessionService {
     }
 
     public SessionDto editSession(Session session) {
-        Session existingSession = sessionRepository.findById(session.getSessionId()).orElseThrow(ItemNotFoundException::new);
+        Session existingSession = sessionRepository.findById(session.getId()).orElseThrow(ResourceNotFoundException::new);
         return SessionMapper.Instance.toSessionDto(sessionRepository.save(existingSession));
     }
 }

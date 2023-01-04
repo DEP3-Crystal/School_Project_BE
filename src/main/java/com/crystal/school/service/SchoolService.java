@@ -1,7 +1,7 @@
 package com.crystal.school.service;
 
 import com.crystal.school.dto.SchoolDto;
-import com.crystal.school.exception.ItemNotFoundException;
+import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.SchoolMapper;
 import com.crystal.school.model.School;
 import com.crystal.school.repository.SchoolRepository;
@@ -25,7 +25,7 @@ public class SchoolService {
     }
 
     public SchoolDto getSchoolById(int id) {
-        return SchoolMapper.Instance.toSchoolDto(schoolRepository.findById(id).orElseThrow(ItemNotFoundException::new));
+        return SchoolMapper.Instance.toSchoolDto(schoolRepository.findById(id).orElseThrow(ResourceNotFoundException::new));
     }
 
     public String deleteSchool(int id) {
@@ -34,7 +34,7 @@ public class SchoolService {
     }
 
     public SchoolDto updateSchool(School school) {
-        School existingSchool = schoolRepository.findById(school.getSchoolId()).orElseThrow(ItemNotFoundException::new);
+        School existingSchool = schoolRepository.findById(school.getSchoolId()).orElseThrow(ResourceNotFoundException::new);
         existingSchool.setRooms(school.getRooms());
         existingSchool.setLocation(school.getLocation());
         existingSchool.setName(school.getName());

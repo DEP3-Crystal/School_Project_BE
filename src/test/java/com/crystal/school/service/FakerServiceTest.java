@@ -22,9 +22,9 @@ class FakerServiceTest {
     @Test
     void random_ReturnsCorrectSizeItemsBasedOnPercentage() {
         List<Integer> integerList = IntStream.range(0, 100).boxed().toList();
-        List<Integer> random = fakerService.take(integerList, 100, i-> true);
+        List<Integer> random = fakerService.take(integerList, 100, i -> true);
         assertEquals(integerList.size(), random.size());
-        List<Integer> random1 = fakerService.take(integerList, 50, i-> true);
+        List<Integer> random1 = fakerService.take(integerList, 50, i -> true);
         assertEquals(50, random1.size());
     }
 }

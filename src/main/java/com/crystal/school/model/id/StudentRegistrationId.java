@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class StudentRegistrationId implements Serializable {
     @Column(name = "student_id")
     private Integer studentId;
-    @Column(name = "room_id")
-    private Integer roomId;
+    @Column(name = "session_id")
+    private Integer sessionId;
 
 }

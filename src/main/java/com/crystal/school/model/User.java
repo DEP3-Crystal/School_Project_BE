@@ -53,6 +53,7 @@ public class User {
     @Column(name = "biography")
     private String biography;
 
+
     @Column(name = "password")
     @NonNull
     private String password;
@@ -63,6 +64,9 @@ public class User {
     @Transient
     private Role role;
 
+    @ManyToOne
+    @JoinColumn(name = "image_id")
+    private Image profilePicture;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;

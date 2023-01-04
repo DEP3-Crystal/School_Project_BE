@@ -209,7 +209,7 @@ public class FakerDataAccessService {
                 reg.setRoom(room);
                 reg.setSession(session);
                 //ids
-                reg.getSessionRegistrationId().setSessionId(session.getSessionId());
+                reg.getSessionRegistrationId().setSessionId(session.getId());
                 reg.getSessionRegistrationId().setRoomId(room.getRoomId());
 
                 // backwards compatibility
@@ -220,7 +220,7 @@ public class FakerDataAccessService {
                 rate.setStudent(student);
                 rate.setSession(session);
                 //ids
-                rate.getSessionRatingId().setSessionId(session.getSessionId());
+                rate.getSessionRatingId().setSessionId(session.getId());
                 rate.getSessionRatingId().setStudentId(student.getId());
                 // backwards compatibility
                 student.getSessionRatings().add(rate);
@@ -251,14 +251,14 @@ public class FakerDataAccessService {
 
             // preparing all pivot classes
             registrationsOfStudent.forEach(reg -> {
-                Room room = fakerService.random(rooms, r -> r.getStudentRegistrations().isEmpty());
-                reg.setRoom(room);
+                Session session = fakerService.random(sessions, r -> r.getStudentRegistrations().isEmpty());
+                reg.setSession(session);
                 reg.setStudent(student);
                 //ids
                 reg.getStudentRegistrationId().setStudentId(student.getId());
-                reg.getStudentRegistrationId().setRoomId(room.getRoomId());
+                reg.getStudentRegistrationId().setSessionId(session.getId());
                 // backwards compatibility
-                room.getStudentRegistrations().add(reg);
+                session.getStudentRegistrations().add(reg);
             });
             gradesOfStudent.forEach(grade -> {
                 Session session = fakerService.random(sessions, s -> s.getStudentGrades().isEmpty());
@@ -266,7 +266,7 @@ public class FakerDataAccessService {
                 grade.setStudent(student);
                 //ids
                 grade.getStudentGradeId().setStudentId(student.getId());
-                grade.getStudentGradeId().setSessionId(session.getSessionId());
+                grade.getStudentGradeId().setSessionId(session.getId());
                 // backwards compatibility
                 session.getStudentGrades().add(grade);
             });

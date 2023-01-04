@@ -66,6 +66,6 @@ class PasswordServiceTest {
         user.setPassword(securePassword);
 
         // Creating a login case
-        Assertions.assertTrue(passwordService.doesPasswordMatches(inputtedPassword,user.getPassword(),user.getSalt()));
+        Assertions.assertTrue(passwordService.doesPasswordMatches(inputtedPassword, user.getPassword(), user.getSalt()));
     }
 }

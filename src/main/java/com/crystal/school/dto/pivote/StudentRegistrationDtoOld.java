@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 @Setter
-public class StudentRegistrationDto {
+public class StudentRegistrationDtoOld {
     private StudentRegistrationId studentRegistrationId;
     private Timestamp regDate;
     //    private UserDto student;

@@ -4,13 +4,12 @@ package com.crystal.school.service;
 import com.crystal.school.dto.UserInfoDto;
 import com.crystal.school.dto.UserLogin;
 import com.crystal.school.dto.registration.UserRegistrationDto;
-import com.crystal.school.exception.ItemNotFoundException;
+import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.exception.UserTakenException;
 import com.crystal.school.mapper.UserMapper;
 import com.crystal.school.model.User;
 import com.crystal.school.model.enums.Role;
 import com.crystal.school.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,17 +27,15 @@ public class UserService {
     }
 
     public UserInfoDto getUserById(Integer id) {
-        return UserMapper.Instance.toUserDto(userRepository.findById(id).orElseThrow(ItemNotFoundException::new));
+        return UserMapper.Instance.toUserDto(userRepository.findById(id).orElseThrow(ResourceNotFoundException::new));
     }
 
     private User getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user == null) throw new ItemNotFoundException("email not found");
-        return user;
+        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("email not found!"));
     }
 
     public UserInfoDto getUserByEmailAndPassword(String email, String password) {
-        return UserMapper.Instance.toUserDto(userRepository.findByEmailAndPassword(email, password));
+        return UserMapper.Instance.toUserDto(userRepository.findByEmailAndPassword(email, password).orElseThrow(ResourceNotFoundException::new));
     }
 
     public Boolean existsByEmail(String email) {
@@ -47,17 +44,16 @@ public class UserService {
 
     public UserInfoDto createUser(UserRegistrationDto userRegistration) {
         validateEmail(userRegistration.getEmail());
-        User user = getUser(userRegistration);
+        User user = fillUserData(userRegistration);
         userRepository.save(user);
         return UserMapper.Instance.toUserDto(userRepository.save(user));
     }
 
     private void validateEmail(String email) {
-        User byEmail = userRepository.findByEmail(email);
-        if (byEmail != null) throw new UserTakenException("this email is taken by another user");
+        userRepository.findByEmail(email).orElseThrow(() -> new UserTakenException("this email is taken by another user"));
     }
 
-    private User getUser(UserRegistrationDto userRegistration) {
+    private User fillUserData(UserRegistrationDto userRegistration) {
         String plainPassword = userRegistration.getPassword();
         String saltValue = passwordService.getSaltValue(30);
         String securePassword = passwordService.encryptPassword(plainPassword, saltValue);
@@ -68,18 +64,14 @@ public class UserService {
         return user;
     }
 
-    public UserInfoDto loginUser(UserLogin dtoUser) throws ItemNotFoundException {
+    public UserInfoDto loginUser(UserLogin dtoUser) throws ResourceNotFoundException {
         var notFoundMessage = "password or email does not match";
-        try {
-            User user = getUserByEmail(dtoUser.getEmail());
-            String plainPassword = dtoUser.getPassword();
-            if (passwordService.doesPasswordMatches(plainPassword, user.getPassword(), user.getSalt())) {
-                return UserMapper.Instance.toUserDto(user);
-            }
-            throw new ItemNotFoundException(notFoundMessage);
-        } catch (EntityNotFoundException ignored) {
-            throw new ItemNotFoundException(notFoundMessage);
+        User user = getUserByEmail(dtoUser.getEmail());
+        String plainPassword = dtoUser.getPassword();
+        if (passwordService.doesPasswordMatches(plainPassword, user.getPassword(), user.getSalt())) {
+            return UserMapper.Instance.toUserDto(user);
         }
+        throw new ResourceNotFoundException(notFoundMessage);
     }
 
 
@@ -97,7 +89,7 @@ public class UserService {
 
     private void validateUser(UserInfoDto userRegistration) {
         var user = userRepository.findById(userRegistration.getId());
-        if (user.isEmpty()) throw new ItemNotFoundException("User not found!");
+        if (user.isEmpty()) throw new ResourceNotFoundException("User not found!");
     }
 
     public Role getRole(int userId) {

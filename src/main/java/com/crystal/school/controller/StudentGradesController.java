@@ -1,8 +1,10 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.dto.pivote.StudentGradeDto;
+import com.crystal.school.dto.pivote.StudentGradeDtoNew;
 import com.crystal.school.model.id.StudentGradeId;
 import com.crystal.school.model.pivote.StudentGrade;
+import com.crystal.school.repository.StudentGradeRepository;
 import com.crystal.school.service.StudentGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class StudentGradesController {
     @Autowired
     private StudentGradeService service;
+    @Autowired
+    private StudentGradeRepository studentGradeRepository;
 
 
     @GetMapping("/student-grades")
@@ -24,10 +29,14 @@ public class StudentGradesController {
     public StudentGradeDto getStudentGradeById(@PathVariable Integer studentId, @PathVariable Integer gradeId) {
         return service.getStudentGradeById(new StudentGradeId(studentId, gradeId));
     }
+    @GetMapping("/student-grade/{studentId}")
+    public List<StudentGradeDtoNew> getStudentsGradeByStudentId(@PathVariable Integer studentId) {
+        return service.getStudentGradeByStudentId(studentId);
+    }
 
     @PostMapping("/student-grade/add")
-    public StudentGradeDto addStudentGrade(@RequestBody StudentGrade studentGrade) {
-        return service.saveSudentGrade(studentGrade);
+    public StudentGradeDtoNew addStudentGrade(@RequestBody StudentGrade studentGrade) {
+        return service.saveStudentGrade(studentGrade);
     }
 
     @PostMapping("/student-grades/add")
@@ -40,7 +49,6 @@ public class StudentGradesController {
         return service.editStudentGrade(studentGrade);
     }
 
-    // TODO use body request instead of PathVariable, or separate the ids (studentId and gradeId)
     @DeleteMapping("/student-grade/{id}")
     public String deleteStudentGrade(@PathVariable StudentGradeId id) {
         service.deleteStudentGradeById(id);

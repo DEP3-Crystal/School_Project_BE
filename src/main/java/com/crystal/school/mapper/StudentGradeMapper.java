@@ -1,15 +1,25 @@
 package com.crystal.school.mapper;
 
 import com.crystal.school.dto.pivote.StudentGradeDto;
+import com.crystal.school.dto.pivote.StudentGradeDtoNew;
+import com.crystal.school.model.Session;
+import com.crystal.school.model.User;
 import com.crystal.school.model.pivote.StudentGrade;
+import com.crystal.school.repository.SessionRepository;
+import com.crystal.school.repository.UserRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
-public interface StudentGradeMapper {
-    StudentGradeMapper Instance = Mappers.getMapper(StudentGradeMapper.class);
+public abstract class StudentGradeMapper {
+    public static final StudentGradeMapper Instance = Mappers.getMapper(StudentGradeMapper.class);
 
-    StudentGrade toStudentGrade(StudentGradeDto studentGradeDto);
+    public abstract StudentGrade toStudentGrade(StudentGradeDto studentGradeDto);
 
-    StudentGradeDto toStudentGradeDto(StudentGrade studentGrade);
+    public abstract StudentGradeDto toStudentGradeDto(StudentGrade studentGrade);
+
 }

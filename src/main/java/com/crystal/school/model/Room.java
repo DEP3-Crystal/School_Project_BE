@@ -41,7 +41,6 @@ public class Room {
     private School school;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
     private List<SessionRegistration> sessionRegistrations = new ArrayList<>();
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
-    private List<StudentRegistration> studentRegistrations = new ArrayList<>();
+
 
 }

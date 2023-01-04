@@ -14,11 +14,11 @@ import java.util.List;
 @Getter
 @Setter
 public class SessionDto {
-    private Integer sessionId;
+    private Integer id;
     private String title;
     private String description;
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private Timestamp start;
+    private Timestamp end;
     //    private DepartmentDto department;
     private boolean isOptional;
     private String difficultyLevel;

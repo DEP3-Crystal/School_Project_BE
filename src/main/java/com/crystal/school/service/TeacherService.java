@@ -3,7 +3,7 @@ package com.crystal.school.service;
 
 import com.crystal.school.dto.TeacherInfoDto;
 import com.crystal.school.dto.registration.TeacherRegistrationDto;
-import com.crystal.school.exception.ItemNotFoundException;
+import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.TeacherMapper;
 import com.crystal.school.model.Teacher;
 import com.crystal.school.repository.TeacherRepository;
@@ -67,7 +67,7 @@ public class TeacherService {
 
     private void validateUser(TeacherRegistrationDto userRegistration) {
         Optional<Teacher> byId = teacherRepository.findById(userRegistration.getId());
-        if (byId.isEmpty()) throw new ItemNotFoundException("user not found");
+        if (byId.isEmpty()) throw new ResourceNotFoundException("user not found");
     }
 
 }

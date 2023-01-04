@@ -1,6 +1,6 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto.pivote.StudentRegistrationDto;
+import com.crystal.school.dto.pivote.StudentRegistrationDtoOld;
 import com.crystal.school.model.id.StudentRegistrationId;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.service.StudentRegistrationService;
@@ -10,17 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class StudentRegistrationController {
     @Autowired
     private StudentRegistrationService studentRegistrationService;
 
     @GetMapping("/student-registrations")
-    public List<StudentRegistrationDto> getAllStudentRegistrations() {
+    public List<StudentRegistrationDtoOld> getAllStudentRegistrations() {
         return studentRegistrationService.getStudentRegistrations();
     }
 
     @GetMapping("/student-registrations/{id}")
-    public StudentRegistrationDto getStudentRegistrationById(@PathVariable StudentRegistrationId id) {
+    public StudentRegistrationDtoOld getStudentRegistrationById(@PathVariable StudentRegistrationId id) {
         return studentRegistrationService.getStudentRegistrationById(id);
     }
 

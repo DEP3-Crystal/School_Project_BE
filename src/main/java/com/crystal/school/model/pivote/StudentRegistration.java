@@ -1,7 +1,7 @@
 package com.crystal.school.model.pivote;
 
 
-import com.crystal.school.model.Room;
+import com.crystal.school.model.Session;
 import com.crystal.school.model.User;
 import com.crystal.school.model.id.StudentRegistrationId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,9 +30,8 @@ public class StudentRegistration {
     @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private User student;
 
-    @JsonIgnore
-    @MapsId("roomId")
+    @MapsId("session_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", insertable = false, updatable = false)
-    private Room room;
+    @JoinColumn(name = "session_id", insertable = false, updatable = false)
+    private Session session;
 }

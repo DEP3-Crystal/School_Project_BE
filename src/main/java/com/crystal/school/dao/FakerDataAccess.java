@@ -123,8 +123,7 @@ public class FakerDataAccess {
         String type = fakerService.random(roomsType);
         Integer capacity = faker.random().nextInt(20, 30);
 
-        return new Room(id, floor, doorNumber, type, capacity, null,
-                new ArrayList<>(), new ArrayList<>());
+        return new Room(id, floor, doorNumber, type, capacity, null, new ArrayList<>());
     }
 
     public List<Department> generateDepartments(int noDepartments) {
@@ -205,7 +204,7 @@ public class FakerDataAccess {
 
         return new Session(id, title, description,
                 isOptional, difficultyLevel, keywords, timestampUTCNow(), timestampUTCNow(),
-                null,
+                null,null,
                 new ArrayList<>()
                 , new ArrayList<>(), new ArrayList<>()
         );
@@ -249,7 +248,7 @@ public class FakerDataAccess {
 
         String biography = faker.lorem().sentence(5);
         String saltValue = passwordService.getSaltValue(30);
-        password = passwordService.encryptPassword(this.password, saltValue);
+        var securedPassword = passwordService.encryptPassword(this.password, saltValue);
 
         Integer id = userSequence.nextId();
         String firstName = faker.name().firstName();
@@ -258,8 +257,8 @@ public class FakerDataAccess {
 
 
         return new User(id, firstName, lastName,
-                emailAddress, gender, biography, password, saltValue,
-                Role.STUDENT, null,
+                emailAddress, gender, biography, securedPassword, saltValue,
+                Role.STUDENT, null,null,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
         );
     }

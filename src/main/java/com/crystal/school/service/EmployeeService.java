@@ -2,7 +2,7 @@ package com.crystal.school.service;
 
 import com.crystal.school.dto.EmployeeInfoDto;
 import com.crystal.school.dto.registration.EmployeeRegistrationDto;
-import com.crystal.school.exception.ItemNotFoundException;
+import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.EmployeeMapper;
 import com.crystal.school.model.Employee;
 import com.crystal.school.repository.EmployeeRepository;
@@ -37,7 +37,7 @@ public class EmployeeService {
     }
 
     public EmployeeInfoDto getEmployeeById(Integer id) {
-        return employeeMapper.toEmployeeDto(employeeRepository.findById(id).orElseThrow(ItemNotFoundException::new));
+        return employeeMapper.toEmployeeDto(employeeRepository.findById(id).orElseThrow(ResourceNotFoundException::new));
     }
 
     public EmployeeInfoDto getWorkerByFirstName(String firstName) {
@@ -57,7 +57,7 @@ public class EmployeeService {
     }
 
     public EmployeeInfoDto updateEmployee(EmployeeRegistrationDto employeeRegistrationDto) {
-        Employee existingWorker = employeeRepository.findById(employeeRegistrationDto.getId()).orElseThrow(ItemNotFoundException::new);
+        Employee existingWorker = employeeRepository.findById(employeeRegistrationDto.getId()).orElseThrow(ResourceNotFoundException::new);
         employeeRepository.save(existingWorker);
         return employeeMapper.toEmployeeDto(existingWorker);
     }

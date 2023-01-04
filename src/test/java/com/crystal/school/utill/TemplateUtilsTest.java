@@ -30,7 +30,7 @@ class TemplateUtilsTest {
     void injectVariables() {
         Map<String, String> templateMap = new HashMap<String, String>();
         templateMap.put("sessionId", "1");
-        String result = TemplateUtils.injectVariables(fileContent,templateMap);
+        String result = TemplateUtils.injectVariables(fileContent, templateMap);
         Assertions.assertEquals("SELECT * FROM session WHERE id = 1", result);
 
     }

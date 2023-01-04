@@ -37,7 +37,7 @@ class FakerDataAccessRelatedObjectTest {
             student.getStudentRegistrations().forEach(reg -> {
                 assertNotNull(reg.getStudent());
                 assertNotNull(reg.getStudentRegistrationId());
-                assertNotNull(reg.getRoom());
+                assertNotNull(reg.getSession());
                 assertEquals(student.getId(), reg.getStudentRegistrationId().getStudentId());
             });
             student.getStudentGrades().forEach(grade -> {
@@ -94,19 +94,19 @@ class FakerDataAccessRelatedObjectTest {
             assertNotNull(session.getDepartment());
             //SessionRegistrations test
             session.getSessionRegistrations().forEach(reg -> {
-                assertEquals(session.getSessionId(), reg.getSessionRegistrationId().getSessionId());
+                assertEquals(session.getId(), reg.getSessionRegistrationId().getSessionId());
                 assertNotNull(reg.getSession());
                 assertNotNull(reg.getRoom());
             });
             // test that studentRegistrations is all good
             session.getStudentGrades().forEach(grade -> {
-                assertEquals(session.getSessionId(), grade.getStudentGradeId().getSessionId());
+                assertEquals(session.getId(), grade.getStudentGradeId().getSessionId());
                 assertNotNull(grade.getStudent());
                 assertEquals(session, grade.getSession());
             });
             // Test session
             session.getSessionRatings().forEach(rate -> {
-                assertEquals(session.getSessionId(), rate.getSessionRatingId().getSessionId());
+                assertEquals(session.getId(), rate.getSessionRatingId().getSessionId());
                 assertNotNull(rate.getStudent());
                 assertNotNull(rate.getRating());
                 assertEquals(session, rate.getSession());

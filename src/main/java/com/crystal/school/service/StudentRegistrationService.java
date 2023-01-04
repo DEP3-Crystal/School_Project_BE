@@ -1,9 +1,13 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto.pivote.StudentRegistrationDto;
+import com.crystal.school.dto.SessionDto;
+import com.crystal.school.dto.pivote.StudentRegistrationDtoOld;
+import com.crystal.school.mapper.SessionMapper;
 import com.crystal.school.mapper.StudentRegistrationMapper;
+import com.crystal.school.model.Session;
 import com.crystal.school.model.id.StudentRegistrationId;
 import com.crystal.school.model.pivote.StudentRegistration;
+import com.crystal.school.repository.SessionRepository;
 import com.crystal.school.repository.StudentRegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,20 +18,22 @@ import java.util.List;
 public class StudentRegistrationService {
     @Autowired
     private StudentRegistrationRepository studentRegistrationRepository;
+    @Autowired
+    private SessionRepository sessionRepository;
 
-    public StudentRegistrationDto saveStudentRegistration(StudentRegistration studentRegistration) {
+    public StudentRegistrationDtoOld saveStudentRegistration(StudentRegistration studentRegistration) {
         return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.save(studentRegistration));
     }
 
-    public List<StudentRegistrationDto> saveStudentRegistrations(List<StudentRegistration> studentRegistrations) {
+    public List<StudentRegistrationDtoOld> saveStudentRegistrations(List<StudentRegistration> studentRegistrations) {
         return studentRegistrationRepository.saveAll(studentRegistrations).stream().map(StudentRegistrationMapper.Instance::toStudentRegistrationDto).toList();
     }
 
-    public List<StudentRegistrationDto> getStudentRegistrations() {
+    public List<StudentRegistrationDtoOld> getStudentRegistrations() {
         return studentRegistrationRepository.findAll().stream().map(StudentRegistrationMapper.Instance::toStudentRegistrationDto).toList();
     }
 
-    public StudentRegistrationDto getStudentRegistrationById(StudentRegistrationId id) {
+    public StudentRegistrationDtoOld getStudentRegistrationById(StudentRegistrationId id) {
         return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.findById(id).orElse(null));
     }
 
@@ -43,14 +49,22 @@ public class StudentRegistrationService {
         studentRegistrationRepository.deleteById(id);
     }
 
-    public StudentRegistrationDto editStudentRegistration(StudentRegistration studentRegistration) {
+    public StudentRegistrationDtoOld editStudentRegistration(StudentRegistration studentRegistration) {
         StudentRegistration existingStudentRegistration = studentRegistrationRepository.findById(studentRegistration.getStudentRegistrationId()).orElse(null);
         existingStudentRegistration.setStudentRegistrationId(studentRegistration.getStudentRegistrationId());
-        existingStudentRegistration.setRoom(studentRegistration.getRoom());
+        existingStudentRegistration.setSession(studentRegistration.getSession());
         existingStudentRegistration.setRegDate(studentRegistration.getRegDate());
-        existingStudentRegistration.setRoom(studentRegistration.getRoom());
+        existingStudentRegistration.setSession(studentRegistration.getSession());
         return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.save(existingStudentRegistration));
     }
 
 
+    public List<SessionDto> findAllSessionsByStudentId(Integer id) {
+        List<StudentRegistration> allByStudentId = studentRegistrationRepository.findAllByStudentId(id);
+        var sessionsId = allByStudentId.stream().map(reg-> reg.getStudentRegistrationId().getSessionId()).toList();
+        return sessionRepository.findAllById(sessionsId)
+                .stream()
+                .map(SessionMapper.Instance::toSessionDto)
+                .toList();
+    }
 }

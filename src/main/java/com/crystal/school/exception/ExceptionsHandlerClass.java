@@ -20,8 +20,8 @@ public class ExceptionsHandlerClass {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(ItemNotFoundException.class)
-    public Map<String, String> handleUserNotFoundException(ItemNotFoundException ex) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public Map<String, String> handleUserNotFoundException(ResourceNotFoundException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("Error message: ", ex.getMessage());
         return errors;
@@ -29,7 +29,7 @@ public class ExceptionsHandlerClass {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UserTakenException.class)
-    public Map<String, String> handleUserTakenException(ItemNotFoundException ex) {
+    public Map<String, String> handleUserTakenException(ResourceNotFoundException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("Error message: ", ex.getMessage());
         return errors;

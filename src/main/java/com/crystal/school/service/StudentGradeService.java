@@ -1,22 +1,31 @@
 package com.crystal.school.service;
 
 import com.crystal.school.dto.pivote.StudentGradeDto;
+import com.crystal.school.dto.pivote.StudentGradeDtoNew;
 import com.crystal.school.mapper.StudentGradeMapper;
+import com.crystal.school.model.Session;
+import com.crystal.school.model.User;
 import com.crystal.school.model.id.StudentGradeId;
 import com.crystal.school.model.pivote.StudentGrade;
+import com.crystal.school.repository.SessionRepository;
 import com.crystal.school.repository.StudentGradeRepository;
+import com.crystal.school.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentGradeService {
     @Autowired
     private StudentGradeRepository repository;
-
-    public StudentGradeDto saveSudentGrade(StudentGrade studentGrade) {
-        return StudentGradeMapper.Instance.toStudentGradeDto(repository.save(studentGrade));
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private SessionRepository sessionRepository;
+    public StudentGradeDtoNew saveStudentGrade(StudentGrade studentGrade) {
+        return toStudentGradeDtoNew(repository.save(studentGrade));
     }
 
     public List<StudentGradeDto> saveStudentGrades(List<StudentGrade> studentGrades) {
@@ -29,6 +38,30 @@ public class StudentGradeService {
 
     public StudentGradeDto getStudentGradeById(StudentGradeId id) {
         return StudentGradeMapper.Instance.toStudentGradeDto(repository.findById(id).orElse(null));
+    }
+    public List<StudentGradeDtoNew> getStudentGradeByStudentId(Integer id) {
+        List<StudentGrade> grades = repository.findByStudentId(id);
+        return grades.stream().map(this::toStudentGradeDtoNew).toList();
+    }
+
+    private StudentGradeDtoNew toStudentGradeDtoNew(StudentGrade studentGrade) {
+        Optional<Session> optionalSession = sessionRepository.findById(studentGrade.getStudentGradeId().getStudentId());
+        Optional<User> userOptional = userRepository.findById(studentGrade.getStudentGradeId().getStudentId());
+        if (optionalSession.isEmpty() || userOptional.isEmpty()) {
+            return null;
+        }
+        Session session = optionalSession.get();
+        User student = userOptional.get();
+        return StudentGradeDtoNew.builder()
+                .sessionName(session.getTitle())
+                .sessionDescription(session.getDescription())
+                .isOptional(session.getIsOptional())
+                .grade(studentGrade.getGrade())
+                .difficultyLevel(session.getDifficultyLevel())
+                .studentFirstName(student.getFirstName())
+                .studentLastName(student.getLastName())
+                .build();
+
     }
 
     public void deleteAllStudentGrades() {

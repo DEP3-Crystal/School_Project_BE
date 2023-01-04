@@ -3,6 +3,7 @@ package com.crystal.school.model;
 import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.model.pivote.SessionRegistration;
 import com.crystal.school.model.pivote.StudentGrade;
+import com.crystal.school.model.pivote.StudentRegistration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -25,7 +26,7 @@ public class Session {
     @Id
     @Column(name = "session_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer sessionId;
+    private Integer id;
     @Column(name = "title")
     @NotNull
     private String title;
@@ -40,14 +41,13 @@ public class Session {
     private String keywords;
     @NotNull
     @Column(name = "start_time")
-    private Timestamp startTime;
+    private Timestamp start;
     @NotNull
     @Column(name = "end_time")
-    private Timestamp endTime;
+    private Timestamp end;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
-
     @Column(name = "session_rating")
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
@@ -56,5 +56,6 @@ public class Session {
     private List<StudentGrade> studentGrades = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
     private List<SessionRating> sessionRatings = new ArrayList<>();
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
+    private List<StudentRegistration> studentRegistrations = new ArrayList<>();
 }

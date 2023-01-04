@@ -1,7 +1,7 @@
 package com.crystal.school.service;
 
 import com.crystal.school.dto.RoomDto;
-import com.crystal.school.exception.ItemNotFoundException;
+import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.RoomMapper;
 import com.crystal.school.model.Room;
 import com.crystal.school.repository.RoomRepository;
@@ -44,7 +44,7 @@ public class RoomService {
     }
 
     public RoomDto editRoom(Room room) {
-        Room existingRoom = roomRepository.findById(room.getRoomId()).orElseThrow(ItemNotFoundException::new);
+        Room existingRoom = roomRepository.findById(room.getRoomId()).orElseThrow(ResourceNotFoundException::new);
         existingRoom.setRoomId(room.getRoomId());
         existingRoom.setDoorNumber(room.getDoorNumber());
         existingRoom.setFloor(room.getFloor());
