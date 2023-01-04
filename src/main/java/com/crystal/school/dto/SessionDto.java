@@ -1,6 +1,8 @@
 package com.crystal.school.dto;
 
 import com.crystal.school.dto.pivote.SessionRatingDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,8 @@ public class SessionDto {
     private Timestamp start;
     private Timestamp end;
     //    private DepartmentDto department;
+
+    @JsonProperty("isOptional")
     private boolean isOptional;
     private String difficultyLevel;
     private String keywords;
