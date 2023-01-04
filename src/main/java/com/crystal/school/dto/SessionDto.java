@@ -24,7 +24,7 @@ public class SessionDto {
     //    private DepartmentDto department;
 
     @JsonProperty("isOptional")
-    private boolean isOptional;
+    private Boolean isOptional;
     private String difficultyLevel;
     private String keywords;
     private Long ratingSum;
