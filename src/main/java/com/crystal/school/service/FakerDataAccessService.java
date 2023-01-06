@@ -225,6 +225,9 @@ public class FakerDataAccessService {
                 // backwards compatibility
                 student.getSessionRatings().add(rate);
             });
+            Teacher teacher = fakerService.random(teachers);
+            teacher.setDepartment(session.getDepartment());
+            session.setTeacher(teacher);
             sessionRepository.save(session);
             sessionRegistrationRepository.saveAll(regOfSession);
             //saved at student

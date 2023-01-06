@@ -45,6 +45,10 @@ public class Session {
     @NotNull
     @Column(name = "end_time")
     private Timestamp end;
+
+    @OneToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;

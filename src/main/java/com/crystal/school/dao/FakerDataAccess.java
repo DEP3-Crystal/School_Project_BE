@@ -200,13 +200,12 @@ public class FakerDataAccess {
         Boolean isOptional = faker.random().nextBoolean();
         Integer id = sessionSequence.nextId();
         String title = faker.lorem().word();
-        String description = faker.lorem().sentence(5);
+        String description = faker.lorem().sentence(12);
 
         return new Session(id, title, description,
                 isOptional, difficultyLevel, keywords, timestampUTCNow(), timestampUTCNow(),
-                null,null,
-                new ArrayList<>()
-                , new ArrayList<>(), new ArrayList<>()
+                null, null,
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
         );
     }
 
@@ -258,7 +257,7 @@ public class FakerDataAccess {
 
         return new User(id, firstName, lastName,
                 emailAddress, gender, biography, securedPassword, saltValue,
-                Role.STUDENT, null,null,
+                Role.STUDENT, null, null,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
         );
     }

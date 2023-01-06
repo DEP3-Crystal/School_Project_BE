@@ -13,8 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class TeacherInfoDto extends EmployeeInfoDto {
     private String credentials;
-    private Long ratingSum;
-    private Integer ratingCount;
     private List<TeacherRatingDto> teacherRatings = new ArrayList<>();
 
 }
