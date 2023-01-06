@@ -1,7 +1,6 @@
 package com.crystal.school.model;
 
 import com.crystal.school.model.pivote.SessionRating;
-import com.crystal.school.model.pivote.SessionRegistration;
 import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,6 +12,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,10 +53,13 @@ public class Session {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
-    @Column(name = "session_rating")
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
-    private List<SessionRegistration> sessionRegistrations = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
+    @Column(name = "reg_date")
+    private Timestamp regDate = new Timestamp(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
     private List<StudentGrade> studentGrades = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")

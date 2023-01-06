@@ -24,6 +24,8 @@ public class SessionDto {
 
     @JsonProperty("isOptional")
     private Boolean isOptional;
+    private RoomDto room;
+    private Timestamp regDate;
     private String difficultyLevel;
     private String keywords;
     private TeacherInfoDto teacher;

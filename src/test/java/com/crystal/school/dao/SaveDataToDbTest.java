@@ -1,7 +1,6 @@
 package com.crystal.school.dao;
 
 import com.crystal.school.model.*;
-import com.crystal.school.model.pivote.SessionRegistration;
 import com.crystal.school.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

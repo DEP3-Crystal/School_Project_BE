@@ -4,7 +4,6 @@ package com.crystal.school.model.pivote;
 import com.crystal.school.model.Session;
 import com.crystal.school.model.User;
 import com.crystal.school.model.id.StudentRegistrationId;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

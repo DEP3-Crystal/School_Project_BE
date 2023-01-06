@@ -2,7 +2,10 @@ package com.crystal.school.service;
 
 import com.crystal.school.dao.FakerDataAccess;
 import com.crystal.school.model.*;
-import com.crystal.school.model.pivote.*;
+import com.crystal.school.model.pivote.SessionRating;
+import com.crystal.school.model.pivote.StudentGrade;
+import com.crystal.school.model.pivote.StudentRegistration;
+import com.crystal.school.model.pivote.TeacherRating;
 import com.crystal.school.repository.*;
 import lombok.Getter;
 import org.slf4j.Logger;
@@ -39,8 +42,7 @@ public class FakerDataAccessService {
     @Autowired
     private RoomRepository roomRepository;
 
-    @Autowired
-    private SessionRegistrationRepository sessionRegistrationRepository;
+
     @Autowired
     private StudentGradeRepository studentGradeRepository;
     @Autowired
@@ -54,7 +56,6 @@ public class FakerDataAccessService {
     private List<Employee> employees;
     private List<StudentRegistration> studentRegistrations;
     private List<StudentGrade> studentGrades;
-    private List<SessionRegistration> sessionRegistrations;
     private List<SessionRating> sessionRatings;
     private List<TeacherRating> teacherRatings;
     private List<Session> sessions;
@@ -70,7 +71,6 @@ public class FakerDataAccessService {
         fakerDataAccess.generateSessions(500);
         fakerDataAccess.generateStudentRegistrations(2000);
         fakerDataAccess.generateRooms(50);
-        fakerDataAccess.generateSessionRegistrations(1000);
         fakerDataAccess.generateSessionRatings(2000);
         fakerDataAccess.generateTeacherRatings(1000);
         fakerDataAccess.generateSchools(3);
@@ -88,7 +88,7 @@ public class FakerDataAccessService {
         employees = fakerDataAccess.getEmployees();
         studentRegistrations = fakerDataAccess.getStudentRegistrations();
         studentGrades = fakerDataAccess.getStudentGrades();
-        sessionRegistrations = fakerDataAccess.getSessionRegistrations();
+//        sessionRegistrations = fakerDataAccess.getSessionRegistrations();
         sessionRatings = fakerDataAccess.getSessionRatings();
         teacherRatings = fakerDataAccess.getTeacherRatings();
         rooms = fakerDataAccess.getRooms();
@@ -201,20 +201,20 @@ public class FakerDataAccessService {
         sessions.forEach(session -> {
 
 
-            List<SessionRegistration> regOfSession = fakerService.randomList(sessionRegistrations, percentage, reg -> reg.getSession() == null);
+//            List<SessionRegistration> regOfSession = fakerService.randomList(sessionRegistrations, percentage, reg -> reg.getSession() == null);
             List<SessionRating> rateOfSession = fakerService.randomList(sessionRatings, percentage, rate -> rate.getSession() == null);
             // preparing all pivot classes
-            regOfSession.forEach(reg -> {
-                Room room = fakerService.random(classrooms, r -> r.getSessionRegistrations().isEmpty());
-                reg.setRoom(room);
-                reg.setSession(session);
-                //ids
-                reg.getSessionRegistrationId().setSessionId(session.getId());
-                reg.getSessionRegistrationId().setRoomId(room.getRoomId());
-
-                // backwards compatibility
-                room.getSessionRegistrations().add(reg);
-            });
+//            regOfSession.forEach(reg -> {
+//                Room room = fakerService.random(classrooms, r -> r.getSessionRegistrations().isEmpty());
+//                reg.setRoom(room);
+//                reg.setSession(session);
+//                //ids
+//                reg.getSessionRegistrationId().setSessionId(session.getId());
+//                reg.getSessionRegistrationId().setRoomId(room.getRoomId());
+//
+//                // backwards compatibility
+//                room.getSessionRegistrations().add(reg);
+//            });
             rateOfSession.forEach(rate -> {
                 var student = fakerService.random(students, s -> s.getSessionRatings().isEmpty());
                 rate.setStudent(student);
@@ -229,11 +229,11 @@ public class FakerDataAccessService {
             teacher.setDepartment(session.getDepartment());
             session.setTeacher(teacher);
             sessionRepository.save(session);
-            sessionRegistrationRepository.saveAll(regOfSession);
+            Room room = fakerService.random(classrooms, r -> r.getSessionRegistrations().isEmpty());
+            session.setRoom(room);
+//            sessionRegistrationRepository.saveAll(regOfSession);
             //saved at student
-            session.setSessionRegistrations(regOfSession);
             session.setSessionRatings(rateOfSession);
-            sessionRegistrationRepository.saveAll(regOfSession);
             sessionRatingRepository.saveAll(rateOfSession);
 
         });

@@ -52,7 +52,6 @@ public class FakerDataAccess {
     private List<Employee> employees;
     private List<StudentRegistration> studentRegistrations;
     private List<StudentGrade> studentGrades;
-    private List<SessionRegistration> sessionRegistrations;
     private List<SessionRating> sessionRatings;
     private List<TeacherRating> teacherRatings;
     private List<Session> sessions;
@@ -169,10 +168,10 @@ public class FakerDataAccess {
         return new StudentRegistration(new StudentRegistrationId(), timestampUTCNow(), null, null);
     }
 
-    public List<SessionRegistration> generateSessionRegistrations(int number) {
-        sessionRegistrations = IntStream.range(0, number + 1).mapToObj(i -> generateSessionRegistration()).toList();
-        return sessionRegistrations;
-    }
+//    public List<SessionRegistration> generateSessionRegistrations(int number) {
+//        sessionRegistrations = IntStream.range(0, number + 1).mapToObj(i -> generateSessionRegistration()).toList();
+//        return sessionRegistrations;
+//    }
 
 
     public List<Teacher> generateTeachers(int number) {
@@ -200,22 +199,21 @@ public class FakerDataAccess {
         Boolean isOptional = faker.random().nextBoolean();
         Integer id = sessionSequence.nextId();
         String title = faker.lorem().word();
-        String description = faker.lorem().sentence(12);
+        String description = faker.lorem().sentence(15);
 
         return new Session(id, title, description,
                 isOptional, difficultyLevel, keywords, timestampUTCNow(), timestampUTCNow(),
-                null, null,
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                null, null,null, timestampUTCNow(),new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
         );
     }
 
-    /**
-     * nulls session, room
-     */
-    public SessionRegistration generateSessionRegistration() {
-
-        return new SessionRegistration(new SessionRegistrationId(), timestampUTCNow(), null, null);
-    }
+//    /**
+//     * nulls session, room
+//     */
+//    public SessionRegistration generateSessionRegistration() {
+//
+//        return new SessionRegistration(new SessionRegistrationId(), timestampUTCNow(), null, null);
+//    }
 
 
     public List<Employee> generateEmployees(int number) {

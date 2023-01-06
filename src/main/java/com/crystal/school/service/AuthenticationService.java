@@ -1,11 +1,5 @@
 package com.crystal.school.service;
 
-import com.crystal.school.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-
 //@Service
 public class AuthenticationService {
 //    @Autowired

@@ -1,8 +1,6 @@
 package com.crystal.school.model;
 
 
-import com.crystal.school.model.pivote.SessionRegistration;
-import com.crystal.school.model.pivote.StudentRegistration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -40,7 +38,7 @@ public class Room {
     @ToString.Exclude
     private School school;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
-    private List<SessionRegistration> sessionRegistrations = new ArrayList<>();
+    private List<Session> sessionRegistrations = new ArrayList<>();
 
 
 }

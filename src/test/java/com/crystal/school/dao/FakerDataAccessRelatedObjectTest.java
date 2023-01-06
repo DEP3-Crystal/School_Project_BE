@@ -77,12 +77,7 @@ class FakerDataAccessRelatedObjectTest {
                 assertNotNull(reg.getRoom());
             });
 
-            // test that studentRegistrations is all good
-            classroom.getStudentRegistrations().forEach(reg -> {
-                assertEquals(classroom.getRoomId(), reg.getStudentRegistrationId().getRoomId());
-                assertNotNull(reg.getStudent());
-                assertEquals(classroom, reg.getRoom());
-            });
+
         });
     }
 

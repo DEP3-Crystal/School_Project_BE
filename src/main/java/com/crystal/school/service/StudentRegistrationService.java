@@ -4,7 +4,6 @@ import com.crystal.school.dto.SessionDto;
 import com.crystal.school.dto.pivote.StudentRegistrationDtoOld;
 import com.crystal.school.mapper.SessionMapper;
 import com.crystal.school.mapper.StudentRegistrationMapper;
-import com.crystal.school.model.Session;
 import com.crystal.school.model.id.StudentRegistrationId;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.repository.SessionRepository;
