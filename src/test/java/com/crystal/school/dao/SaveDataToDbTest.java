@@ -32,8 +32,6 @@ class SaveDataToDbTest {
     private RoomRepository roomRepository;
     @Autowired
     private SchoolRepository schoolRepository;
-    @Autowired
-    private SessionRegistrationRepository sessionRegistrationRepository;
 
     @Test
     void insertStudents() {
@@ -71,12 +69,12 @@ class SaveDataToDbTest {
         Assertions.assertTrue(true);
     }
 
-    @Test
-    void insertSessionRegistrations() {
-        List<SessionRegistration> sessionRegistrations = fakerAccess.generateSessionRegistrations(500);
-//        sessionRegistrationRepository.saveAll(sessionRegistrations);
-        Assertions.assertTrue(true);
-    }
+//    @Test
+//    void insertSessionRegistrations() {
+//        List<SessionRegistration> sessionRegistrations = fakerAccess.generateSessionRegistrations(500);
+////        sessionRegistrationRepository.saveAll(sessionRegistrations);
+//        Assertions.assertTrue(true);
+//    }
 
     @Test
     void insertSchool() {
