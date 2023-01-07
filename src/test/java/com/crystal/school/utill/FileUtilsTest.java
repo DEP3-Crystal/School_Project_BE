@@ -38,7 +38,7 @@ class FileUtilsTest {
 
     @Test
     void downloadFromURL() {
-        byte[] result = new DownloadService().downloadFromURL("https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1.jpg");
+        byte[] result = new DownloadManager().downloadFromURL("https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1.jpg");
         assertTrue(result.length > 2);
         assertNotNull(result);
     }

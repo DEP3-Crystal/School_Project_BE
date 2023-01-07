@@ -29,7 +29,7 @@ public class UserInfoDto {
     @Size(max = 255)
     @NonNull
     private String lastName;
-
+    private String fullName = firstName + " " + lastName;
     @Size(max = 255)
     @NonNull
     private String email;

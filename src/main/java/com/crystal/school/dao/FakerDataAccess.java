@@ -17,7 +17,7 @@ import com.crystal.school.repository.UserRepository;
 import com.crystal.school.service.FakerService;
 import com.crystal.school.service.ImageService;
 import com.crystal.school.service.PasswordService;
-import com.crystal.school.utill.DownloadService;
+import com.crystal.school.utill.DownloadManager;
 import com.github.javafaker.Faker;
 import lombok.Getter;
 import lombok.Setter;
@@ -252,6 +252,7 @@ public class FakerDataAccess {
 
     public List<User> generateUsers(int number) {
         students = IntStream.range(0, number + 1)
+
                 .mapToObj(i -> generateUser()).toList();
         return students;
     }
@@ -301,18 +302,17 @@ public class FakerDataAccess {
 
     private List<Image> getImageList(int number) {
         return IntStream.range(0, number)
-//                .parallel()
                 .mapToObj(i -> generateImage()).toList();
     }
 
     private Image generateImage() {
         Integer profileImageId = faker.random().nextInt(0, 1249);
-        byte[] bytes = new DownloadService().downloadFromURL(randomAvatarRootUrl + profileImageId + ".jpg");
+        byte[] bytes = new DownloadManager().downloadFromURL(randomAvatarRootUrl + profileImageId + ".jpg");
         return new Image(null, "fake-avatar", bytes);
     }
 
     private Image generateAvatar(String firstname, String lastname) {
-        byte[] bytes = new DownloadService().downloadFromURL("https://ui-avatars.com/api/?name=" + firstname + "+" + lastname);
+        byte[] bytes = new DownloadManager().downloadFromURL("https://ui-avatars.com/api/?name=" + firstname + "+" + lastname);
         return new Image(null, "fake-avatar", bytes);
     }
 

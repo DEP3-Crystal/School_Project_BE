@@ -20,6 +20,6 @@ public class SchoolApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        fakerDataAccessService.insertDummyData();
+//        fakerDataAccessService.insertDummyData();
     }
 }

@@ -99,6 +99,7 @@ public class User {
         password = user.password;
         salt = user.salt;
         department = user.department;
+        profilePicture = user.profilePicture;
         studentRegistrations = user.studentRegistrations;
         studentGrades = user.studentGrades;
         sessionRatings = user.sessionRatings;
