@@ -1,7 +1,7 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto_old.pivote.StudentGradeDto;
-import com.crystal.school.dto_old.pivote.StudentGradeDtoRegistration;
+import com.crystal.school.dto.pivote.StudentGradeDto;
+import com.crystal.school.dto.registration.StudentGradeDtoRegistration;
 import com.crystal.school.model.id.StudentGradeId;
 import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.repository.StudentGradeRepository;

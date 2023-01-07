@@ -1,4 +1,4 @@
-package com.crystal.school.dto_old;
+package com.crystal.school.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

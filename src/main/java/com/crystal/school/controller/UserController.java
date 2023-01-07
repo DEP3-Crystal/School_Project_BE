@@ -1,8 +1,8 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto_old.UserInfoDto;
-import com.crystal.school.dto_old.UserLogin;
-import com.crystal.school.dto_old.registration.UserRegistrationDto;
+import com.crystal.school.dto.UserInfoDto;
+import com.crystal.school.dto.UserLogin;
+import com.crystal.school.dto.registration.UserRegistrationDto;
 import com.crystal.school.service.LoginService;
 import com.crystal.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

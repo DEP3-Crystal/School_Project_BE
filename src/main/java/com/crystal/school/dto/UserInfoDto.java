@@ -1,14 +1,13 @@
 package com.crystal.school.dto;
 
-import com.crystal.school.model.Department;
+import com.crystal.school.dto.without_ref.DepartmentDtoWithoutRef;
+import com.crystal.school.dto.without_ref.pivote.SessionRatingDtoWithoutRef;
+import com.crystal.school.dto.without_ref.pivote.StudentGradeDtoWithoutRef;
+import com.crystal.school.dto.without_ref.pivote.StudentRegistrationDtoWithoutRef;
+import com.crystal.school.dto.without_ref.pivote.TeacherRatingDtoWithoutRef;
 import com.crystal.school.model.Image;
 import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.enums.Role;
-import com.crystal.school.model.pivote.SessionRating;
-import com.crystal.school.model.pivote.StudentGrade;
-import com.crystal.school.model.pivote.StudentRegistration;
-import com.crystal.school.model.pivote.TeacherRating;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -49,14 +48,14 @@ public class UserInfoDto {
     private Role role;
 
     private Image profilePicture;
-    private DepartmentWithoutRef department;
+    private DepartmentDtoWithoutRef department;
 
-    private List<StudentRegistrationWithoutRef> studentRegistrations = new ArrayList<>();
+    private List<StudentRegistrationDtoWithoutRef> studentRegistrations = new ArrayList<>();
 
-    private List<StudentGradeWithoutRef> studentGrades = new ArrayList<>();
+    private List<StudentGradeDtoWithoutRef> studentGrades = new ArrayList<>();
 
-    private List<SessionRatingWithoutRef> sessionRatings = new ArrayList<>();
+    private List<SessionRatingDtoWithoutRef> sessionRatings = new ArrayList<>();
 
-    private List<TeacherRatingWithoutRef> teacherRatings = new ArrayList<>();
+    private List<TeacherRatingDtoWithoutRef> teacherRatings = new ArrayList<>();
 
 }

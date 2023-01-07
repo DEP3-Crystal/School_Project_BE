@@ -1,6 +1,5 @@
-package com.crystal.school.dto_old.pivote;
+package com.crystal.school.dto.without_ref.pivote;
 
-import com.crystal.school.dto_old.UserInfoDto;
 import com.crystal.school.model.id.SessionRatingId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SessionRatingDto {
+public class SessionRatingDtoWithoutRef {
     private SessionRatingId sessionRatingId;
     private Byte rating;
-    private UserInfoDto student;
-//    private Session session;
-
 }

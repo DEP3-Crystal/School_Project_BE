@@ -1,25 +1,16 @@
 package com.crystal.school.dto.without_ref;
 
-import com.crystal.school.model.Department;
 import com.crystal.school.model.Image;
 import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.enums.Role;
-import com.crystal.school.model.pivote.SessionRating;
-import com.crystal.school.model.pivote.StudentGrade;
-import com.crystal.school.model.pivote.StudentRegistration;
-import com.crystal.school.model.pivote.TeacherRating;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDtoWithoutRef {
+public class UserInfoDtoWithoutRef {
 
     private Integer id;
 

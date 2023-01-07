@@ -1,6 +1,5 @@
-package com.crystal.school.dto_old.pivote;
+package com.crystal.school.dto.without_ref.pivote;
 
-import com.crystal.school.dto_old.SessionDto;
 import com.crystal.school.model.id.StudentRegistrationId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,10 +12,8 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 @Setter
-public class StudentRegistrationDto {
+public class StudentRegistrationDtoWithoutRef {
     private StudentRegistrationId studentRegistrationId;
     private Timestamp regDate;
-    //    private UserDto student;
-    private SessionDto session;
 
 }

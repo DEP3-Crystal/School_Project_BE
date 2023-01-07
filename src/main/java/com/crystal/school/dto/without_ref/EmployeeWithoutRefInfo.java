@@ -1,8 +1,5 @@
 package com.crystal.school.dto.without_ref;
 
-import com.crystal.school.model.User;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +12,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeWithoutRef extends UserDtoWithoutRef {
+public class EmployeeWithoutRefInfo extends UserInfoDtoWithoutRef {
 
     @NonNull
     private String phoneNumber;

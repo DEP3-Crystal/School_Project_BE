@@ -1,6 +1,6 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto_old.pivote.TeacherRatingDto;
+import com.crystal.school.dto.pivote.TeacherRatingDto;
 import com.crystal.school.model.id.TeacherRatingId;
 import com.crystal.school.model.pivote.TeacherRating;
 import com.crystal.school.service.TeacherRatingService;

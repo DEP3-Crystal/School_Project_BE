@@ -1,7 +1,7 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto_old.SessionDto;
-import com.crystal.school.dto_old.pivote.StudentRegistrationDto;
+import com.crystal.school.dto.SessionDto;
+import com.crystal.school.dto.pivote.StudentRegistrationDto;
 import com.crystal.school.mapper.SessionMapper;
 import com.crystal.school.mapper.StudentRegistrationMapper;
 import com.crystal.school.model.id.StudentRegistrationId;

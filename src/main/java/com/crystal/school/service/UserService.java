@@ -1,9 +1,9 @@
 package com.crystal.school.service;
 
 
-import com.crystal.school.dto_old.UserInfoDto;
-import com.crystal.school.dto_old.UserLogin;
-import com.crystal.school.dto_old.registration.UserRegistrationDto;
+import com.crystal.school.dto.UserInfoDto;
+import com.crystal.school.dto.UserLogin;
+import com.crystal.school.dto.registration.UserRegistrationDto;
 import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.exception.UserTakenException;
 import com.crystal.school.mapper.UserMapper;

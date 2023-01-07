@@ -1,4 +1,4 @@
-package com.crystal.school.dto_old.pivote;
+package com.crystal.school.dto.registration;
 
 import lombok.*;
 
