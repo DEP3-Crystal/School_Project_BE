@@ -21,7 +21,6 @@ public class SessionDtoWithoutRef {
     private Timestamp end;
     @JsonProperty("isOptional")
     private Boolean isOptional;
-    private RoomDto room;
     private Timestamp regDate;
     private String difficultyLevel;
     private String keywords;

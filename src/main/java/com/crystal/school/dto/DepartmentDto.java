@@ -1,9 +1,6 @@
 package com.crystal.school.dto;
 
-import com.crystal.school.dto.without_ref.SchoolDtoWithoutRef;
-import com.crystal.school.dto.without_ref.SessionDtoWithoutRef;
-import com.crystal.school.dto.without_ref.TeacherInfoDtoWithoutRef;
-import com.crystal.school.dto.without_ref.UserInfoDtoWithoutRef;
+import com.crystal.school.dto.without_ref.*;
 import com.crystal.school.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +17,7 @@ import java.util.List;
 public class DepartmentDto {
     private Integer departmentId;
     private String name;
-    private Employee employee;
+    private EmployeeWithoutRefInfo employee;
     private SchoolDtoWithoutRef school;
     private List<SessionDtoWithoutRef> sessions = new ArrayList<>();
     private List<TeacherInfoDtoWithoutRef> teachers = new ArrayList<>();
