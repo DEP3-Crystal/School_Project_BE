@@ -2,6 +2,7 @@ package com.crystal.school.dto;
 
 import com.crystal.school.dto.without_ref.DepartmentDtoWithoutRef;
 import com.crystal.school.dto.without_ref.RoomWithoutRef;
+import com.crystal.school.dto.without_ref.TeacherInfoDtoWithoutRef;
 import com.crystal.school.dto.without_ref.pivote.SessionRatingDtoWithoutRef;
 import com.crystal.school.dto.without_ref.pivote.StudentGradeDtoWithoutRef;
 import com.crystal.school.dto.without_ref.pivote.StudentRegistrationDtoWithoutRef;
@@ -39,7 +40,7 @@ public class SessionDto {
     @NotNull
     private Timestamp end;
 
-    private Teacher teacher;
+    private TeacherInfoDtoWithoutRef teacher;
     private DepartmentDtoWithoutRef department;
 
     private RoomWithoutRef room;
