@@ -14,23 +14,28 @@ import java.util.List;
 public class SessionRatingService {
     @Autowired
     private SessionRatingRepository sessionRatingRepository;
+    private static final SessionRatingMapper mapper = SessionRatingMapper.Instance;
 
-    public SessionRatingDto saveSessionRating(SessionRating sessionRating) {
-        return SessionRatingMapper.Instance.toSessionRatingDto(sessionRatingRepository.save(sessionRating));
+    public SessionRatingDto saveSessionRating(SessionRatingDto sessionRating) {
+        SessionRating savedSession = sessionRatingRepository.save(mapper.toSessionRating(sessionRating));
+        return mapper.toSessionRatingDto(savedSession);
     }
 
 
-    public List<SessionRatingDto> saveSessionRatings(List<SessionRating> sessionRatings) {
-        return sessionRatingRepository.saveAll(sessionRatings).stream().map(SessionRatingMapper.Instance::toSessionRatingDto).toList();
+    public List<SessionRatingDto> saveSessionRatings(List<SessionRatingDto> sessionRatingDtos) {
+        List<SessionRating> sessionRatings = sessionRatingDtos.stream().map(mapper::toSessionRating).toList();
+        List<SessionRating> savedSessionRatings = sessionRatingRepository.saveAll(sessionRatings);
+        return savedSessionRatings.stream()
+                .map(mapper::toSessionRatingDto).toList();
     }
 
     public List<SessionRatingDto> getSessionRatings() {
-        return sessionRatingRepository.findAll().stream().map(SessionRatingMapper.Instance::toSessionRatingDto).toList();
+        return sessionRatingRepository.findAll().stream().map(mapper::toSessionRatingDto).toList();
     }
 
 
     public SessionRatingDto getSessionRatingById(SessionRatingId id) {
-        return SessionRatingMapper.Instance.toSessionRatingDto(sessionRatingRepository.findById(id).orElse(null));
+        return mapper.toSessionRatingDto(sessionRatingRepository.findById(id).orElse(null));
     }
 
     public String deleteSessionRatingById(SessionRatingId id) {
@@ -38,19 +43,17 @@ public class SessionRatingService {
         return "Session Rating deleted: " + id;
     }
 
-    public void deleteSessionRating(SessionRating sessionRating) {
-        sessionRatingRepository.delete(sessionRating);
+    public void deleteSessionRating(SessionRatingDto sessionRating) {
+        sessionRatingRepository.deleteById(sessionRating.getSessionRatingId());
     }
 
     public void deleteAllSessionRatings() {
         sessionRatingRepository.deleteAll();
     }
 
-    public SessionRatingDto editSessionRating(SessionRating sessionRating) {
-        SessionRating existingSessionRating = sessionRatingRepository.findById(sessionRating.getSessionRatingId()).orElse(null);
-        existingSessionRating.setRating(sessionRating.getRating());
-        existingSessionRating.setStudent(sessionRating.getStudent());
-        existingSessionRating.setSession(sessionRating.getSession());
-        return SessionRatingMapper.Instance.toSessionRatingDto(sessionRatingRepository.save(existingSessionRating));
+    public SessionRatingDto editSessionRating(SessionRatingDto sessionRating) {
+        if(!sessionRatingRepository.existsById(sessionRating.getSessionRatingId()))
+            throw new IllegalArgumentException("Session Rating not found");
+        return mapper.toSessionRatingDto(sessionRatingRepository.save(mapper.toSessionRating(sessionRating)));
     }
 }

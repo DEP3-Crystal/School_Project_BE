@@ -2,6 +2,7 @@ package com.crystal.school.service;
 
 import com.crystal.school.dto.SessionDto;
 import com.crystal.school.dto.pivote.StudentRegistrationDto;
+import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.SessionMapper;
 import com.crystal.school.mapper.StudentRegistrationMapper;
 import com.crystal.school.model.id.StudentRegistrationId;
@@ -15,29 +16,35 @@ import java.util.List;
 
 @Service
 public class StudentRegistrationService {
+    private static final StudentRegistrationMapper mapper = StudentRegistrationMapper.Instance;
     @Autowired
     private StudentRegistrationRepository studentRegistrationRepository;
     @Autowired
     private SessionRepository sessionRepository;
 
-    public StudentRegistrationDto saveStudentRegistration(StudentRegistration studentRegistration) {
-        return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.save(studentRegistration));
+    public StudentRegistrationDto saveStudentRegistration(StudentRegistrationDto studentRegistrationDto) {
+        StudentRegistration savedReg = studentRegistrationRepository.save(mapper.toStudentRegistration(studentRegistrationDto));
+        return mapper.toStudentRegistrationDto(savedReg);
     }
 
-    public List<StudentRegistrationDto> saveStudentRegistrations(List<StudentRegistration> studentRegistrations) {
-        return studentRegistrationRepository.saveAll(studentRegistrations).stream().map(StudentRegistrationMapper.Instance::toStudentRegistrationDto).toList();
+    public List<StudentRegistrationDto> saveStudentRegistrations(List<StudentRegistrationDto> studentRegistrationDtos) {
+        List<StudentRegistration> registrations = studentRegistrationDtos.stream().map(mapper::toStudentRegistration).toList();
+        return studentRegistrationRepository.saveAll(registrations).stream()
+                .map(mapper::toStudentRegistrationDto)
+                .toList();
     }
 
     public List<StudentRegistrationDto> getStudentRegistrations() {
-        return studentRegistrationRepository.findAll().stream().map(StudentRegistrationMapper.Instance::toStudentRegistrationDto).toList();
+        return studentRegistrationRepository.findAll().stream()
+                .map(mapper::toStudentRegistrationDto).toList();
     }
 
     public StudentRegistrationDto getStudentRegistrationById(StudentRegistrationId id) {
-        return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.findById(id).orElse(null));
+        return mapper.toStudentRegistrationDto(studentRegistrationRepository.findById(id).orElseThrow(ResourceNotFoundException::new));
     }
 
-    public void deleteStudentRegistration(StudentRegistration studentRegistration) {
-        studentRegistrationRepository.delete(studentRegistration);
+    public void deleteStudentRegistration(StudentRegistrationDto studentRegistration) {
+        studentRegistrationRepository.deleteById(studentRegistration.getStudentRegistrationId());
     }
 
     public void deleteAllStudentRegistrations() {
@@ -48,19 +55,17 @@ public class StudentRegistrationService {
         studentRegistrationRepository.deleteById(id);
     }
 
-    public StudentRegistrationDto editStudentRegistration(StudentRegistration studentRegistration) {
-        StudentRegistration existingStudentRegistration = studentRegistrationRepository.findById(studentRegistration.getStudentRegistrationId()).orElse(null);
-        existingStudentRegistration.setStudentRegistrationId(studentRegistration.getStudentRegistrationId());
-        existingStudentRegistration.setSession(studentRegistration.getSession());
-        existingStudentRegistration.setRegDate(studentRegistration.getRegDate());
-        existingStudentRegistration.setSession(studentRegistration.getSession());
-        return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.save(existingStudentRegistration));
+    public StudentRegistrationDto editStudentRegistration(StudentRegistrationDto studentRegistration) {
+        if(!studentRegistrationRepository.existsById(studentRegistration.getStudentRegistrationId()))
+            throw new ResourceNotFoundException("Student registration " + studentRegistration.getStudentRegistrationId() + " does not") ;
+        StudentRegistration savedReg = studentRegistrationRepository.save(mapper.toStudentRegistration(studentRegistration));
+        return mapper.toStudentRegistrationDto(savedReg);
     }
 
 
     public List<SessionDto> findAllSessionsByStudentId(Integer id) {
         List<StudentRegistration> allByStudentId = studentRegistrationRepository.findAllByStudentId(id);
-        var sessionsId = allByStudentId.stream().map(reg-> reg.getStudentRegistrationId().getSessionId()).toList();
+        var sessionsId = allByStudentId.stream().map(reg -> reg.getStudentRegistrationId().getSessionId()).toList();
         return sessionRepository.findAllById(sessionsId)
                 .stream()
                 .map(SessionMapper.Instance::toSessionDto)

@@ -1,7 +1,6 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.dto.SessionDto;
-import com.crystal.school.model.Session;
 import com.crystal.school.repository.SessionRepository;
 import com.crystal.school.service.SessionService;
 import com.crystal.school.service.StudentRegistrationService;
@@ -35,17 +34,17 @@ public class SessionController {
     }
 
     @PostMapping("/session/add")
-    public SessionDto addSession(@RequestBody Session session) {
+    public SessionDto addSession(@RequestBody SessionDto session) {
         return sessionService.saveSession(session);
     }
 
     @PostMapping("/sessions")
-    public List<SessionDto> saveSessions(@RequestBody List<Session> sessions) {
+    public List<SessionDto> saveSessions(@RequestBody List<SessionDto> sessions) {
         return sessionService.saveSessions(sessions);
     }
 
     @PutMapping("/session")
-    public SessionDto updateSession(@RequestBody Session session) {
+    public SessionDto updateSession(@RequestBody SessionDto session) {
         return sessionService.editSession(session);
     }
 

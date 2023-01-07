@@ -2,7 +2,6 @@ package com.crystal.school.controller;
 
 import com.crystal.school.dto.pivote.SessionRatingDto;
 import com.crystal.school.model.id.SessionRatingId;
-import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.service.SessionRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,26 +27,26 @@ public class SessionRatingController {
     }
 
     @PostMapping("/session-rating")
-    public String addSessionRating(@RequestBody SessionRating sessionRating) {
+    public String addSessionRating(@RequestBody SessionRatingDto sessionRating) {
         sessionRatingService.saveSessionRating(sessionRating);
         return "Added successfully";
     }
 
     @PostMapping("/session-ratings")
-    public String addSessionRatings(@RequestBody List<SessionRating> sessionRatings) {
+    public String addSessionRatings(@RequestBody List<SessionRatingDto> sessionRatings) {
         sessionRatingService.saveSessionRatings(sessionRatings);
         return "Added successfully";
     }
 
 
     @PutMapping("/session-rating")
-    public String editSessionRating(@RequestBody SessionRating sessionRating) {
+    public String editSessionRating(@RequestBody SessionRatingDto sessionRating) {
         sessionRatingService.editSessionRating(sessionRating);
         return "Updated successfully";
     }
 
     @DeleteMapping("/session-rating")
-    public String deleteSessionRating(@RequestBody SessionRating sessionRating) {
+    public String deleteSessionRating(@RequestBody SessionRatingDto sessionRating) {
         sessionRatingService.deleteSessionRating(sessionRating);
         return "Deleted successfully";
     }

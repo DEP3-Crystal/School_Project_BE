@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeDto extends UserInfoDto {
+public class EmployeeInfoDto extends UserInfoDto {
 
     @Size(max = 255)
     @NonNull

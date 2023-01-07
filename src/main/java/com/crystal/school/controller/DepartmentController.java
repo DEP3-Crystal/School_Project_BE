@@ -2,7 +2,6 @@ package com.crystal.school.controller;
 
 
 import com.crystal.school.dto.DepartmentDto;
-import com.crystal.school.model.Department;
 import com.crystal.school.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,17 +35,17 @@ public class DepartmentController {
     }
 
     @PostMapping("/add")
-    public DepartmentDto addDepartment(@RequestBody Department department) {
-        return departmentService.addDepartment(department);
+    public DepartmentDto addDepartment(@RequestBody DepartmentDto departmentDto) {
+        return departmentService.addDepartment(departmentDto);
     }
 
     @PostMapping("/addSome")
-    public List<DepartmentDto> addSomeDepartments(@RequestBody List<Department> departments) {
+    public List<DepartmentDto> addSomeDepartments(@RequestBody List<DepartmentDto> departments) {
         return departmentService.addDepartments(departments);
     }
 
     @PutMapping("/update")
-    public DepartmentDto updateDepartment(@RequestBody Department department) {
+    public DepartmentDto updateDepartment(@RequestBody DepartmentDto department) {
         return departmentService.editDepartment(department);
     }
 }

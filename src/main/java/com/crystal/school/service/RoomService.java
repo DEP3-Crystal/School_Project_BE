@@ -12,15 +12,16 @@ import java.util.List;
 
 @Service
 public class RoomService {
+    private static final RoomMapper mapper = RoomMapper.Instance;
     @Autowired
     private RoomRepository roomRepository;
 
     public RoomDto getRoomById(Integer id) {
-        return RoomMapper.Instance.toRoomDto(roomRepository.findById(id).orElse(null));
+        return mapper.toRoomDto(roomRepository.findById(id).orElse(null));
     }
 
     public List<RoomDto> getRooms() {
-        return roomRepository.findAll().stream().map(RoomMapper.Instance::toRoomDto).toList();
+        return roomRepository.findAll().stream().map(mapper::toRoomDto).toList();
     }
 
     public void deleteRoomById(Integer id) {
@@ -31,25 +32,26 @@ public class RoomService {
         roomRepository.deleteAll();
     }
 
-    public void deleteRoom(Room room) {
-        roomRepository.delete(room);
+    public void deleteRoom(RoomDto room) {
+        roomRepository.deleteById(room.getRoomId());
     }
 
-    public RoomDto addRoom(Room room) {
-        return RoomMapper.Instance.toRoomDto(roomRepository.save(room));
+    public RoomDto addRoom(RoomDto room) {
+        Room savedRoom = roomRepository.save(mapper.toRoom(room));
+        return mapper.toRoomDto(savedRoom);
     }
 
-    public List<RoomDto> addRooms(List<Room> rooms) {
-        return roomRepository.saveAll(rooms).stream().map(RoomMapper.Instance::toRoomDto).toList();
+    public List<RoomDto> addRooms(List<RoomDto> roomsDto) {
+        List<Room> rooms = roomsDto.stream().map(mapper::toRoom).toList();
+        return roomRepository.saveAll(rooms).stream()
+                .map(mapper::toRoomDto)
+                .toList();
     }
 
-    public RoomDto editRoom(Room room) {
-        Room existingRoom = roomRepository.findById(room.getRoomId()).orElseThrow(ResourceNotFoundException::new);
-        existingRoom.setRoomId(room.getRoomId());
-        existingRoom.setDoorNumber(room.getDoorNumber());
-        existingRoom.setFloor(room.getFloor());
-        existingRoom.setSchool(room.getSchool());
-        existingRoom.setType(room.getType());
-        return RoomMapper.Instance.toRoomDto(roomRepository.save(existingRoom));
+    public RoomDto editRoom(RoomDto roomDto) {
+        if (!roomRepository.existsById(roomDto.getRoomId()))
+            throw new ResourceNotFoundException("Room with id " + roomDto.getRoomId() + "was not found");
+
+        return mapper.toRoomDto(roomRepository.save(mapper.toRoom(roomDto)));
     }
 }

@@ -3,7 +3,6 @@ package com.crystal.school.controller;
 import com.crystal.school.dto.pivote.StudentGradeDto;
 import com.crystal.school.dto.registration.StudentGradeDtoRegistration;
 import com.crystal.school.model.id.StudentGradeId;
-import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.repository.StudentGradeRepository;
 import com.crystal.school.service.StudentGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +34,17 @@ public class StudentGradesController {
     }
 
     @PostMapping("/student-grade/add")
-    public StudentGradeDtoRegistration addStudentGrade(@RequestBody StudentGrade studentGrade) {
+    public StudentGradeDtoRegistration addStudentGrade(@RequestBody StudentGradeDto studentGrade) {
         return service.saveStudentGrade(studentGrade);
     }
 
     @PostMapping("/student-grades/add")
-    public List<StudentGradeDto> addStudentGrades(@RequestBody List<StudentGrade> studentGrades) {
+    public List<StudentGradeDto> addStudentGrades(@RequestBody List<StudentGradeDto> studentGrades) {
         return service.saveStudentGrades(studentGrades);
     }
 
     @PutMapping("/student-grade/edit")
-    public StudentGradeDto updateStudentGrade(@RequestBody StudentGrade studentGrade) {
+    public StudentGradeDto updateStudentGrade(@RequestBody StudentGradeDto studentGrade) {
         return service.editStudentGrade(studentGrade);
     }
 

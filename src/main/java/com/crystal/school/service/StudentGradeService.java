@@ -2,6 +2,7 @@ package com.crystal.school.service;
 
 import com.crystal.school.dto.pivote.StudentGradeDto;
 import com.crystal.school.dto.registration.StudentGradeDtoRegistration;
+import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.StudentGradeMapper;
 import com.crystal.school.model.Session;
 import com.crystal.school.model.User;
@@ -18,33 +19,44 @@ import java.util.Optional;
 
 @Service
 public class StudentGradeService {
+    private static final StudentGradeMapper mapper = StudentGradeMapper.Instance;
     @Autowired
     private StudentGradeRepository repository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private SessionRepository sessionRepository;
-    public StudentGradeDtoRegistration saveStudentGrade(StudentGrade studentGrade) {
-        return toStudentGradeDtoNew(repository.save(studentGrade));
+
+    public StudentGradeDtoRegistration saveStudentGrade(StudentGradeDto gradeDto) {
+
+        StudentGrade savedGrade = repository.save(mapper.toStudentGrade(gradeDto));
+        return toStudentGradeDtoNew(mapper.toStudentGradeDto(savedGrade));
     }
 
-    public List<StudentGradeDto> saveStudentGrades(List<StudentGrade> studentGrades) {
-        return repository.saveAll(studentGrades).stream().map(StudentGradeMapper.Instance::toStudentGradeDto).toList();
+    public List<StudentGradeDto> saveStudentGrades(List<StudentGradeDto> gradeDtos) {
+        List<StudentGrade> studentGrades = gradeDtos.stream().map(mapper::toStudentGrade).toList();
+        return repository.saveAll(studentGrades).stream()
+                .map(mapper::toStudentGradeDto).toList();
     }
 
     public List<StudentGradeDto> getStudentGrades() {
-        return repository.findAll().stream().map(StudentGradeMapper.Instance::toStudentGradeDto).toList();
+        return repository.findAll().stream().map(mapper::toStudentGradeDto).toList();
     }
 
     public StudentGradeDto getStudentGradeById(StudentGradeId id) {
-        return StudentGradeMapper.Instance.toStudentGradeDto(repository.findById(id).orElse(null));
-    }
-    public List<StudentGradeDtoRegistration> getStudentGradeByStudentId(Integer id) {
-        List<StudentGrade> grades = repository.findByStudentId(id);
-        return grades.stream().map(this::toStudentGradeDtoNew).toList();
+        return mapper.toStudentGradeDto(repository.findById(id).orElse(null));
     }
 
-    private StudentGradeDtoRegistration toStudentGradeDtoNew(StudentGrade studentGrade) {
+    public List<StudentGradeDtoRegistration> getStudentGradeByStudentId(Integer id) {
+        List<StudentGradeDto> grades = repository.findGradesByStudentId(id).stream()
+                .map(mapper::toStudentGradeDto)
+                .toList();
+        return grades.stream()
+                .map(this::toStudentGradeDtoNew)
+                .toList();
+    }
+
+    private StudentGradeDtoRegistration toStudentGradeDtoNew(StudentGradeDto studentGrade) {
         Optional<Session> optionalSession = sessionRepository.findById(studentGrade.getStudentGradeId().getStudentId());
         Optional<User> userOptional = userRepository.findById(studentGrade.getStudentGradeId().getStudentId());
         if (optionalSession.isEmpty() || userOptional.isEmpty()) {
@@ -72,13 +84,10 @@ public class StudentGradeService {
         repository.deleteById(id);
     }
 
-    public StudentGradeDto editStudentGrade(StudentGrade studentGrade) {
-        StudentGrade existingStudentGrade = repository.findById(studentGrade.getStudentGradeId()).orElse(null);
-        existingStudentGrade.setGrade(studentGrade.getGrade());
-        existingStudentGrade.setStudent(studentGrade.getStudent());
-        existingStudentGrade.setSession(studentGrade.getSession());
-
-
-        return StudentGradeMapper.Instance.toStudentGradeDto(repository.save(existingStudentGrade));
+    public StudentGradeDto editStudentGrade(StudentGradeDto gradeDto) {
+        if (!repository.existsById(gradeDto.getStudentGradeId()))
+            throw new ResourceNotFoundException("Student grade " + gradeDto.getStudentGradeId() + " not found");
+        StudentGrade savedGrade = repository.save(mapper.toStudentGrade(gradeDto));
+        return mapper.toStudentGradeDto(savedGrade);
     }
 }

@@ -14,18 +14,19 @@ import java.util.List;
 public class SchoolService {
     @Autowired
     private SchoolRepository schoolRepository;
-
+    private static final SchoolMapper mapper = SchoolMapper.Instance;
     public List<SchoolDto> getSchools() {
-        return schoolRepository.findAll().stream().map(SchoolMapper.Instance::toSchoolDto).toList();
+        return schoolRepository.findAll().stream().map(mapper::toSchoolDto).toList();
     }
 
-    public SchoolDto saveSchool(School school) {
-        schoolRepository.save(school);
-        return SchoolMapper.Instance.toSchoolDto(schoolRepository.save(school));
+    public SchoolDto saveSchool(SchoolDto school) {
+        School savedSchool = schoolRepository.save(mapper.toSchool(school));
+        return mapper.toSchoolDto(savedSchool);
     }
 
     public SchoolDto getSchoolById(int id) {
-        return SchoolMapper.Instance.toSchoolDto(schoolRepository.findById(id).orElseThrow(ResourceNotFoundException::new));
+        return mapper.toSchoolDto(schoolRepository.findById(id)
+                .orElseThrow(ResourceNotFoundException::new));
     }
 
     public String deleteSchool(int id) {
@@ -33,12 +34,11 @@ public class SchoolService {
         return "school deleted " + id;
     }
 
-    public SchoolDto updateSchool(School school) {
-        School existingSchool = schoolRepository.findById(school.getSchoolId()).orElseThrow(ResourceNotFoundException::new);
-        existingSchool.setRooms(school.getRooms());
-        existingSchool.setLocation(school.getLocation());
-        existingSchool.setName(school.getName());
+    public SchoolDto updateSchool(SchoolDto schoolDto) {
+        if(!schoolRepository.existsById(schoolDto.getSchoolId()))
+            throw new ResourceNotFoundException("school not found");
 
-        return SchoolMapper.Instance.toSchoolDto(schoolRepository.save(existingSchool));
+        School savedSchool = schoolRepository.save(mapper.toSchool(schoolDto));
+        return mapper.toSchoolDto(savedSchool);
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TeacherDto extends EmployeeDto {
+public class TeacherInfoDto extends EmployeeInfoDto {
 
     @Size(max = 255)
     @NonNull

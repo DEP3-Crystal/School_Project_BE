@@ -1,7 +1,6 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.dto.RoomDto;
-import com.crystal.school.model.Room;
 import com.crystal.school.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,17 +24,17 @@ public class RoomController {
     }
 
     @PostMapping("/room")
-    public RoomDto addRoom(Room room) {
+    public RoomDto addRoom(RoomDto room) {
         return roomService.addRoom(room);
     }
 
     @PostMapping("/rooms")
-    public List<RoomDto> addRooms(List<Room> rooms) {
+    public List<RoomDto> addRooms(List<RoomDto> rooms) {
         return roomService.addRooms(rooms);
     }
 
     @PutMapping("/room")
-    public RoomDto updateRoom(@RequestBody Room room) {
+    public RoomDto updateRoom(@RequestBody RoomDto room) {
         return roomService.editRoom(room);
     }
 
@@ -50,7 +49,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/room")
-    public void deleteRoom(@RequestBody Room room) {
+    public void deleteRoom(@RequestBody RoomDto room) {
         roomService.deleteRoom(room);
     }
 

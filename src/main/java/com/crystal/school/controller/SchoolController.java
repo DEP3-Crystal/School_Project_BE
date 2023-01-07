@@ -15,16 +15,14 @@ import java.util.List;
 public class SchoolController {
     @Autowired
     private SchoolService service;
-    private final FakerDataAccess fakerDataAccess = FakerDataAccess.getInstance();
 
     @GetMapping("/schools")
     public List<SchoolDto> getSchoolsList() {
-        // return fakerDataAccess.generateSchools(1, 1, 1, 1, 1);
         return service.getSchools();
     }
 
     @PostMapping("/school")
-    public SchoolDto addSchool(@RequestBody School school) {
+    public SchoolDto addSchool(@RequestBody SchoolDto school) {
         return service.saveSchool(school);
     }
 
@@ -39,7 +37,7 @@ public class SchoolController {
     }
 
     @PutMapping("/school")
-    public SchoolDto updateSchool(@RequestBody School school) {
+    public SchoolDto updateSchool(@RequestBody SchoolDto school) {
         return service.updateSchool(school);
     }
 }

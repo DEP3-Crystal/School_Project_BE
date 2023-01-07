@@ -12,16 +12,22 @@ import java.util.List;
 
 @Service
 public class SessionService {
+    private static final SessionMapper mapper = SessionMapper.Instance;
     @Autowired
     private SessionRepository sessionRepository;
 
-    public SessionDto saveSession(Session session) {
-        return SessionMapper.Instance.toSessionDto(sessionRepository.save(session));
+    public SessionDto saveSession(SessionDto session) {
+        Session savedSession = sessionRepository.save(mapper.toSession(session));
+        return mapper.toSessionDto(savedSession);
     }
 
 
-    public List<SessionDto> saveSessions(List<Session> sessions) {
-        return sessionRepository.saveAll(sessions).stream().map(SessionMapper.Instance::toSessionDto).toList();
+    public List<SessionDto> saveSessions(List<SessionDto> sessionDtos) {
+        List<Session> sessions = sessionDtos.stream().map(mapper::toSession).toList();
+        List<Session> savedSessions = sessionRepository.saveAll(sessions);
+        return savedSessions.stream()
+                .map(SessionMapper.Instance::toSessionDto)
+                .toList();
     }
 
     public List<SessionDto> getSessions() {
@@ -43,8 +49,9 @@ public class SessionService {
         sessionRepository.deleteAll();
     }
 
-    public SessionDto editSession(Session session) {
-        Session existingSession = sessionRepository.findById(session.getId()).orElseThrow(ResourceNotFoundException::new);
-        return SessionMapper.Instance.toSessionDto(sessionRepository.save(existingSession));
+    public SessionDto editSession(SessionDto session) {
+        if (!sessionRepository.existsById(session.getId()))
+            throw new ResourceNotFoundException("session " + session.getId() + " does not exist");
+        return SessionMapper.Instance.toSessionDto(sessionRepository.save(mapper.toSession(session)));
     }
 }

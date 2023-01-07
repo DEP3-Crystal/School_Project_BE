@@ -14,24 +14,26 @@ import java.util.List;
 public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
-
+    private final DepartmentMapper mapper = DepartmentMapper.Instance;
     public DepartmentDto getDepartmentById(Integer id) {
-        return DepartmentMapper.Instance.toDepartmentDto(departmentRepository.findById(id).orElse(null));
+        return mapper.toDepartmentDto(departmentRepository.findById(id).orElse(null));
     }
 
     public List<DepartmentDto> getDepartments() {
         List<Department> departments = departmentRepository.findAll();
-        return departments.stream().map(DepartmentMapper.Instance::toDepartmentDto).toList();
+        return departments.stream().map(mapper::toDepartmentDto).toList();
     }
 
-    public DepartmentDto addDepartment(Department department) {
+    public DepartmentDto addDepartment(DepartmentDto department) {
 
-        return DepartmentMapper.Instance.toDepartmentDto(departmentRepository.save(department));
+        Department savedDepartment = departmentRepository.save(mapper.toDepartment(department));
+        return mapper.toDepartmentDto(savedDepartment);
     }
 
-    public List<DepartmentDto> addDepartments(List<Department> departments) {
-        departmentRepository.saveAll(departments);
-        return departments.stream().map(DepartmentMapper.Instance::toDepartmentDto).toList();
+    public List<DepartmentDto> addDepartments(List<DepartmentDto> departmentsDto) {
+        List<Department> departments = departmentsDto.stream().map(mapper::toDepartment).toList();
+        List<Department> savedDep = departmentRepository.saveAll(departments);
+        return savedDep.stream().map(mapper::toDepartmentDto).toList();
     }
 
     public void deleteDepartmentById(Integer id) {
@@ -42,15 +44,9 @@ public class DepartmentService {
         departmentRepository.deleteAll();
     }
 
-    public DepartmentDto editDepartment(Department department) {
-        Department existingDepartment = departmentRepository.findById(department.getDepartmentId()).orElseThrow(ResourceNotFoundException::new);
-        existingDepartment.setDepartmentId(department.getDepartmentId());
-        existingDepartment.setName(department.getName());
-        existingDepartment.setEmployee(department.getEmployee());
-        existingDepartment.setSessions(department.getSessions());
-        existingDepartment.setTeachers(department.getTeachers());
-        existingDepartment.setStudents(department.getStudents());
-
-        return DepartmentMapper.Instance.toDepartmentDto(departmentRepository.save(existingDepartment));
+    public DepartmentDto editDepartment(DepartmentDto department) {
+        Department existingDepartment = departmentRepository.findById(department.getDepartmentId())
+                .orElseThrow(ResourceNotFoundException::new);
+        return mapper.toDepartmentDto(departmentRepository.save(existingDepartment));
     }
 }

@@ -1,8 +1,8 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.dto.pivote.StudentRegistrationDto;
+import com.crystal.school.mapper.UserMapper;
 import com.crystal.school.model.id.StudentRegistrationId;
-import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.service.StudentRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,6 @@ import java.util.List;
 public class StudentRegistrationController {
     @Autowired
     private StudentRegistrationService studentRegistrationService;
-
     @GetMapping("/student-registrations")
     public List<StudentRegistrationDto> getAllStudentRegistrations() {
         return studentRegistrationService.getStudentRegistrations();
@@ -27,20 +26,20 @@ public class StudentRegistrationController {
     }
 
     @PostMapping("/student-registration")
-    public String addStudentRegistration(@RequestBody StudentRegistration studentRegistration) {
+    public String addStudentRegistration(@RequestBody StudentRegistrationDto studentRegistration) {
         studentRegistrationService.saveStudentRegistration(studentRegistration);
         return "Added successfully";
     }
 
     @PostMapping("/student-registrations")
-    public String addStudentRegistrations(List<StudentRegistration> studentRegistrations) {
+    public String addStudentRegistrations(List<StudentRegistrationDto> studentRegistrations) {
         studentRegistrationService.saveStudentRegistrations(studentRegistrations);
         return "Added successfully";
 
     }
 
     @PutMapping("/student-registration")
-    public String editStudentRegistration(@RequestBody StudentRegistration studentRegistration) {
+    public String editStudentRegistration(@RequestBody StudentRegistrationDto studentRegistration) {
         studentRegistrationService.editStudentRegistration(studentRegistration);
         return "Updated successfully";
     }
@@ -57,7 +56,7 @@ public class StudentRegistrationController {
     }
 
     @DeleteMapping("/registration")
-    public void deleteRegistration(@RequestBody StudentRegistration studentRegistration) {
+    public void deleteRegistration(@RequestBody StudentRegistrationDto studentRegistration) {
         studentRegistrationService.deleteStudentRegistration(studentRegistration);
     }
 
