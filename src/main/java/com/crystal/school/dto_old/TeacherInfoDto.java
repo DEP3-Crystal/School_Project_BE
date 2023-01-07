@@ -1,6 +1,6 @@
-package com.crystal.school.dto;
+package com.crystal.school.dto_old;
 
-import com.crystal.school.dto.pivote.TeacherRatingDto;
+import com.crystal.school.dto_old.pivote.TeacherRatingDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

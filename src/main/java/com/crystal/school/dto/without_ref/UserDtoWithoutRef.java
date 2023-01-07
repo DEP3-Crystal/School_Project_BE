@@ -1,4 +1,4 @@
-package com.crystal.school.dto;
+package com.crystal.school.dto.without_ref;
 
 import com.crystal.school.model.Department;
 import com.crystal.school.model.Image;
@@ -19,15 +19,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfoDto {
+public class UserDtoWithoutRef {
 
     private Integer id;
 
-    @Size(max = 255)
     @NonNull
     private String firstName;
 
-    @Size(max = 255)
     @NonNull
     private String lastName;
 
@@ -40,23 +38,7 @@ public class UserInfoDto {
 
     private String biography;
 
-
-    @NonNull
-    private String password;
-
-    @NonNull
-    private String salt;
     private Role role;
 
     private Image profilePicture;
-    private DepartmentWithoutRef department;
-
-    private List<StudentRegistrationWithoutRef> studentRegistrations = new ArrayList<>();
-
-    private List<StudentGradeWithoutRef> studentGrades = new ArrayList<>();
-
-    private List<SessionRatingWithoutRef> sessionRatings = new ArrayList<>();
-
-    private List<TeacherRatingWithoutRef> teacherRatings = new ArrayList<>();
-
 }

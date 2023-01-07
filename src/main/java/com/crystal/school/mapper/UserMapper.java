@@ -1,6 +1,6 @@
 package com.crystal.school.mapper;
 
-import com.crystal.school.dto.UserInfoDto;
+import com.crystal.school.dto_old.UserInfoDto;
 import com.crystal.school.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

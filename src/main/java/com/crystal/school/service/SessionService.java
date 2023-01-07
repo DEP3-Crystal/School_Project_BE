@@ -1,6 +1,6 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto.SessionDto;
+import com.crystal.school.dto_old.SessionDto;
 import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.SessionMapper;
 import com.crystal.school.model.Session;

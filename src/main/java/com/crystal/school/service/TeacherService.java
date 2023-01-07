@@ -1,8 +1,8 @@
 package com.crystal.school.service;
 
 
-import com.crystal.school.dto.TeacherInfoDto;
-import com.crystal.school.dto.registration.TeacherRegistrationDto;
+import com.crystal.school.dto_old.TeacherInfoDto;
+import com.crystal.school.dto_old.registration.TeacherRegistrationDto;
 import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.TeacherMapper;
 import com.crystal.school.model.Teacher;

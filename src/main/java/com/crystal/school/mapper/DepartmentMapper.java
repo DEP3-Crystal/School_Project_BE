@@ -1,6 +1,6 @@
 package com.crystal.school.mapper;
 
-import com.crystal.school.dto.DepartmentDto;
+import com.crystal.school.dto_old.DepartmentDto;
 import com.crystal.school.model.Department;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

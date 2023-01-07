@@ -1,7 +1,7 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto.EmployeeInfoDto;
-import com.crystal.school.dto.registration.EmployeeRegistrationDto;
+import com.crystal.school.dto_old.EmployeeInfoDto;
+import com.crystal.school.dto_old.registration.EmployeeRegistrationDto;
 import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.EmployeeMapper;
 import com.crystal.school.model.Employee;

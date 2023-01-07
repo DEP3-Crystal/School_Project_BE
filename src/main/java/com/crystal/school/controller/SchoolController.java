@@ -1,7 +1,7 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.dao.FakerDataAccess;
-import com.crystal.school.dto.SchoolDto;
+import com.crystal.school.dto_old.SchoolDto;
 import com.crystal.school.model.School;
 import com.crystal.school.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;

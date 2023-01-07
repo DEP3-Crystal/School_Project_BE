@@ -1,6 +1,6 @@
-package com.crystal.school.dto.pivote;
+package com.crystal.school.dto_old.pivote;
 
-import com.crystal.school.dto.UserInfoDto;
+import com.crystal.school.dto_old.UserInfoDto;
 import com.crystal.school.model.id.StudentGradeId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

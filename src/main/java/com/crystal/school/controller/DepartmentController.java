@@ -1,7 +1,7 @@
 package com.crystal.school.controller;
 
 
-import com.crystal.school.dto.DepartmentDto;
+import com.crystal.school.dto_old.DepartmentDto;
 import com.crystal.school.model.Department;
 import com.crystal.school.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;

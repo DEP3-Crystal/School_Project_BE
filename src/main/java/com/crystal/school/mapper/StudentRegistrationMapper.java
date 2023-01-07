@@ -1,7 +1,7 @@
 package com.crystal.school.mapper;
 
 
-import com.crystal.school.dto.pivote.StudentRegistrationDtoOld;
+import com.crystal.school.dto_old.pivote.StudentRegistrationDto;
 import com.crystal.school.model.pivote.StudentRegistration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 public interface StudentRegistrationMapper {
     StudentRegistrationMapper Instance = Mappers.getMapper(StudentRegistrationMapper.class);
 
-    StudentRegistration toStudentRegistration(StudentRegistrationDtoOld studentRegistrationDtoOld);
+    StudentRegistration toStudentRegistration(StudentRegistrationDto studentRegistrationDto);
 
-    StudentRegistrationDtoOld toStudentRegistrationDto(StudentRegistration studentRegistration);
+    StudentRegistrationDto toStudentRegistrationDto(StudentRegistration studentRegistration);
 }

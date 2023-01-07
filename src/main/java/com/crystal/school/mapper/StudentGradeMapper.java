@@ -1,6 +1,6 @@
 package com.crystal.school.mapper;
 
-import com.crystal.school.dto.pivote.StudentGradeDto;
+import com.crystal.school.dto_old.pivote.StudentGradeDto;
 import com.crystal.school.model.pivote.StudentGrade;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

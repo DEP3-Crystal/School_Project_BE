@@ -30,11 +30,6 @@ public class Employee extends User {
     @NonNull
     private String title;
 
-//    @Column(name = "role")
-//    @Enumerated(EnumType.STRING)
-//    @NonNull
-//    private Role role;
-
     @Column(name = "hire_date")
     @NonNull
     private Timestamp hireDate;

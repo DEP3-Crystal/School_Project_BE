@@ -1,6 +1,6 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto.pivote.SessionRatingDto;
+import com.crystal.school.dto_old.pivote.SessionRatingDto;
 import com.crystal.school.mapper.SessionRatingMapper;
 import com.crystal.school.model.id.SessionRatingId;
 import com.crystal.school.model.pivote.SessionRating;

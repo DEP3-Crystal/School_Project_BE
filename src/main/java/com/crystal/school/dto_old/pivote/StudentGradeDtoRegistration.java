@@ -1,4 +1,4 @@
-package com.crystal.school.dto.pivote;
+package com.crystal.school.dto_old.pivote;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class StudentGradeDtoNew {
+public class StudentGradeDtoRegistration {
     private String sessionName;
     private String sessionDescription;
     private String studentFirstName;

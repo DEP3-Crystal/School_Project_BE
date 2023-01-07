@@ -1,7 +1,7 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto.EmployeeInfoDto;
-import com.crystal.school.dto.registration.EmployeeRegistrationDto;
+import com.crystal.school.dto_old.EmployeeInfoDto;
+import com.crystal.school.dto_old.registration.EmployeeRegistrationDto;
 import com.crystal.school.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

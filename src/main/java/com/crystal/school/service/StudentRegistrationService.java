@@ -1,7 +1,7 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto.SessionDto;
-import com.crystal.school.dto.pivote.StudentRegistrationDtoOld;
+import com.crystal.school.dto_old.SessionDto;
+import com.crystal.school.dto_old.pivote.StudentRegistrationDto;
 import com.crystal.school.mapper.SessionMapper;
 import com.crystal.school.mapper.StudentRegistrationMapper;
 import com.crystal.school.model.id.StudentRegistrationId;
@@ -20,19 +20,19 @@ public class StudentRegistrationService {
     @Autowired
     private SessionRepository sessionRepository;
 
-    public StudentRegistrationDtoOld saveStudentRegistration(StudentRegistration studentRegistration) {
+    public StudentRegistrationDto saveStudentRegistration(StudentRegistration studentRegistration) {
         return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.save(studentRegistration));
     }
 
-    public List<StudentRegistrationDtoOld> saveStudentRegistrations(List<StudentRegistration> studentRegistrations) {
+    public List<StudentRegistrationDto> saveStudentRegistrations(List<StudentRegistration> studentRegistrations) {
         return studentRegistrationRepository.saveAll(studentRegistrations).stream().map(StudentRegistrationMapper.Instance::toStudentRegistrationDto).toList();
     }
 
-    public List<StudentRegistrationDtoOld> getStudentRegistrations() {
+    public List<StudentRegistrationDto> getStudentRegistrations() {
         return studentRegistrationRepository.findAll().stream().map(StudentRegistrationMapper.Instance::toStudentRegistrationDto).toList();
     }
 
-    public StudentRegistrationDtoOld getStudentRegistrationById(StudentRegistrationId id) {
+    public StudentRegistrationDto getStudentRegistrationById(StudentRegistrationId id) {
         return StudentRegistrationMapper.Instance.toStudentRegistrationDto(studentRegistrationRepository.findById(id).orElse(null));
     }
 
@@ -48,7 +48,7 @@ public class StudentRegistrationService {
         studentRegistrationRepository.deleteById(id);
     }
 
-    public StudentRegistrationDtoOld editStudentRegistration(StudentRegistration studentRegistration) {
+    public StudentRegistrationDto editStudentRegistration(StudentRegistration studentRegistration) {
         StudentRegistration existingStudentRegistration = studentRegistrationRepository.findById(studentRegistration.getStudentRegistrationId()).orElse(null);
         existingStudentRegistration.setStudentRegistrationId(studentRegistration.getStudentRegistrationId());
         existingStudentRegistration.setSession(studentRegistration.getSession());

@@ -1,6 +1,6 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto.RoomDto;
+import com.crystal.school.dto_old.RoomDto;
 import com.crystal.school.model.Room;
 import com.crystal.school.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;

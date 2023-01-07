@@ -1,6 +1,6 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto.SchoolDto;
+import com.crystal.school.dto_old.SchoolDto;
 import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.SchoolMapper;
 import com.crystal.school.model.School;

@@ -1,6 +1,6 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto.SessionDto;
+import com.crystal.school.dto_old.SessionDto;
 import com.crystal.school.model.Session;
 import com.crystal.school.repository.SessionRepository;
 import com.crystal.school.service.SessionService;

@@ -1,7 +1,7 @@
 package com.crystal.school.service;
 
-import com.crystal.school.dto.pivote.StudentGradeDto;
-import com.crystal.school.dto.pivote.StudentGradeDtoNew;
+import com.crystal.school.dto_old.pivote.StudentGradeDto;
+import com.crystal.school.dto_old.pivote.StudentGradeDtoRegistration;
 import com.crystal.school.mapper.StudentGradeMapper;
 import com.crystal.school.model.Session;
 import com.crystal.school.model.User;
@@ -24,7 +24,7 @@ public class StudentGradeService {
     private UserRepository userRepository;
     @Autowired
     private SessionRepository sessionRepository;
-    public StudentGradeDtoNew saveStudentGrade(StudentGrade studentGrade) {
+    public StudentGradeDtoRegistration saveStudentGrade(StudentGrade studentGrade) {
         return toStudentGradeDtoNew(repository.save(studentGrade));
     }
 
@@ -39,12 +39,12 @@ public class StudentGradeService {
     public StudentGradeDto getStudentGradeById(StudentGradeId id) {
         return StudentGradeMapper.Instance.toStudentGradeDto(repository.findById(id).orElse(null));
     }
-    public List<StudentGradeDtoNew> getStudentGradeByStudentId(Integer id) {
+    public List<StudentGradeDtoRegistration> getStudentGradeByStudentId(Integer id) {
         List<StudentGrade> grades = repository.findByStudentId(id);
         return grades.stream().map(this::toStudentGradeDtoNew).toList();
     }
 
-    private StudentGradeDtoNew toStudentGradeDtoNew(StudentGrade studentGrade) {
+    private StudentGradeDtoRegistration toStudentGradeDtoNew(StudentGrade studentGrade) {
         Optional<Session> optionalSession = sessionRepository.findById(studentGrade.getStudentGradeId().getStudentId());
         Optional<User> userOptional = userRepository.findById(studentGrade.getStudentGradeId().getStudentId());
         if (optionalSession.isEmpty() || userOptional.isEmpty()) {
@@ -52,7 +52,7 @@ public class StudentGradeService {
         }
         Session session = optionalSession.get();
         User student = userOptional.get();
-        return StudentGradeDtoNew.builder()
+        return StudentGradeDtoRegistration.builder()
                 .sessionName(session.getTitle())
                 .sessionDescription(session.getDescription())
                 .isOptional(session.getIsOptional())

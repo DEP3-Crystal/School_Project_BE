@@ -1,6 +1,6 @@
-package com.crystal.school.dto.registration;
+package com.crystal.school.dto_old.registration;
 
-import com.crystal.school.dto.TeacherInfoDto;
+import com.crystal.school.dto_old.TeacherInfoDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

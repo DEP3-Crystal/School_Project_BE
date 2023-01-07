@@ -1,6 +1,6 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto.pivote.StudentRegistrationDtoOld;
+import com.crystal.school.dto_old.pivote.StudentRegistrationDto;
 import com.crystal.school.model.id.StudentRegistrationId;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.service.StudentRegistrationService;
@@ -17,12 +17,12 @@ public class StudentRegistrationController {
     private StudentRegistrationService studentRegistrationService;
 
     @GetMapping("/student-registrations")
-    public List<StudentRegistrationDtoOld> getAllStudentRegistrations() {
+    public List<StudentRegistrationDto> getAllStudentRegistrations() {
         return studentRegistrationService.getStudentRegistrations();
     }
 
     @GetMapping("/student-registrations/{id}")
-    public StudentRegistrationDtoOld getStudentRegistrationById(@PathVariable StudentRegistrationId id) {
+    public StudentRegistrationDto getStudentRegistrationById(@PathVariable StudentRegistrationId id) {
         return studentRegistrationService.getStudentRegistrationById(id);
     }
 

@@ -1,7 +1,7 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.dto.pivote.StudentGradeDto;
-import com.crystal.school.dto.pivote.StudentGradeDtoNew;
+import com.crystal.school.dto_old.pivote.StudentGradeDto;
+import com.crystal.school.dto_old.pivote.StudentGradeDtoRegistration;
 import com.crystal.school.model.id.StudentGradeId;
 import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.repository.StudentGradeRepository;
@@ -30,12 +30,12 @@ public class StudentGradesController {
         return service.getStudentGradeById(new StudentGradeId(studentId, gradeId));
     }
     @GetMapping("/student-grade/{studentId}")
-    public List<StudentGradeDtoNew> getStudentsGradeByStudentId(@PathVariable Integer studentId) {
+    public List<StudentGradeDtoRegistration> getStudentsGradeByStudentId(@PathVariable Integer studentId) {
         return service.getStudentGradeByStudentId(studentId);
     }
 
     @PostMapping("/student-grade/add")
-    public StudentGradeDtoNew addStudentGrade(@RequestBody StudentGrade studentGrade) {
+    public StudentGradeDtoRegistration addStudentGrade(@RequestBody StudentGrade studentGrade) {
         return service.saveStudentGrade(studentGrade);
     }
 
