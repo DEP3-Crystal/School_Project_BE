@@ -59,6 +59,8 @@ public class FakerDataAccessService {
     private List<SessionRating> sessionRatings;
     private List<TeacherRating> teacherRatings;
     private List<Session> sessions;
+    @Autowired
+    private ImageRepository imageRepository;
 
     public void insertDummyData() {
         logger.info("generating dummy data...");
@@ -103,6 +105,7 @@ public class FakerDataAccessService {
      * save all the values to db in order to keep the ids, except pivot tables
      */
     private void startInsertingValues() {
+        imageRepository.saveAll(fakerDataAccess.getImages());
         studentRepository.saveAll(fakerDataAccess.getStudents());
         employeeRepository.saveAll(fakerDataAccess.getEmployees());
         teacherRepository.saveAll(fakerDataAccess.getTeachers());

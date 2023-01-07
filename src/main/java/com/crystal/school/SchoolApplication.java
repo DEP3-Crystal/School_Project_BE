@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SchoolApplication implements CommandLineRunner {
-    Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     FakerDataAccessService fakerDataAccessService;
 
@@ -21,6 +20,6 @@ public class SchoolApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-//        fakerDataAccessService.insertDummyData();
+        fakerDataAccessService.insertDummyData();
     }
 }

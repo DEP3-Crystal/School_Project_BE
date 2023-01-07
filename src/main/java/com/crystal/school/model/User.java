@@ -6,9 +6,11 @@ import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.model.pivote.StudentRegistration;
 import com.crystal.school.model.pivote.TeacherRating;
+import com.crystal.school.service.ImageService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
@@ -61,7 +62,8 @@ public class User {
     @Column(name = "salt")
     @NonNull
     private String salt;
-    @Transient
+    @Column(name = "role", insertable = false, updatable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @ManyToOne

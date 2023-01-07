@@ -3,12 +3,21 @@ package com.crystal.school.dao;
 import com.crystal.school.model.*;
 import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.enums.Role;
-import com.crystal.school.model.id.*;
-import com.crystal.school.model.pivote.*;
+import com.crystal.school.model.id.SessionRatingId;
+import com.crystal.school.model.id.StudentGradeId;
+import com.crystal.school.model.id.StudentRegistrationId;
+import com.crystal.school.model.id.TeacherRatingId;
+import com.crystal.school.model.pivote.SessionRating;
+import com.crystal.school.model.pivote.StudentGrade;
+import com.crystal.school.model.pivote.StudentRegistration;
+import com.crystal.school.model.pivote.TeacherRating;
 import com.crystal.school.repository.EmployeeRepository;
+import com.crystal.school.repository.ImageRepository;
 import com.crystal.school.repository.UserRepository;
 import com.crystal.school.service.FakerService;
+import com.crystal.school.service.ImageService;
 import com.crystal.school.service.PasswordService;
+import com.crystal.school.utill.DownloadService;
 import com.github.javafaker.Faker;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +38,6 @@ import java.util.stream.IntStream;
 @Setter
 @Component
 public class FakerDataAccess {
-
     private static FakerDataAccess instance;
     private final Faker faker = Faker.instance();
     private final FakerService fakerService = FakerService.getInstance();
@@ -37,6 +45,9 @@ public class FakerDataAccess {
     private final Random random = new Random();
     private final String cls = "Classroom";
     private final List<String> roomsType = List.of(cls, cls, cls, cls, "Office", "Cafeteria", "Lab", "library", "Auditorium");
+    // url for random avatar
+    //https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/{randomId}
+    private String randomAvatarRootUrl = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/";
     private Sequence userSequence = new Sequence();
     private Sequence roomSequence = new Sequence();
     private Sequence departmentSequence = new Sequence();
@@ -55,10 +66,18 @@ public class FakerDataAccess {
     private List<SessionRating> sessionRatings;
     private List<TeacherRating> teacherRatings;
     private List<Session> sessions;
+
+    private List<Image> images = getImageList(20);
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ImageService imageService;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     public static FakerDataAccess getInstance() {
         if (instance == null)
@@ -203,7 +222,7 @@ public class FakerDataAccess {
 
         return new Session(id, title, description,
                 isOptional, difficultyLevel, keywords, timestampUTCNow(), timestampUTCNow(),
-                null, null,null, timestampUTCNow(),new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                null, null, null, timestampUTCNow(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
         );
     }
 
@@ -232,7 +251,8 @@ public class FakerDataAccess {
 
 
     public List<User> generateUsers(int number) {
-        students = IntStream.range(0, number + 1).mapToObj(i -> generateUser()).toList();
+        students = IntStream.range(0, number + 1)
+                .mapToObj(i -> generateUser()).toList();
         return students;
     }
 
@@ -255,7 +275,7 @@ public class FakerDataAccess {
 
         return new User(id, firstName, lastName,
                 emailAddress, gender, biography, securedPassword, saltValue,
-                Role.STUDENT, null, null,
+                Role.STUDENT, fakerService.random(images), null,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
         );
     }
@@ -277,6 +297,23 @@ public class FakerDataAccess {
     private Role getRandomRole() {
         Role[] roles = {Role.ADMIN, Role.TEACHER, Role.ORGANIZER, Role.STUDENT};
         return fakerService.random(Arrays.stream(roles).toList());
+    }
+
+    private List<Image> getImageList(int number) {
+        return IntStream.range(0, number)
+//                .parallel()
+                .mapToObj(i -> generateImage()).toList();
+    }
+
+    private Image generateImage() {
+        Integer profileImageId = faker.random().nextInt(0, 1249);
+        byte[] bytes = new DownloadService().downloadFromURL(randomAvatarRootUrl + profileImageId + ".jpg");
+        return new Image(null, "fake-avatar", bytes);
+    }
+
+    private Image generateAvatar(String firstname, String lastname) {
+        byte[] bytes = new DownloadService().downloadFromURL("https://ui-avatars.com/api/?name=" + firstname + "+" + lastname);
+        return new Image(null, "fake-avatar", bytes);
     }
 
 }

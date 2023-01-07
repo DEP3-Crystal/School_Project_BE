@@ -39,12 +39,6 @@ public class UserInfoDto {
 
     private String biography;
 
-
-    @NonNull
-    private String password;
-
-    @NonNull
-    private String salt;
     private Role role;
 
     private Image profilePicture;

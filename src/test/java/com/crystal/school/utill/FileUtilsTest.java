@@ -8,8 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FileUtilsTest {
     private static final String fileContent = "key=value";
@@ -37,4 +36,10 @@ class FileUtilsTest {
         assertEquals("value", result.getProperty("key"));
     }
 
+    @Test
+    void downloadFromURL() {
+        byte[] result = new DownloadService().downloadFromURL("https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1.jpg");
+        assertTrue(result.length > 2);
+        assertNotNull(result);
+    }
 }
