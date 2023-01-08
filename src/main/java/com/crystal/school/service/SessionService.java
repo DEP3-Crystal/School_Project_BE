@@ -3,9 +3,14 @@ package com.crystal.school.service;
 import com.crystal.school.dto.SessionDto;
 import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.SessionMapper;
+import com.crystal.school.mapper.TeacherMapper;
 import com.crystal.school.model.Session;
+import com.crystal.school.model.Teacher;
+import com.crystal.school.repository.SessionRatingRepository;
 import com.crystal.school.repository.SessionRepository;
+import com.crystal.school.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +20,11 @@ public class SessionService {
     private static final SessionMapper mapper = SessionMapper.Instance;
     @Autowired
     private SessionRepository sessionRepository;
+    @Autowired
+    private SessionRatingRepository sessionRatingRepository;
 
+    @Autowired
+    private TeacherRepository teacherRepository;
     public SessionDto saveSession(SessionDto session) {
         Session savedSession = sessionRepository.save(mapper.toSession(session));
         return mapper.toSessionDto(savedSession);
@@ -49,9 +58,12 @@ public class SessionService {
         sessionRepository.deleteAll();
     }
 
-    public SessionDto editSession(SessionDto session) {
-        if (!sessionRepository.existsById(session.getId()))
-            throw new ResourceNotFoundException("session " + session.getId() + " does not exist");
-        return SessionMapper.Instance.toSessionDto(sessionRepository.save(mapper.toSession(session)));
+    public SessionDto editSession(SessionDto sessionDto) {
+        if (!sessionRepository.existsById(sessionDto.getId()))
+            throw new ResourceNotFoundException("session " + sessionDto.getId() + " does not exist");
+        Session session = mapper.toSession(sessionDto);
+        Teacher teacher = teacherRepository.findById(sessionDto.getTeacher().getId()).orElseThrow();
+        session.setTeacher(teacher);
+        return SessionMapper.Instance.toSessionDto(sessionRepository.save(session));
     }
 }

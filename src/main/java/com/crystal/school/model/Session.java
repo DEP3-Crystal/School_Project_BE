@@ -46,7 +46,7 @@ public class Session {
     @Column(name = "end_time")
     private Timestamp end;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
     @ManyToOne(fetch = FetchType.LAZY)

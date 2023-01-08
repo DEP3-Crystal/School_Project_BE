@@ -64,7 +64,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     protected Role role;
 
-    @ManyToOne()
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
     protected Image profilePicture;
 
