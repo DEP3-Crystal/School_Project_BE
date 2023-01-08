@@ -35,8 +35,8 @@ class SaveDataToDbTest {
 
     @Test
     void insertStudents() {
-        List<User> users = fakerAccess.generateUsers(500);
-        List<User> users1 = userRepository.saveAll(users);
+        List<Student> users = fakerAccess.generateStudents(500);
+        List<Student> users1 = userRepository.saveAll(users);
         Assertions.assertTrue(true);
     }
 

@@ -15,6 +15,7 @@ public class SchoolService {
     @Autowired
     private SchoolRepository schoolRepository;
     private static final SchoolMapper mapper = SchoolMapper.Instance;
+
     public List<SchoolDto> getSchools() {
         return schoolRepository.findAll().stream().map(mapper::toSchoolDto).toList();
     }
@@ -35,7 +36,7 @@ public class SchoolService {
     }
 
     public SchoolDto updateSchool(SchoolDto schoolDto) {
-        if(!schoolRepository.existsById(schoolDto.getSchoolId()))
+        if (!schoolRepository.existsById(schoolDto.getSchoolId()))
             throw new ResourceNotFoundException("school not found");
 
         School savedSchool = schoolRepository.save(mapper.toSchool(schoolDto));

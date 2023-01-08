@@ -28,6 +28,7 @@ public class SessionController {
     public SessionDto getSessionById(@PathVariable Integer id) {
         return sessionService.getSessionById(id);
     }
+
     @GetMapping("/sessions/{id}/student")
     public List<SessionDto> getAllSessionByStudentId(@PathVariable Integer id) {
         return studentRegistrationService.findAllSessionsByStudentId(id);

@@ -33,6 +33,6 @@ public class Department {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
     private List<Teacher> teachers = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
-    private List<User> students = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
 
 }

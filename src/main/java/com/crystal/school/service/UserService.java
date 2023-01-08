@@ -50,7 +50,8 @@ public class UserService {
     }
 
     private void validateEmail(String email) {
-        userRepository.findByEmail(email).orElseThrow(() -> new UserTakenException("this email is taken by another user"));
+        userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserTakenException("this email is taken by another user"));
     }
 
     private User fillUserData(UserRegistrationDto userRegistration) {
@@ -63,7 +64,6 @@ public class UserService {
         user.setSalt(saltValue);
         return user;
     }
-
     public UserInfoDto loginUser(UserLogin dtoUser) throws ResourceNotFoundException {
         var notFoundMessage = "password or email does not match";
         User user = getUserByEmail(dtoUser.getEmail());

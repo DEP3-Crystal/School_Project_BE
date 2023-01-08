@@ -3,6 +3,7 @@ package com.crystal.school.controller;
 import com.crystal.school.dto.UserInfoDto;
 import com.crystal.school.dto.UserLogin;
 import com.crystal.school.dto.registration.UserRegistrationDto;
+import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.service.LoginService;
 import com.crystal.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +55,12 @@ public class UserController {
 
     @PostMapping("users/login")
     public ResponseEntity<UserInfoDto> loginUser(@RequestBody UserLogin userData) {
-        UserInfoDto user = userService.loginUser(userData);
-        return ResponseEntity.ok(user);
+        try {
+            UserInfoDto user = userService.loginUser(userData);
+            return ResponseEntity.ok(user);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

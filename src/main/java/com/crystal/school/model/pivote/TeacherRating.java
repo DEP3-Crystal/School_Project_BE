@@ -1,8 +1,8 @@
 package com.crystal.school.model.pivote;
 
 
+import com.crystal.school.model.Student;
 import com.crystal.school.model.Teacher;
-import com.crystal.school.model.User;
 import com.crystal.school.model.id.TeacherRatingId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -13,6 +13,7 @@ import lombok.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name ="teacherRatings")
 @Builder
 public class TeacherRating {
 
@@ -28,13 +29,13 @@ public class TeacherRating {
 
     @Column(name = "comment")
     private String comment;
-    @MapsId("teacherId")
+    @MapsId("teacher_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_id", insertable = false, updatable = false)
+    @JoinColumn(name = "teacher_id")
     private Teacher teacher;
-    @MapsId("studentId")
+    @MapsId("student_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", insertable = false, updatable = false)
-    private User student;
+    @JoinColumn(name = "student_id")
+    private Student student;
 
 }

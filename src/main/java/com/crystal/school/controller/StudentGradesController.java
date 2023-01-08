@@ -28,6 +28,7 @@ public class StudentGradesController {
     public StudentGradeDto getStudentGradeById(@PathVariable Integer studentId, @PathVariable Integer gradeId) {
         return service.getStudentGradeById(new StudentGradeId(studentId, gradeId));
     }
+
     @GetMapping("/student-grade/{studentId}")
     public List<StudentGradeDtoRegistration> getStudentsGradeByStudentId(@PathVariable Integer studentId) {
         return service.getStudentGradeByStudentId(studentId);

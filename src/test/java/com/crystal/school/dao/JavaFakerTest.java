@@ -15,6 +15,8 @@ class JavaFakerTest {
         Assertions.assertTrue(b);
     }
 
+
+
     @Test
     void nextInt2() {
         int nextInt = faker.random().nextInt(6);

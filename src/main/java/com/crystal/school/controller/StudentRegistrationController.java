@@ -1,7 +1,6 @@
 package com.crystal.school.controller;
 
 import com.crystal.school.dto.pivote.StudentRegistrationDto;
-import com.crystal.school.mapper.UserMapper;
 import com.crystal.school.model.id.StudentRegistrationId;
 import com.crystal.school.service.StudentRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import java.util.List;
 public class StudentRegistrationController {
     @Autowired
     private StudentRegistrationService studentRegistrationService;
+
     @GetMapping("/student-registrations")
     public List<StudentRegistrationDto> getAllStudentRegistrations() {
         return studentRegistrationService.getStudentRegistrations();

@@ -7,7 +7,6 @@ import com.crystal.school.exception.ResourceNotFoundException;
 import com.crystal.school.mapper.TeacherMapper;
 import com.crystal.school.model.Teacher;
 import com.crystal.school.repository.TeacherRepository;
-import com.crystal.school.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +23,8 @@ public class TeacherService {
 
     public List<TeacherInfoDto> getTeachers() {
         List<Teacher> teachers = teacherRepository.findAll();
-//        teachers.forEach(teacher -> teacher.setProfilePicture());
-        return teachers.stream().map(teacherMapper::teacherDto).toList();
 
+        return teachers.stream().map(teacherMapper::teacherDto).toList();
     }
 
     public TeacherInfoDto getTeacherById(Integer id) {

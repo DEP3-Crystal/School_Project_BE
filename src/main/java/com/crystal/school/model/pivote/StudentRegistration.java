@@ -2,7 +2,7 @@ package com.crystal.school.model.pivote;
 
 
 import com.crystal.school.model.Session;
-import com.crystal.school.model.User;
+import com.crystal.school.model.Student;
 import com.crystal.school.model.id.StudentRegistrationId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class StudentRegistration {
     @MapsId("studentId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", insertable = false, updatable = false)
-    private User student;
+    private Student student;
 
     @MapsId("session_id")
     @ManyToOne(fetch = FetchType.LAZY)

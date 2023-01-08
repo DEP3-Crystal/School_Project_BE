@@ -1,8 +1,8 @@
 package com.crystal.school.dto.pivote;
 
 
+import com.crystal.school.dto.without_ref.StudentInfoDtoWithoutRef;
 import com.crystal.school.dto.without_ref.TeacherInfoDtoWithoutRef;
-import com.crystal.school.dto.without_ref.UserInfoDtoWithoutRef;
 import com.crystal.school.model.id.TeacherRatingId;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -23,6 +23,6 @@ public class TeacherRatingDto {
 
     private String comment;
     private TeacherInfoDtoWithoutRef teacher;
-    private UserInfoDtoWithoutRef student;
+    private StudentInfoDtoWithoutRef student;
 
 }

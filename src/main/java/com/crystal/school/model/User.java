@@ -2,92 +2,73 @@ package com.crystal.school.model;
 
 import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.enums.Role;
-import com.crystal.school.model.pivote.SessionRating;
-import com.crystal.school.model.pivote.StudentGrade;
-import com.crystal.school.model.pivote.StudentRegistration;
-import com.crystal.school.model.pivote.TeacherRating;
-import com.crystal.school.service.ImageService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
 
 
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "role",
         discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue(value = "STUDENT")
+//@DiscriminatorValue(value = "STUDENT")
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder(builderMethodName = "createUserBuilder")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
-    private Integer id;
+    protected Integer id;
 
     @Column(name = "first_name")
     @Size(max = 255)
     @NonNull
-    private String firstName;
+    protected String firstName;
 
     @Column(name = "last_name")
     @Size(max = 255)
     @NonNull
-    private String lastName;
+    protected String lastName;
 
     @Column(name = "email", unique = true)
     @Size(max = 255)
     @NonNull
-    private String email;
+    protected String email;
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     @NonNull
-    private Gender gender;
+    protected Gender gender;
 
     @Column(name = "biography")
-    private String biography;
+    protected String biography;
 
 
     @Column(name = "password")
     @NonNull
-    private String password;
+    protected String password;
 
     @Column(name = "salt")
     @NonNull
-    private String salt;
+    protected String salt;
     @Column(name = "role", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    protected Role role;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "image_id")
-    private Image profilePicture;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
-    private Department department;
+    protected Image profilePicture;
 
-    @OneToMany(mappedBy = "student")
-    @ToString.Exclude
-    private List<StudentRegistration> studentRegistrations = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
-    @ToString.Exclude
-    private List<StudentGrade> studentGrades = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
-    @ToString.Exclude
-    private List<SessionRating> sessionRatings = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
-    @ToString.Exclude
-    private List<TeacherRating> teacherRatings = new ArrayList<>();
+    protected Timestamp birthDate;
 
     public User(User user) {
         id = user.id;
@@ -98,11 +79,8 @@ public class User {
         biography = user.biography;
         password = user.password;
         salt = user.salt;
-        department = user.department;
         profilePicture = user.profilePicture;
-        studentRegistrations = user.studentRegistrations;
-        studentGrades = user.studentGrades;
-        sessionRatings = user.sessionRatings;
-        teacherRatings = user.teacherRatings;
+        role = user.role;
+        birthDate = user.birthDate;
     }
 }

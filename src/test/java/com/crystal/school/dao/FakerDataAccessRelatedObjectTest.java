@@ -2,7 +2,7 @@ package com.crystal.school.dao;
 
 import com.crystal.school.model.Room;
 import com.crystal.school.model.Session;
-import com.crystal.school.model.User;
+import com.crystal.school.model.Student;
 import com.crystal.school.service.FakerDataAccessService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class FakerDataAccessRelatedObjectTest {
 
     @Test
     void generateStudentsCompletedRelation() {
-        List<User> students = fakerDataAccess.getStudents();
+        List<Student> students = fakerDataAccess.getStudents();
 
 
         students.forEach(student -> {

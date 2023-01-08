@@ -15,7 +15,7 @@ class FakerDataAccessTest {
 
     @Test
     void generateUser() {
-        User user = fakerDataAccess.generateUser();
+        User user = fakerDataAccess.generateStudent();
         System.out.println(user);
         assertNotNull(user);
     }
@@ -23,7 +23,7 @@ class FakerDataAccessTest {
     @Test
     void generateUsers() {
         int number = 5_000;
-        var user = fakerDataAccess.generateUsers(number);
+        var user = fakerDataAccess.generateStudents(number);
         assertEquals(number, user.size());
     }
 
@@ -69,7 +69,7 @@ class FakerDataAccessTest {
     @Test
     void generateTeacherRatings() {
         List<Teacher> teachers = fakerDataAccess.generateTeachers(20);
-        List<User> users = fakerDataAccess.generateUsers(500);
+        List<Student> users = fakerDataAccess.generateStudents(500);
         fakerDataAccess.setTeachers(teachers);
         fakerDataAccess.setStudents(users);
         List<TeacherRating> sessionRatings = fakerDataAccess.generateTeacherRatings(500);

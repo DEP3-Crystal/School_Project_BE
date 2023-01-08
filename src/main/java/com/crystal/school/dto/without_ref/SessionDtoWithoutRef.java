@@ -1,6 +1,5 @@
 package com.crystal.school.dto.without_ref;
 
-import com.crystal.school.dto.RoomDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

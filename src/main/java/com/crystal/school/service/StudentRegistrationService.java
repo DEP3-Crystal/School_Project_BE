@@ -56,8 +56,8 @@ public class StudentRegistrationService {
     }
 
     public StudentRegistrationDto editStudentRegistration(StudentRegistrationDto studentRegistration) {
-        if(!studentRegistrationRepository.existsById(studentRegistration.getStudentRegistrationId()))
-            throw new ResourceNotFoundException("Student registration " + studentRegistration.getStudentRegistrationId() + " does not") ;
+        if (!studentRegistrationRepository.existsById(studentRegistration.getStudentRegistrationId()))
+            throw new ResourceNotFoundException("Student registration " + studentRegistration.getStudentRegistrationId() + " does not");
         StudentRegistration savedReg = studentRegistrationRepository.save(mapper.toStudentRegistration(studentRegistration));
         return mapper.toStudentRegistrationDto(savedReg);
     }

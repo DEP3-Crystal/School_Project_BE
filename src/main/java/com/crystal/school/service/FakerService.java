@@ -5,8 +5,13 @@ import com.github.javafaker.service.FakeValuesService;
 import com.github.javafaker.service.RandomService;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
@@ -16,6 +21,7 @@ public class FakerService {
     FakeValuesService fakeValuesService = new FakeValuesService(
             new Locale("en-GB"), new RandomService());
     Faker faker = Faker.instance();
+    Random random = new Random();
 
     private FakerService() {
     }
@@ -72,8 +78,19 @@ public class FakerService {
      */
     public <T> List<T> take(List<T> items, double percentage, Predicate<T> filterPredicate) {
         int count = (int) (items.size() * (percentage / 100.0));
-        return items.stream().filter(filterPredicate).limit(count).toList();
+        List<T> ts = items.stream().filter(filterPredicate).limit(count).toList();
+        if (ts.size() <= 1)
+            ts = items.stream().limit(count).toList();
+        return ts;
     }
 
 
+    public Timestamp randomDateTime(int startYear) {
+        int yearFromNow =  LocalDateTime.now().getYear() - startYear;
+        long minMills = LocalDateTime.now().minusYears(yearFromNow).toInstant(ZoneOffset.UTC).toEpochMilli();
+        long maxMillis = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        long randomMillis = (long) (random.nextDouble() * (maxMillis - minMills + 1));
+        Instant instant = Instant.ofEpochMilli(randomMillis);
+        return Timestamp.from(instant);
+    }
 }

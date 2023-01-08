@@ -4,7 +4,10 @@ import com.crystal.school.model.Image;
 import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.enums.Role;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 
 @Data
@@ -12,24 +15,24 @@ import lombok.*;
 @AllArgsConstructor
 public class UserInfoDtoWithoutRef {
 
-    private Integer id;
+    protected Integer id;
 
     @NonNull
-    private String firstName;
+    protected String firstName;
 
     @NonNull
-    private String lastName;
+    protected String lastName;
 
     @Size(max = 255)
     @NonNull
-    private String email;
+    protected String email;
 
     @NonNull
-    private Gender gender;
+    protected Gender gender;
 
-    private String biography;
+    protected String biography;
 
-    private Role role;
+    protected Role role;
 
-    private Image profilePicture;
+    protected Image profilePicture;
 }

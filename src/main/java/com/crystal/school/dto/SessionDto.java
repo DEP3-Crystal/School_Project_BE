@@ -6,7 +6,6 @@ import com.crystal.school.dto.without_ref.TeacherInfoDtoWithoutRef;
 import com.crystal.school.dto.without_ref.pivote.SessionRatingDtoWithoutRef;
 import com.crystal.school.dto.without_ref.pivote.StudentGradeDtoWithoutRef;
 import com.crystal.school.dto.without_ref.pivote.StudentRegistrationDtoWithoutRef;
-import com.crystal.school.model.Teacher;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

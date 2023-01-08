@@ -14,7 +14,8 @@ import java.util.List;
 public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
-    private final DepartmentMapper mapper = DepartmentMapper.Instance;
+    private static final DepartmentMapper mapper = DepartmentMapper.Instance;
+
     public DepartmentDto getDepartmentById(Integer id) {
         return mapper.toDepartmentDto(departmentRepository.findById(id).orElse(null));
     }

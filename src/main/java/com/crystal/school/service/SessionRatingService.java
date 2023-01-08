@@ -52,7 +52,7 @@ public class SessionRatingService {
     }
 
     public SessionRatingDto editSessionRating(SessionRatingDto sessionRating) {
-        if(!sessionRatingRepository.existsById(sessionRating.getSessionRatingId()))
+        if (!sessionRatingRepository.existsById(sessionRating.getSessionRatingId()))
             throw new IllegalArgumentException("Session Rating not found");
         return mapper.toSessionRatingDto(sessionRatingRepository.save(mapper.toSessionRating(sessionRating)));
     }

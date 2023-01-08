@@ -2,7 +2,7 @@ package com.crystal.school.dto.pivote;
 
 
 import com.crystal.school.dto.without_ref.SessionDtoWithoutRef;
-import com.crystal.school.dto.without_ref.UserInfoDtoWithoutRef;
+import com.crystal.school.dto.without_ref.StudentInfoDtoWithoutRef;
 import com.crystal.school.model.id.StudentRegistrationId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class StudentRegistrationDto {
     private StudentRegistrationId studentRegistrationId;
 
     private Timestamp regDate;
-    private UserInfoDtoWithoutRef student;
+    private StudentInfoDtoWithoutRef student;
 
     private SessionDtoWithoutRef session;
 }

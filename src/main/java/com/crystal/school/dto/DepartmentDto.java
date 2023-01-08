@@ -1,7 +1,6 @@
 package com.crystal.school.dto;
 
 import com.crystal.school.dto.without_ref.*;
-import com.crystal.school.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +20,6 @@ public class DepartmentDto {
     private SchoolDtoWithoutRef school;
     private List<SessionDtoWithoutRef> sessions = new ArrayList<>();
     private List<TeacherInfoDtoWithoutRef> teachers = new ArrayList<>();
-    private List<UserInfoDtoWithoutRef> students = new ArrayList<>();
+    private List<StudentInfoDtoWithoutRef> students = new ArrayList<>();
 
 }

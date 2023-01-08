@@ -51,7 +51,7 @@ public class FakerDataAccessService {
     private List<Room> rooms;
     private List<Room> classrooms;
     private List<Department> departments;
-    private List<User> students;
+    private List<Student> students;
     private List<Teacher> teachers;
     private List<Employee> employees;
     private List<StudentRegistration> studentRegistrations;
@@ -64,16 +64,16 @@ public class FakerDataAccessService {
 
     public void insertDummyData() {
         logger.info("generating dummy data...");
-        fakerDataAccess.generateUsers(1000);
-        fakerDataAccess.generateEmployees(100);
+        fakerDataAccess.generateStudents(300);
+        fakerDataAccess.generateEmployees(60);
 
         fakerDataAccess.generateTeachers(50);
-        fakerDataAccess.generateDepartments(10);
-        fakerDataAccess.generateStudentGrades(2000);
+        fakerDataAccess.generateDepartments(3);
+        fakerDataAccess.generateStudentGrades(1000);
         fakerDataAccess.generateSessions(500);
-        fakerDataAccess.generateStudentRegistrations(2000);
+        fakerDataAccess.generateStudentRegistrations(1000);
         fakerDataAccess.generateRooms(50);
-        fakerDataAccess.generateSessionRatings(2000);
+        fakerDataAccess.generateSessionRatings(100);
         fakerDataAccess.generateTeacherRatings(1000);
         fakerDataAccess.generateSchools(3);
 
@@ -165,14 +165,13 @@ public class FakerDataAccessService {
         departments.forEach(department -> {
 
 
-            List<Teacher> teachersOfDepartment = fakerService.randomList(teachers, percentage, teacher -> teacher.getDepartment() == null);
-            List<User> studentsOfDepartment = fakerService.randomList(students, percentage, student -> student.getDepartment() == null);
+            List<Teacher> teachersOfDepartment = fakerService.take(teachers, percentage, teacher -> teacher.getDepartment() == null);
+            List<Student> studentsOfDepartment = fakerService.take(students, percentage, student -> student.getDepartment() == null);
             List<Session> sessionsOfDepartment = fakerService.take(sessions, percentage, session -> session.getDepartment() == null);
 
             var employee = fakerService.random(employees);
 
             // setting values
-            employee.setDepartment(department);
             department.setStudents(studentsOfDepartment);
             department.setEmployee(employee);
             department.setTeachers(teachersOfDepartment);
@@ -205,7 +204,7 @@ public class FakerDataAccessService {
 
 
 //            List<SessionRegistration> regOfSession = fakerService.randomList(sessionRegistrations, percentage, reg -> reg.getSession() == null);
-            List<SessionRating> rateOfSession = fakerService.randomList(sessionRatings, percentage, rate -> rate.getSession() == null);
+            List<SessionRating> rateOfSession = fakerService.take(sessionRatings, percentage, rate -> rate.getSession() == null);
             // preparing all pivot classes
 //            regOfSession.forEach(reg -> {
 //                Room room = fakerService.random(classrooms, r -> r.getSessionRegistrations().isEmpty());
@@ -251,8 +250,8 @@ public class FakerDataAccessService {
         students.forEach(student -> {
 
 
-            var registrationsOfStudent = fakerService.randomList(studentRegistrations, percentage, reg -> reg.getStudent() == null);
-            var gradesOfStudent = fakerService.randomList(studentGrades, percentage, grade -> grade.getStudent() == null);
+            var registrationsOfStudent = fakerService.take(studentRegistrations, percentage, reg -> reg.getStudent() == null);
+            var gradesOfStudent = fakerService.take(studentGrades, percentage, grade -> grade.getStudent() == null);
             var teacherRatingOfStudent = fakerService.randomList(teacherRatings, percentage, rate -> rate.getStudent() == null);
 
             // preparing all pivot classes

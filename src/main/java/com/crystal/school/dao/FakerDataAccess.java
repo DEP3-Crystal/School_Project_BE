@@ -46,7 +46,6 @@ public class FakerDataAccess {
     private final String cls = "Classroom";
     private final List<String> roomsType = List.of(cls, cls, cls, cls, "Office", "Cafeteria", "Lab", "library", "Auditorium");
     // url for random avatar
-    //https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/{randomId}
     private String randomAvatarRootUrl = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/";
     private Sequence userSequence = new Sequence();
     private Sequence roomSequence = new Sequence();
@@ -57,7 +56,7 @@ public class FakerDataAccess {
     private List<Room> rooms;
     private List<Room> classrooms;
     private List<Department> departments;
-    private List<User> students;
+    private List<Student> students;
     private String password = "1234";
     private List<Teacher> teachers;
     private List<Employee> employees;
@@ -67,7 +66,7 @@ public class FakerDataAccess {
     private List<TeacherRating> teacherRatings;
     private List<Session> sessions;
 
-    private List<Image> images = getImageList(20);
+    private List<Image> images = generateAvatars(20);
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
@@ -123,7 +122,6 @@ public class FakerDataAccess {
                 .location(address)
                 .build();
 
-//        return new School(id, address, name, new ArrayList<>());
     }
 
     public List<Room> generateRooms(int num) {
@@ -148,12 +146,13 @@ public class FakerDataAccess {
         departments = IntStream.range(0, noDepartments).mapToObj(i -> generateDepartment()).toList();
         return departments;
     }
-
+    String[] departmentsNames = {"Admissions","Financial Aid","Registrar",
+            "Academic Affairs","Student Affairs","Student Services",
+            "Library","Athletics","Alumni Relations","IT (Information Technology)"};
 
     public Department generateDepartment() {
-        String name = faker.lorem().word();
+        String name = fakerService.random(Arrays.stream(departmentsNames).toList());
         Integer id = departmentSequence.nextId();
-
         return new Department(id, name, null, null, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>());
     }
@@ -164,7 +163,7 @@ public class FakerDataAccess {
     }
 
     private TeacherRating generateTeacherRating() {
-        User student = fakerService.random(students);
+        Student student = fakerService.random(students);
         Teacher teacher = fakerService.random(teachers);
         Byte rating = fakerService.random(List.of(1, 2, 3, 4, 5)).byteValue();
         TeacherRatingId id = new TeacherRatingId();
@@ -174,7 +173,6 @@ public class FakerDataAccess {
                 .teacher(teacher)
                 .rating(rating)
                 .build();
-//        return new TeacherRating(id, rating, teacher, student);
     }
 
     public List<StudentRegistration> generateStudentRegistrations(int registrations) {
@@ -244,41 +242,63 @@ public class FakerDataAccess {
         Role role = getRandomRole();
         BigDecimal[] salarys = {new BigDecimal(1_000), new BigDecimal(1_500), new BigDecimal(1_200), new BigDecimal(1_600)};
         BigDecimal salary = fakerService.random(Arrays.stream(salarys).toList());
-        User user = generateUser();
+        User user = generateStudent();
         user.setRole(role);
         return new Employee(user, faker.phoneNumber().phoneNumber(), faker.lorem().word(), timestampUTCNow(), salary);
     }
 
 
-    public List<User> generateUsers(int number) {
+    public List<Student> generateStudents(int number) {
         students = IntStream.range(0, number + 1)
 
-                .mapToObj(i -> generateUser()).toList();
+                .mapToObj(i -> generateStudent()).toList();
         return students;
     }
 
     /**
      * nulls id, department, studentRegistration, studentGrade, sessionRation, teacherRation
      */
-    public User generateUser() {
+    public Student generateStudent() {
         Gender[] genderList = {Gender.M, Gender.F};
         Gender gender = fakerService.random(Arrays.stream(genderList).toList());
 
         String biography = faker.lorem().sentence(5);
-        String saltValue = passwordService.getSaltValue(30);
-        var securedPassword = passwordService.encryptPassword(this.password, saltValue);
+        String salt = passwordService.getSaltValue(30);
+        var securedPassword = passwordService.encryptPassword(this.password, salt);
 
         Integer id = userSequence.nextId();
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
         String emailAddress = faker.internet().emailAddress();
+        Integer grade = faker.random().nextInt(0, 10);
+        var image = fakerService.random(images);
 
+       Timestamp birthDate = fakerService.randomDateTime( 1980);
 
-        return new User(id, firstName, lastName,
-                emailAddress, gender, biography, securedPassword, saltValue,
-                Role.STUDENT, fakerService.random(images), null,
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
-        );
+        return Student.createStudentBuilder()
+                .id(id)
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(emailAddress)
+                .biography(biography)
+                .password(securedPassword)
+                .salt(salt)
+                .role(Role.STUDENT)
+                .gender(gender)
+                .profilePicture(image)
+                .grade(grade)
+                .studentGrades(new ArrayList<>())
+                .studentRegistrations(new ArrayList<>())
+                .sessionRatings(new ArrayList<>())
+                .teacherRatings(new ArrayList<>())
+                .birthDate(birthDate)
+                .build();
+
+//        return new Student(id, firstName, lastName,
+//                emailAddress, gender, biography, securedPassword, salt,
+//                Role.STUDENT, image, null,
+//                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+//        );
     }
 
 
@@ -289,7 +309,7 @@ public class FakerDataAccess {
 
     public SessionRating generateSessionRating() {
         Session session = generateSession();
-        var student = generateUser();
+        var student = generateStudent();
 
         byte rating = faker.random().nextInt(1, 6).byteValue();
         return new SessionRating(new SessionRatingId(), rating, student, session);
@@ -309,6 +329,11 @@ public class FakerDataAccess {
         Integer profileImageId = faker.random().nextInt(0, 1249);
         byte[] bytes = new DownloadManager().downloadFromURL(randomAvatarRootUrl + profileImageId + ".jpg");
         return new Image(null, "fake-avatar", bytes);
+    }
+    private List<Image> generateAvatars(int number){
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        return  IntStream.range(0, number).mapToObj(i->generateAvatar(firstName,lastName)).toList();
     }
 
     private Image generateAvatar(String firstname, String lastname) {

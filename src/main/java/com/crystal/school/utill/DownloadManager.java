@@ -16,10 +16,6 @@ public class DownloadManager {
             // Open a connection to the URL
             URLConnection connection = link.openConnection();
 
-            // Set up some things to make the connection faster
-            connection.setConnectTimeout(2000);
-            connection.setReadTimeout(2000);
-
             // Define an input stream to read data from the URL
             BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
 
