@@ -66,7 +66,7 @@ public class FakerDataAccessService {
         logger.info("generating dummy data...");
         fakerDataAccess.generateStudents(300);
         fakerDataAccess.generateEmployees(60);
-
+        fakerDataAccess.generateAdmin();
         fakerDataAccess.generateTeachers(50);
         fakerDataAccess.generateDepartments(3);
         fakerDataAccess.generateStudentGrades(1000);

@@ -341,4 +341,11 @@ public class FakerDataAccess {
         return new Image(null, "fake-avatar", bytes);
     }
 
+    public void generateAdmin() {
+        Role role = Role.ADMIN;
+        Employee admin = generateEmployee();
+        admin.setRole(role);
+        admin.setEmail("admin@admin.com");
+        employees.add(admin);
+    }
 }
