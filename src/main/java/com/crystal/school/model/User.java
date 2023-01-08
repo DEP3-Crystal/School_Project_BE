@@ -1,56 +1,86 @@
 package com.crystal.school.model;
 
 import com.crystal.school.model.enums.Gender;
+import com.crystal.school.model.enums.Role;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
-import java.util.List;
+import java.sql.Timestamp;
 
-@Getter
-@Setter
+
+@Data
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "is_employee",
-        discriminatorType = DiscriminatorType.INTEGER)
+//@DiscriminatorColumn(name = "role",
+//        discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorValue(value = "STUDENT")
 @Entity
-@Table(name = "person")
+@Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder(builderMethodName = "createUserBuilder")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "user_id")
-    private Integer userId;
+    @Column(name = "id")
+    protected Integer id;
+
     @Column(name = "first_name")
-    private String firstName;
+    @Size(max = 255)
+    @NonNull
+    protected String firstName;
+
     @Column(name = "last_name")
-    private String lastName;
-    @Column(name = "email")
-    private String email;
+    @Size(max = 255)
+    @NonNull
+    protected String lastName;
+
+    @Column(name = "email", unique = true)
+    @Size(max = 255)
+    @NonNull
+    protected String email;
+
     @Column(name = "gender")
-    private String _gender;
-    @Transient
-    private Gender gender;
-    public Gender getGender(){
-        if(gender == null)
-            gender = Gender.valueOf(_gender);
-        return  gender;
-    }
+    @Enumerated(EnumType.STRING)
+    @NonNull
+    protected Gender gender;
+
     @Column(name = "biography")
-    private String biography;
+    protected String biography;
+
+
     @Column(name = "password")
-    private String password;
+    @NonNull
+    protected String password;
+
     @Column(name = "salt")
-    private String salt;
+    @NonNull
+    protected String salt;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    protected Role role;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+    @ManyToOne()
+    @JoinColumn(name = "image_id")
+    protected Image profilePicture;
 
-    @OneToMany(mappedBy = "student")
-    private List<StudentRegistration> registrations;
-    @OneToMany(mappedBy = "student")
-    private List<StudentGrade> studentGrades;
-    @OneToMany(mappedBy = "student")
-    private List<SessionRating> sessionRatings;
-    @OneToMany(mappedBy = "student")
-    private List<TeacherRating> teacherRatings;
+    protected Timestamp birthDate;
+
+    public User(User user) {
+        id = user.id;
+        firstName = user.firstName;
+        lastName = user.lastName;
+        email = user.email;
+        gender = user.gender;
+        biography = user.biography;
+        password = user.password;
+        salt = user.salt;
+        profilePicture = user.profilePicture;
+        role = user.role;
+        birthDate = user.birthDate;
+    }
 }

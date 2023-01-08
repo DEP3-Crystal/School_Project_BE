@@ -2,6 +2,9 @@ package com.crystal.school.repository;
 
 import com.crystal.school.model.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface SessionRepository extends JpaRepository<Session,Integer> {
+@Repository
+public interface SessionRepository extends JpaRepository<Session, Integer> {
+
 }

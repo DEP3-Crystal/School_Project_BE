@@ -1,5 +1,8 @@
 package com.crystal.school.service;
 
+import com.crystal.school.dto.RoomDto;
+import com.crystal.school.exception.ResourceNotFoundException;
+import com.crystal.school.mapper.RoomMapper;
 import com.crystal.school.model.Room;
 import com.crystal.school.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +12,16 @@ import java.util.List;
 
 @Service
 public class RoomService {
+    private static final RoomMapper mapper = RoomMapper.Instance;
     @Autowired
     private RoomRepository roomRepository;
 
-    public Room getRoomById(Integer id) {
-        return roomRepository.findById(id).orElse(null);
+    public RoomDto getRoomById(Integer id) {
+        return mapper.toRoomDto(roomRepository.findById(id).orElse(null));
     }
 
-    public List<Room> getRooms() {
-        return roomRepository.findAll();
+    public List<RoomDto> getRooms() {
+        return roomRepository.findAll().stream().map(mapper::toRoomDto).toList();
     }
 
     public void deleteRoomById(Integer id) {
@@ -28,26 +32,26 @@ public class RoomService {
         roomRepository.deleteAll();
     }
 
-    public void deleteRoom(Room room) {
-        roomRepository.delete(room);
+    public void deleteRoom(RoomDto room) {
+        roomRepository.deleteById(room.getRoomId());
     }
 
-    public Room addRoom(Room room) {
-        return roomRepository.save(room);
+    public RoomDto addRoom(RoomDto room) {
+        Room savedRoom = roomRepository.save(mapper.toRoom(room));
+        return mapper.toRoomDto(savedRoom);
     }
 
-    public List<Room> addRooms(List<Room> rooms) {
-        return roomRepository.saveAll(rooms);
+    public List<RoomDto> addRooms(List<RoomDto> roomsDto) {
+        List<Room> rooms = roomsDto.stream().map(mapper::toRoom).toList();
+        return roomRepository.saveAll(rooms).stream()
+                .map(mapper::toRoomDto)
+                .toList();
     }
 
-    public Room editRoom(Room room) {
-        Room existingRoom = roomRepository.findById(room.getRoomId()).orElse(null);
-        // TODO fix null pointer exception warning
-        existingRoom.setRoomId(room.getRoomId());
-        existingRoom.setDoorNumber(room.getDoorNumber());
-        existingRoom.setFloor(room.getFloor());
-        existingRoom.setSchool(room.getSchool());
-        existingRoom.setType(room.getType());
-        return roomRepository.save(existingRoom);
+    public RoomDto editRoom(RoomDto roomDto) {
+        if (!roomRepository.existsById(roomDto.getRoomId()))
+            throw new ResourceNotFoundException("Room with id " + roomDto.getRoomId() + "was not found");
+
+        return mapper.toRoomDto(roomRepository.save(mapper.toRoom(roomDto)));
     }
 }

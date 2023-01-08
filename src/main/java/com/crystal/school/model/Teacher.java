@@ -1,19 +1,40 @@
 package com.crystal.school.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import com.crystal.school.model.pivote.TeacherRating;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
-@Table(name = "teacher")
-public class Teacher extends Employee{
+@NoArgsConstructor
+@Table(name = "teachers")
+@AllArgsConstructor
+@DiscriminatorValue(value = "TEACHER")
+@SuperBuilder(builderMethodName = "createTeacherBuilder")
+public class Teacher extends Employee {
+    @ManyToOne()
+    @JoinColumn(name = "department_id")
+    protected Department department;
+
+    @Column(name = "credentials")
+    @Size(max = 255)
+    @NonNull
     private String credentials;
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
     private List<TeacherRating> teacherRatings;
+
+    public Teacher(@NonNull Employee employee, @NonNull String credentials, List<TeacherRating> teacherRatings) {
+        super(employee);
+        this.credentials = credentials;
+        this.teacherRatings = teacherRatings;
+    }
+
+
 }

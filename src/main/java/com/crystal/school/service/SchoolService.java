@@ -1,5 +1,8 @@
 package com.crystal.school.service;
 
+import com.crystal.school.dto.SchoolDto;
+import com.crystal.school.exception.ResourceNotFoundException;
+import com.crystal.school.mapper.SchoolMapper;
 import com.crystal.school.model.School;
 import com.crystal.school.repository.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,27 +14,32 @@ import java.util.List;
 public class SchoolService {
     @Autowired
     private SchoolRepository schoolRepository;
+    private static final SchoolMapper mapper = SchoolMapper.Instance;
 
-    public List<School> getSchools() {
-        return schoolRepository.findAll();
-    }
-    public School saveSchool(School school) {
-        return schoolRepository.save(school);
+    public List<SchoolDto> getSchools() {
+        return schoolRepository.findAll().stream().map(mapper::toSchoolDto).toList();
     }
 
-    public School getSchoolById(int id) {
-        return schoolRepository.findById(id).orElse(null);
+    public SchoolDto saveSchool(SchoolDto school) {
+        School savedSchool = schoolRepository.save(mapper.toSchool(school));
+        return mapper.toSchoolDto(savedSchool);
+    }
+
+    public SchoolDto getSchoolById(int id) {
+        return mapper.toSchoolDto(schoolRepository.findById(id)
+                .orElseThrow(ResourceNotFoundException::new));
     }
 
     public String deleteSchool(int id) {
         schoolRepository.deleteById(id);
         return "school deleted " + id;
     }
-    public School updateSchool(School school) {
-        School existingSchool = schoolRepository.findById(school.getSchoolId()).orElse(null);
-        existingSchool.setLocation(school.getLocation());
-        existingSchool.setName(school.getName());
 
-        return schoolRepository.save(existingSchool);
+    public SchoolDto updateSchool(SchoolDto schoolDto) {
+        if (!schoolRepository.existsById(schoolDto.getSchoolId()))
+            throw new ResourceNotFoundException("school not found");
+
+        School savedSchool = schoolRepository.save(mapper.toSchool(schoolDto));
+        return mapper.toSchoolDto(savedSchool);
     }
 }

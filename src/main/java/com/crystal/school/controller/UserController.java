@@ -1,6 +1,10 @@
 package com.crystal.school.controller;
 
-import com.crystal.school.model.User;
+import com.crystal.school.dto.UserInfoDto;
+import com.crystal.school.dto.UserLogin;
+import com.crystal.school.dto.registration.UserRegistrationDto;
+import com.crystal.school.exception.ResourceNotFoundException;
+import com.crystal.school.service.LoginService;
 import com.crystal.school.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,46 +14,53 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("")
 public class UserController {
+
     @Autowired
     private UserService userService;
+    @Autowired
+    private LoginService loginService;
 
     @GetMapping("/users")
-    public List<User> getUserList(){
+    public List<UserInfoDto> getUserList() {
         return userService.getUsers();
     }
-    @GetMapping("/user/{id}")
-    public User getUserById(@PathVariable Integer id){
+
+    @GetMapping("/users/{id}")
+    public UserInfoDto getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);
     }
 
-    @GetMapping("/user/{email}")
-    public User getUserByEmail(@PathVariable String email){
-        return userService.getUserByEmail(email);
+
+    @PostMapping("/users/add")
+    public UserInfoDto addUser(@RequestBody UserRegistrationDto user) {
+        return userService.createUser(user);
     }
-//    @GetMapping("/user")
-//    public User getUserByEmailAndPassword(@RequestBody UserLoginDto user){
-//        return userService.getUserByEmailAndPassword(user.getEmail(),user.getPassword());
-//    }
-    @PostMapping("/user")
-    public User addUser(@RequestBody User user){
-        return userService.saveUser(user);
-    }
-    @PutMapping("/user")
-    public User updateUser(@RequestBody User user){
+
+    @PutMapping("/user/updateInfo")
+    public UserInfoDto updateUser(@RequestBody UserInfoDto user) {
         return userService.updateUser(user);
     }
+
+    @PutMapping("/user/updatePassword")
+    public UserInfoDto updatePassword(@RequestBody UserLogin user) {
+        return userService.updatePassword(user);
+    }
+
     @DeleteMapping("/user/{id}")
-    public String deleteUser(@PathVariable Integer id){
+    public String deleteUser(@PathVariable Integer id) {
         return userService.deleteUser(id);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User userData){
-        System.out.println(userData);
-        User user =userService.getUserById(userData.getUserId());
-        if(user.getPassword().equals(userData.getPassword()))
+    @PostMapping("users/login")
+    public ResponseEntity<UserInfoDto> loginUser(@RequestBody UserLogin userData) {
+        try {
+            UserInfoDto user = userService.loginUser(userData);
             return ResponseEntity.ok(user);
-        return (ResponseEntity<?>) ResponseEntity.internalServerError();
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 }

@@ -1,6 +1,7 @@
 package com.crystal.school.service;
 
-import com.crystal.school.excption.InvalidLength;
+import com.crystal.school.exception.InvalidLengthException;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -12,28 +13,35 @@ import java.util.Base64;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+@Service
 public class PasswordService {
 
     private final Random random = new SecureRandom();
     private static final String CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkzlmnopqrstuvwxyz";
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 256;
+    private static PasswordService instance;
 
+    public static synchronized PasswordService getInstance() {
+        if (instance == null)
+            instance = new PasswordService();
+        return instance;
+    }
 
     /**
      * @param length length of salt (min = 10 , max 100)
      * @return salt
      */
-    public String getSaltValue(int length) throws InvalidLength {
+    public String getSaltValue(int length) throws InvalidLengthException {
         validate(length);
         StringBuilder finalVal = new StringBuilder(length);
         IntStream.range(0, length).forEach(i -> finalVal.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length()))));
         return new String(finalVal);
     }
 
-    private void validate(int length) throws InvalidLength {
+    private void validate(int length) throws InvalidLengthException {
         if (length > 100 || length < 1) {
-            throw new InvalidLength("Salt length should be 1 - 100");
+            throw new InvalidLengthException("Salt length should be 1 - 100");
         }
     }
 
@@ -54,17 +62,17 @@ public class PasswordService {
      * Method to encrypt the password using the original password and salt value.
      *
      * @param password plainText password
-     * @param salt salt used to hash the password
+     * @param salt     salt used to hash the password
      * @return HashedPassword
      */
-    public String generateSecurePassword(String password, String salt) {
+    public String encryptPassword(String password, String salt) {
         byte[] securePassword = hash(password.toCharArray(), salt.getBytes());
         return Base64.getEncoder().encodeToString(securePassword);
     }
 
     public boolean doesPasswordMatches(String providedPassword, String securedPassword, String salt) {
 
-        String newSecurePassword = generateSecurePassword(providedPassword, salt);
+        String newSecurePassword = encryptPassword(providedPassword, salt);
         return newSecurePassword.equals(securedPassword);
     }
 

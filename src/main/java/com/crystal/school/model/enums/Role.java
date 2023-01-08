@@ -1,29 +1,38 @@
 package com.crystal.school.model.enums;
 
 public enum Role {
-    ADMIN("a"),
-    TEACHER("t"),
-    ORGANIZER("o");
+    STUDENT,
+    EMPLOYEE,
+    ADMIN,
+    TEACHER,
+    ORGANIZER;
 
-    private final String value;
+//    private final String value;
 
-    Role(String value) {
-        this.value = value;
-    }
+//    Role(String value) {
+//        this.value = value;
+//    }
 
 
     public static Role getEnum(String name) {
-        switch (name) {
-            case "a", "ADMIN" -> {
+        switch (name.toLowerCase()) {
+            case "a", "admin" -> {
                 return ADMIN;
             }
-            case "o", "ORGANIZER" -> {
+            case "o", "organizer" -> {
                 return ORGANIZER;
             }
-            case "t","TEACHER" -> {
+            case "t", "teacher" -> {
                 return TEACHER;
             }
-            default -> throw new EnumConstantNotPresentException(Role.class, "couldn't find correct enum name: " + name);
+            case "s", "student" -> {
+                return STUDENT;
+            }
+            case "e", "employee" -> {
+                return EMPLOYEE;
+            }
+            default ->
+                    throw new EnumConstantNotPresentException(Role.class, "couldn't find correct enum name: " + name);
         }
     }
 }
