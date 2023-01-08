@@ -3,9 +3,9 @@ package com.crystal.school.repository;
 import com.crystal.school.model.User;
 import com.crystal.school.model.enums.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,7 +17,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Boolean existsByEmail(String email);
 
-    @Query(value = "SELECT u.is_employee FROM users u WHERE u.user_id = :userId", nativeQuery = true)
+    @Query(value = "SELECT u.role FROM users u WHERE u.id = :userId", nativeQuery = true)
     Role getRole(int userId);
 
+//    @Modifying
+//    @Query(value = "UPDATE users u SET u.role = :role WHERE u.user_id = :userId", nativeQuery = true)
+//    void updateUserRole(int userId, String role);
+//
+//    @Modifying
+//    @Query(value = "UPDATE users u SET u.role = :role WHERE u.user_id in ( :userId)", nativeQuery = true)
+//    Optional<User> updateUsersRole(String role, Integer... userId);
 }

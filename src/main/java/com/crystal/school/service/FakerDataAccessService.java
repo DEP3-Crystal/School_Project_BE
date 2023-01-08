@@ -24,7 +24,7 @@ public class FakerDataAccessService {
     @Autowired
     private SchoolRepository schoolRepository;
     @Autowired
-    private UserRepository studentRepository;
+    private UserRepository userRepository;
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
@@ -61,13 +61,17 @@ public class FakerDataAccessService {
     private List<Session> sessions;
     @Autowired
     private ImageRepository imageRepository;
+    private Employee admin;
 
     public void insertDummyData() {
         logger.info("generating dummy data...");
+
+        fakerDataAccess.addNewProfilePictures(15);
         fakerDataAccess.generateStudents(300);
         fakerDataAccess.generateEmployees(60);
-        fakerDataAccess.generateAdmin();
         fakerDataAccess.generateTeachers(50);
+
+
         fakerDataAccess.generateDepartments(3);
         fakerDataAccess.generateStudentGrades(1000);
         fakerDataAccess.generateSessions(500);
@@ -106,7 +110,7 @@ public class FakerDataAccessService {
      */
     private void startInsertingValues() {
         imageRepository.saveAll(fakerDataAccess.getImages());
-        studentRepository.saveAll(fakerDataAccess.getStudents());
+        userRepository.saveAll(fakerDataAccess.getStudents());
         employeeRepository.saveAll(fakerDataAccess.getEmployees());
         teacherRepository.saveAll(fakerDataAccess.getTeachers());
         departmentRepository.saveAll(fakerDataAccess.getDepartments());
@@ -147,11 +151,17 @@ public class FakerDataAccessService {
 
     public void makeRoomRelations() {
         //setting schools
-
+        createOneAdmin();
         makeDepartmentRelations();
         makeSessionRelations();
         makeStudentRelations();
         roomRepository.saveAll(rooms);
+    }
+
+    private void createOneAdmin() {
+        admin = fakerService.random(employees);
+        admin.setEmail("admin@admin.com");
+        employeeRepository.save(admin);
     }
 
 
@@ -186,7 +196,7 @@ public class FakerDataAccessService {
             sessionsOfDepartment.forEach(session -> session.setDepartment(department));
             // Updating values
             teacherRepository.saveAll(teachersOfDepartment);
-            studentRepository.saveAll(studentsOfDepartment);
+            userRepository.saveAll(studentsOfDepartment);
             sessionRepository.saveAll(sessionsOfDepartment);
 
         });
@@ -287,7 +297,7 @@ public class FakerDataAccessService {
             });
 
             // setting values
-            studentRepository.save(student);
+            userRepository.save(student);
             student.setStudentRegistrations(registrationsOfStudent);
             student.setStudentGrades(gradesOfStudent);
             student.setTeacherRatings(teacherRatingOfStudent);
@@ -295,7 +305,7 @@ public class FakerDataAccessService {
             studentGradeRepository.saveAll(gradesOfStudent);
             teacherRatingRepository.saveAll(teacherRatingOfStudent);
         });
-        studentRepository.saveAll(students);
+        userRepository.saveAll(students);
         logger.info("done saving student and all his pivot tables");
     }
 }

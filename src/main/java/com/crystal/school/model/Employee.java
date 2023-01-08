@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "employees")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorValue(value = "EMPLOYEE")
+//@DiscriminatorValue(value = "EMPLOYEE")
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(builderMethodName = "createEmployBuilder")

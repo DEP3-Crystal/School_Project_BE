@@ -15,8 +15,8 @@ import java.sql.Timestamp;
 
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "role",
-        discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorColumn(name = "role",
+//        discriminatorType = DiscriminatorType.STRING)
 //@DiscriminatorValue(value = "STUDENT")
 @Entity
 @Table(name = "users")
@@ -60,7 +60,7 @@ public class User {
     @Column(name = "salt")
     @NonNull
     protected String salt;
-    @Column(name = "role", insertable = false, updatable = false)
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     protected Role role;
 
