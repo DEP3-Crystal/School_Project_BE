@@ -7,6 +7,7 @@ import com.crystal.school.model.id.TeacherRatingId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -18,13 +19,13 @@ import lombok.*;
 public class TeacherRating {
 
     @EmbeddedId
-    @NonNull
+    @NotNull
     private TeacherRatingId teacherRatingId;
 
     @Column(name = "rating")
     @Min(1)
     @Max(5)
-    @NonNull
+    @NotNull
     private Byte rating;
 
     @Column(name = "comment")

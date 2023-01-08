@@ -6,6 +6,7 @@ import com.crystal.school.dto.without_ref.TeacherInfoDtoWithoutRef;
 import com.crystal.school.model.id.TeacherRatingId;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -18,7 +19,7 @@ public class TeacherRatingDto {
 
     @Min(1)
     @Max(5)
-    @NonNull
+    @NotNull
     private Byte rating;
 
     private String comment;

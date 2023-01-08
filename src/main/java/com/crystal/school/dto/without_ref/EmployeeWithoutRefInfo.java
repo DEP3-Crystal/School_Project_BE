@@ -1,5 +1,6 @@
 package com.crystal.school.dto.without_ref;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,13 +15,13 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class EmployeeWithoutRefInfo extends UserInfoDtoWithoutRef {
 
-    @NonNull
+    @NotNull
     private String phoneNumber;
 
-    @NonNull
+    @NotNull
     private String title;
 
-    @NonNull
+    @NotNull
     private Timestamp hireDate;
     private BigDecimal salary;
 

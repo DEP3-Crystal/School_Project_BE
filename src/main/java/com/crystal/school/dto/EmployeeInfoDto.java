@@ -1,5 +1,6 @@
 package com.crystal.school.dto;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,14 +19,14 @@ import java.sql.Timestamp;
 public class EmployeeInfoDto extends UserInfoDto {
 
     @Size(max = 255)
-    @NonNull
+    @NotNull
     private String phoneNumber;
 
     @Size(max = 255)
-    @NonNull
+    @NotNull
     private String title;
 
-    @NonNull
+    @NotNull
     private Timestamp hireDate;
     private BigDecimal salary;
 
