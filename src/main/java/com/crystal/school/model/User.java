@@ -3,11 +3,11 @@ package com.crystal.school.model;
 import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Timestamp;
@@ -31,22 +31,22 @@ public class User {
 
     @Column(name = "first_name")
     @Size(max = 255)
-    @NonNull
+    @NotNull
     protected String firstName;
 
     @Column(name = "last_name")
     @Size(max = 255)
-    @NonNull
+    @NotNull
     protected String lastName;
 
     @Column(name = "email", unique = true)
     @Size(max = 255)
-    @NonNull
+    @NotNull
     protected String email;
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
-    @NonNull
+    @NotNull
     protected Gender gender;
 
     @Column(name = "biography")
@@ -54,11 +54,11 @@ public class User {
 
 
     @Column(name = "password")
-    @NonNull
+    @NotNull
     protected String password;
 
     @Column(name = "salt")
-    @NonNull
+    @NotNull
     protected String salt;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

@@ -5,6 +5,7 @@ import com.crystal.school.dto.without_ref.pivote.TeacherRatingDtoWithoutRef;
 import com.crystal.school.model.Image;
 import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.enums.Role;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -22,7 +23,7 @@ public class TeacherInfoDto extends EmployeeInfoDto {
 
     private DepartmentDtoWithoutRef department;
     @Size(max = 255)
-    @NonNull
+    @NotNull
     private String credentials;
     private List<TeacherRatingDtoWithoutRef> teacherRatings = new ArrayList<>();
 

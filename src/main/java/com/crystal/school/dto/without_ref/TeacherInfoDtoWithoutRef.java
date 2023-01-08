@@ -1,5 +1,6 @@
 package com.crystal.school.dto.without_ref;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -8,7 +9,7 @@ import lombok.*;
 @Builder
 public class TeacherInfoDtoWithoutRef extends EmployeeWithoutRefInfo {
 
-    @NonNull
+    @NotNull
     private String credentials;
 
 

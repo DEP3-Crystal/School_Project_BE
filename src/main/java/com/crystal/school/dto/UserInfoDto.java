@@ -3,6 +3,7 @@ package com.crystal.school.dto;
 import com.crystal.school.model.Image;
 import com.crystal.school.model.enums.Gender;
 import com.crystal.school.model.enums.Role;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,17 +23,17 @@ public class UserInfoDto {
     protected Integer id;
 
     @Size(max = 255)
-    @NonNull
+    @NotNull
     protected String firstName;
 
     @Size(max = 255)
-    @NonNull
+    @NotNull
     protected String lastName;
     protected String fullName;
     @Size(max = 255)
-    @NonNull
+    @NotNull
     protected String email;
-    @NonNull
+    @NotNull
     protected Gender gender;
     protected String biography;
     protected Role role;
