@@ -73,9 +73,9 @@ public class FakerDataAccess {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ImageService imageService;    private List<Image> images = generateAvatars(20);
+    private ImageService imageService;
     @Autowired
-    private ImageRepository imageRepository;
+    private ImageRepository imageRepository;    private List<Image> images = generateAvatars(20);
 
     public static FakerDataAccess getInstance() {
         if (instance == null)
@@ -197,11 +197,6 @@ public class FakerDataAccess {
 
     }
 
-//    public List<SessionRegistration> generateSessionRegistrations(int number) {
-//        sessionRegistrations = IntStream.range(0, number + 1).mapToObj(i -> generateSessionRegistration()).toList();
-//        return sessionRegistrations;
-//    }
-
     public Session generateSession() {
         String[] level = {"advanced", "intermediate", "beginner"};
         String difficultyLevel = fakerService.random(Arrays.stream(level).toList());
@@ -216,6 +211,11 @@ public class FakerDataAccess {
                 null, null, null, timestampUTCNow(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
         );
     }
+
+//    public List<SessionRegistration> generateSessionRegistrations(int number) {
+//        sessionRegistrations = IntStream.range(0, number + 1).mapToObj(i -> generateSessionRegistration()).toList();
+//        return sessionRegistrations;
+//    }
 
     public List<Employee> generateEmployees(int number) {
         employees = new ArrayList<>(IntStream.range(0, number).mapToObj(i -> generateEmployee()).toList());
@@ -237,14 +237,6 @@ public class FakerDataAccess {
                 .mapToObj(i -> generateStudent()).toList();
         return students;
     }
-
-//    /**
-//     * nulls session, room
-//     */
-//    public SessionRegistration generateSessionRegistration() {
-//
-//        return new SessionRegistration(new SessionRegistrationId(), timestampUTCNow(), null, null);
-//    }
 
     /**
      * nulls id, department, studentRegistration, studentGrade, sessionRation, teacherRation
@@ -287,6 +279,14 @@ public class FakerDataAccess {
 
     }
 
+//    /**
+//     * nulls session, room
+//     */
+//    public SessionRegistration generateSessionRegistration() {
+//
+//        return new SessionRegistration(new SessionRegistrationId(), timestampUTCNow(), null, null);
+//    }
+
     public List<SessionRating> generateSessionRatings(int number) {
         sessionRatings = IntStream.range(0, number + 1).mapToObj(i -> generateSessionRating()).toList();
         return sessionRatings;
@@ -318,9 +318,12 @@ public class FakerDataAccess {
     }
 
     public List<Image> generateAvatars(int number) {
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
-        images = new ArrayList<>(IntStream.range(0, number).mapToObj(i -> generateAvatar(firstName, lastName)).toList());
+
+        images = new ArrayList<>(IntStream.range(0, number).mapToObj(i -> {
+            String firstName = faker.name().firstName();
+            String lastName = faker.name().lastName();
+            return generateAvatar(firstName, lastName);
+        }).toList());
         return images;
     }
 
@@ -328,8 +331,6 @@ public class FakerDataAccess {
         byte[] bytes = new DownloadManager().downloadFromURL("https://ui-avatars.com/api/?name=" + firstname + "+" + lastname);
         return new Image(null, "fake-avatar", bytes);
     }
-
-
 
 
 
