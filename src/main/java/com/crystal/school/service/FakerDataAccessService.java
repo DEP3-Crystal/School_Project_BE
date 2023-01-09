@@ -2,6 +2,7 @@ package com.crystal.school.service;
 
 import com.crystal.school.dao.FakerDataAccess;
 import com.crystal.school.model.*;
+import com.crystal.school.model.enums.Role;
 import com.crystal.school.model.pivote.SessionRating;
 import com.crystal.school.model.pivote.StudentGrade;
 import com.crystal.school.model.pivote.StudentRegistration;
@@ -160,6 +161,7 @@ public class FakerDataAccessService {
 
     private void createOneAdmin() {
         admin = fakerService.random(employees);
+        admin.setRole(Role.ADMIN);
         admin.setEmail("admin@admin.com");
         employeeRepository.save(admin);
     }
