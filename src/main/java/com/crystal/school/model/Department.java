@@ -25,7 +25,7 @@ public class Department {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private Employee employee;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
     private School school;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")

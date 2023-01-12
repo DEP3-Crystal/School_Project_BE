@@ -65,7 +65,7 @@ public class User {
     protected Role role;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     protected Image profilePicture;
 

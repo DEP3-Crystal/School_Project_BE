@@ -75,7 +75,8 @@ public class FakerDataAccess {
     @Autowired
     private ImageService imageService;
     @Autowired
-    private ImageRepository imageRepository;    private List<Image> images = generateAvatars(20);
+    private ImageRepository imageRepository;
+    private List<Image> images = generateAvatars(20);
 
     public static FakerDataAccess getInstance() {
         if (instance == null)

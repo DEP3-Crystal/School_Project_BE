@@ -21,9 +21,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserInfoDto> getUsers() {
+    public List<UserRegistrationDto> getUsers() {
         List<User> users = userRepository.findAll();
-        return users.stream().map(UserMapper.Instance::toUserDto).toList();
+        return users.stream().map(UserMapper.Instance::toUserRegDto).toList();
     }
 
     public UserInfoDto getUserById(Integer id) {
@@ -50,8 +50,8 @@ public class UserService {
     }
 
     private void validateEmail(String email) {
-        userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserTakenException("this email is taken by another user"));
+        if (userRepository.findByEmail(email).isPresent())
+            throw new UserTakenException("this email is taken by another user");
     }
 
     private User fillUserData(UserRegistrationDto userRegistration) {
@@ -64,6 +64,7 @@ public class UserService {
         user.setSalt(saltValue);
         return user;
     }
+
     public UserInfoDto loginUser(UserLogin dtoUser) throws ResourceNotFoundException {
         var notFoundMessage = "password or email does not match";
         User user = getUserByEmail(dtoUser.getEmail());
@@ -80,11 +81,11 @@ public class UserService {
         return "user deleted " + id;
     }
 
-    public UserInfoDto updateUser(UserInfoDto userRegistration) {
+    public UserRegistrationDto updateUser(UserRegistrationDto userRegistration) {
         validateUser(userRegistration);
         User user = UserMapper.Instance.toUser(userRegistration);
         User save = userRepository.save(user);
-        return UserMapper.Instance.toUserDto(save);
+        return UserMapper.Instance.toUserRegDto(save);
     }
 
     private void validateUser(UserInfoDto userRegistration) {

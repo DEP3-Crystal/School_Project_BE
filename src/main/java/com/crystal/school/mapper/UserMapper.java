@@ -1,6 +1,7 @@
 package com.crystal.school.mapper;
 
 import com.crystal.school.dto.UserInfoDto;
+import com.crystal.school.dto.registration.UserRegistrationDto;
 import com.crystal.school.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -11,5 +12,8 @@ public interface UserMapper {
 
     User toUser(UserInfoDto userInfoDto);
 
+
     UserInfoDto toUserDto(User user);
+    UserRegistrationDto toUserRegDto(User user);
+    User toUser(UserRegistrationDto user);
 }

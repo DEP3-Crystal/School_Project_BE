@@ -24,9 +24,9 @@ public class StudentService {
     @Autowired
     private StudentMapper mapper;
 
-    public List<StudentInfoDto> getUsers() {
+    public List<StudentRegistrationDto> getUsers() {
         List<Student> users = studentRepository.findAll();
-        return users.stream().map(mapper::toStudentDto).toList();
+        return users.stream().map(mapper::toStudentRegDto).toList();
     }
 
     public StudentInfoDto getUserById(Integer id) {
@@ -63,14 +63,16 @@ public class StudentService {
         return "user deleted " + id;
     }
 
-    public StudentInfoDto updateUser(StudentInfoDto userRegistration) {
+    public StudentInfoDto updateUser(StudentRegistrationDto userRegistration) {
         validateUser(userRegistration);
         Student user = mapper.toStudent(userRegistration);
+        Student student = studentRepository.findById(userRegistration.getId()).orElseThrow(ResourceNotFoundException::new);
+        user.setSalt(student.getSalt());
         Student save = studentRepository.save(user);
         return mapper.toStudentDto(save);
     }
 
-    private void validateUser(StudentInfoDto userRegistration) {
+    private void validateUser(StudentRegistrationDto userRegistration) {
         var user = studentRepository.findById(userRegistration.getId());
         if (user.isEmpty()) throw new ResourceNotFoundException("Student not found!");
     }

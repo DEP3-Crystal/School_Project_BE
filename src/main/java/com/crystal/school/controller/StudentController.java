@@ -25,7 +25,7 @@ public class StudentController {
     private LoginService loginService;
 
     @GetMapping("")
-    public List<StudentInfoDto> getUserList() {
+    public List<StudentRegistrationDto> getUserList() {
         return userService.getUsers();
     }
 
@@ -41,10 +41,14 @@ public class StudentController {
     }
 
     @PutMapping("/updateInfo")
-    public UserInfoDto updateUser(@RequestBody StudentInfoDto user) {
+    public UserInfoDto updateUser(@RequestBody StudentRegistrationDto user) {
         return userService.updateUser(user);
     }
 
-
+    @DeleteMapping("/{id}")
+    public String deleteStudentById(@PathVariable Integer id) {
+        userService.deleteUser(id);
+        return "Deleted successfully";
+    }
 
 }

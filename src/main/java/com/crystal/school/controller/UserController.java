@@ -23,7 +23,7 @@ public class UserController {
     private LoginService loginService;
 
     @GetMapping("/users")
-    public List<UserInfoDto> getUserList() {
+    public List<UserRegistrationDto> getUserList() {
         return userService.getUsers();
     }
 
@@ -38,17 +38,17 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @PutMapping("/user/updateInfo")
-    public UserInfoDto updateUser(@RequestBody UserInfoDto user) {
+    @PutMapping("/users/updateInfo")
+    public UserInfoDto updateUser(@RequestBody UserRegistrationDto user) {
         return userService.updateUser(user);
     }
 
-    @PutMapping("/user/updatePassword")
+    @PutMapping("/users/updatePassword")
     public UserInfoDto updatePassword(@RequestBody UserLogin user) {
         return userService.updatePassword(user);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/users/{id}")
     public String deleteUser(@PathVariable Integer id) {
         return userService.deleteUser(id);
     }
